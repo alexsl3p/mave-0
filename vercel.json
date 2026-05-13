@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/public/mave-store.html" },
+    { "source": "/assets/:path*", "destination": "/public/assets/:path*" }
+  ]
+}

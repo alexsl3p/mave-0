@@ -1,0 +1,2210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAVE® Molecular Cosmetics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/framer-motion@6.5.1/dist/framer-motion.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #F5F0E8; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  button { font-family: inherit; }
+  img { display: block; }
+  ::-webkit-scrollbar { width: 2px; }
+  ::-webkit-scrollbar-track { background: #F5F0E8; }
+  ::-webkit-scrollbar-thumb { background: #C8A96E; }
+
+  .mave-catalog-grid { gap: 16px !important; }
+  .mave-catalog-filter {
+    position: relative;
+  }
+  .mave-catalog-filter::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -7px;
+    height: 1px;
+    background: #C8A96E;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 520ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .mave-catalog-filter[data-active="true"]::after,
+  .mave-catalog-filter:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Focus states for keyboard navigation */
+  button:focus-visible, a:focus-visible {
+    outline: 2px solid #C8A96E;
+    outline-offset: 3px;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Mobile responsive overrides */
+  @media (max-width: 768px) {
+    /* Nav */
+    .mave-nav-links { display: none !important; }
+    .mave-nav { padding: 0 20px !important; }
+    .mave-hamburger { display: flex !important; }
+
+    /* Hero */
+    .mave-hero-content { padding: 0 28px !important; }
+    .mave-hero-title { font-size: clamp(40px,11vw,72px) !important; }
+
+    /* Grids в†’ single column on mobile, 2-col on tablet */
+    .mave-grid-4 { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+    .mave-grid-3 { grid-template-columns: repeat(2,1fr) !important; }
+    .mave-grid-2 { grid-template-columns: 1fr !important; }
+    .mave-grid-footer { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+
+    /* Section padding */
+    .mave-section { padding: 56px 24px !important; }
+    .mave-section-dark { padding: 72px 24px !important; }
+
+    /* Split feature */
+    .mave-split-text { padding: 44px 28px !important; }
+
+    /* Routine connecting line */
+    .mave-routine-line { display: none !important; }
+
+    /* Liquid reveal */
+    .mave-liquid-reveal-inner { grid-template-columns: 1fr !important; gap: 30px !important; padding: 92px 28px 72px !important; align-content: center !important; }
+    .mave-liquid-copy { order: 2 !important; text-align: left !important; left: 8% !important; top: 20% !important; max-width: 76vw !important; }
+    .mave-liquid-copy h2 { font-size: clamp(38px, 10vw, 54px) !important; }
+    .mave-liquid-media { order: 1 !important; width: min(72vw, 360px) !important; max-width: 360px !important; margin: 0 auto !important; }
+    .mave-liquid-boundary { display: none !important; }
+    .mave-pdp-shell { padding-top: 72px !important; }
+    .mave-pdp-buybox { position: relative !important; top: auto !important; min-height: auto !important; padding: 48px 28px !important; }
+    .mave-pdp-hero-image { height: 56vh !important; }
+    .mave-pdp-thumb { height: 180px !important; }
+    .mave-pdp-tabs { grid-template-columns: 1fr !important; }
+    .mave-pdp-notes { padding: 68px 28px !important; }
+    .mave-catalog-grid { gap: 10px !important; }
+    .mave-catalog-controls { align-items: flex-start !important; }
+    .mave-pdp-gallery { min-height: 68vh !important; }
+    .mave-pdp-thumbs { position: relative !important; left: auto !important; bottom: auto !important; padding: 2px !important; background: #1A1410 !important; }
+  }
+
+  @media (max-width: 480px) {
+    .mave-grid-4 { grid-template-columns: 1fr !important; }
+    .mave-grid-3 { grid-template-columns: 1fr !important; }
+    .mave-pdp-hero-image { height: 48vh !important; }
+    .mave-pdp-thumb { height: 140px !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const FM = window.Motion || window.FramerMotion || window.MotionV6 || {};
+const { motion, AnimatePresence, useViewportScroll, useTransform, useInView } = FM;
+
+/* в”Ђв”Ђ TOKENS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const C = {
+  cream: '#F5F0E8', sand: '#E8DDD0', linen: '#DDD0BC',
+  taupe: '#C4B5A0', gray: '#9A8C7E', bark: '#6B5744',
+  earth: '#3D2B1F', black: '#1A1410',
+  gold: '#C8A96E', goldL: '#E2C98A', goldD: '#9A7A42',
+};
+
+/* в”Ђв”Ђ SETTINGS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const heroImage   = 'header';
+const overlayDark = 55;
+const marqueeSpeed = 35;
+
+/* в”Ђв”Ђ DATA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const HERO_IMAGES = {
+  header:  'assets/hero-mave-cream-jar.png',
+  sunset:  'assets/organic-oil-sunset.jpg',
+  amber:   'assets/treatment-oil-amber.jpg',
+  primary: 'assets/primary6.jpg',
+};
+
+const scienceMechanisms = {
+  barrier: {
+    id: 'barrier',
+    label: 'Barrier',
+    short: 'Structure, comfort, stability',
+  },
+  balance: {
+    id: 'balance',
+    label: 'Balance',
+    short: 'A controlled skin environment',
+  },
+  renewal: {
+    id: 'renewal',
+    label: 'Renewal',
+    short: 'Turnover and texture',
+  },
+  cleanse: {
+    id: 'cleanse',
+    label: 'Cleanse',
+    short: 'Removal without disruption',
+  },
+};
+
+const PRODUCTS = [
+  { id:1, slug:'molecular-oil-treatment', type:'oil', name:'Molecular Oil Treatment', collection:'Base Care', vol:'100ml', desc:'Daily oil for balance, barrier continuity and precise local use.', price:'€28.95', image:'assets/treatment-oil-clean.jpg', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:2, slug:'organic-oil',             type:'oil', name:'Organic Oil',             collection:'Organic Care',      vol:'30ml',  desc:'Oil for skin and nails. Daily balance, controlled finish.', price:'€21.95', image:'assets/organic-oil.jpg', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:3, slug:'wow-skin-serum-2-in-1',   type:'oil', name:'WOW Skin Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Hydration, surface balance and precise layering.', price:'€29.95', image:'assets/wow-serum.jpg', accent:'#4A1E5E', badge:'Selected', science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:4, slug:'wow-pdrn-serum-2-in-1',   type:'oil', name:'WOW PDRN Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Renewal support, texture refinement and surface control.', price:'€34.95', image:'assets/wow-pdrn.jpg', accent:'#C8847C', badge:'New', science:{ mechanisms:['renewal','balance'], primaryMechanism:'renewal' } },
+  { id:5, slug:'mave-28-cream',           type:'cream', name:'MAVE 28 Cream',           collection:'Limited Edition',   vol:'30ml',  desc:'Cream for comfort, hydration and barrier stability.', price:'€29.95', image:'assets/primary.jpg', accent:'#6B1C1C', badge:'Limited', science:{ mechanisms:['barrier'], primaryMechanism:'barrier' } },
+  { id:6, slug:'royal-elixir',            type:'oil', name:'Royal Elixir',            collection:'Lash & Brow Care',  vol:'10ml',  desc:'Lash and brow elixir. Integrity, control, finish.', price:'€29.95', image:'assets/royal-elixir.jpg', accent:'#9A7A42', badge:'Pro', science:{ mechanisms:['barrier','renewal'], primaryMechanism:'renewal' } },
+  { id:7, slug:'black-nanopowder',        type:'powder', name:'Black Nanopowder',        collection:'Oral Care',       vol:'50g',   desc:'Oral powder for light control, surface stability and clean finish.', price:'€20.96', image:'assets/nanopowder-light.jpg', accent:'#2A2018', badge:null, science:{ mechanisms:['balance'], primaryMechanism:'balance' } },
+  { id:8, slug:'micellar-cleansing-foam', type:'cleanser', name:'Micellar Cleansing Foam', collection:'Cleanse',           vol:'200ml', desc:'Foam cleansing for face, hands and feet. Clean removal, intact balance.', price:'€24.95', image:'assets/micellar-foam.jpg', accent:'#1E3355', badge:null, science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:9, slug:'molecular-shampoo-conditioner-set', type:'cleanser', name:'Molecular Shampoo & Conditioner Set', collection:'Hair Care', vol:'2x650ml', desc:'Shampoo and conditioner for scalp balance, hair integrity and control.', price:'€46.95', image:'assets/mave-shampoo-conditioner-set.jpeg', accent:'#1B1A16', badge:'Bestseller', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:10, slug:'taliora-shower-serum', type:'cleanser', name:'Taliora Shower Serum', collection:'Body Care', vol:'500ml', desc:'Shower serum for body and hands. Clean removal, conditioned finish.', price:'€30.95', image:'assets/taliora-shower-serum.jpg', accent:'#6A6E4A', badge:'New', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:11, slug:'organic-paste-skin-repair', type:'paste', name:'Organic Paste Skin Repair', collection:'Targeted Care', vol:'15ml', desc:'Dense paste for focused local support where balance is lost.', price:'€19.50', image:'assets/organic-paste-skin-repair.png', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:12, slug:'micellar-wipes', type:'cleanser', name:'Micellar Wipes', collection:'Cleanse', vol:'50pcs', desc:'Micellar wipes for clean removal, simple use and clear finish.', price:'€9.95', image:'assets/micellar-wipes-new.png', accent:'#1E4055', badge:null, science:{ mechanisms:['cleanse'], primaryMechanism:'cleanse' } },
+  { id:13, slug:'slime-intense-moisture-elixir', type:'mask', name:'S.L.I.M.E. Intense Moisture Elixir', collection:'Hair Care', vol:'500g', desc:'Intensive hair support for condition, control and integrity.', price:'€39.95', image:'assets/slime-hair-mask.png', accent:'#3C2944', badge:'New', science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
+  { id:14, slug:'invisible-mask', type:'mask', name:'Invisible Mask', collection:'Mask Care', vol:'25g x 5pcs', desc:'Mask layer for comfort, hydration and protective balance.', price:'€29.95', image:'assets/invisible-mask-premium.png', accent:'#1E4055', badge:null, science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
+];
+
+const PRODUCT_DETAILS = {
+  1: {
+    statement: 'For daily balance or when more is required.',
+    description: 'Restores balance. Reinforces the barrier.',
+    gallery: ['assets/treatment-oil-clean.jpg', 'assets/treatment-oil-amber.jpg', 'assets/organic-oil.jpg', 'assets/organic-oil-sunset.jpg'],
+    ingredients: ['Oil phase for barrier continuity', 'Vitamin E for formula stability', 'Actives for controlled use'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to clean skin. Use daily or where needed. Repeat with precision.',
+  },
+  2: {
+    statement: 'Daily oil support for skin and nails.',
+    description: 'Restores surface balance. Finishes with control.',
+    gallery: ['assets/organic-oil.jpg', 'assets/organic-oil-sunset.jpg', 'assets/treatment-oil-amber.jpg', 'assets/liquid-reveal-corrected.png'],
+    ingredients: ['Oil phase for surface balance', 'Green tea oil for control', 'Chamomile extract for comfort', 'Vitamins A and E for formula stability'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply sparingly to clean skin or nails. Use as a final layer, or where more control is needed.',
+  },
+  3: {
+    statement: 'Daily hydration with precise control.',
+    description: 'Prepares the surface. Keeps balance intact.',
+    gallery: ['assets/wow-serum.jpg', 'assets/wow-pdrn.jpg', 'assets/primary4.jpg', 'assets/header.jpg'],
+    ingredients: ['Hydrolates for water balance', 'Sodium hyaluronate for hydration', 'Allantoin and aloe for comfort'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to clean skin before cream or oil. Use daily, or where the surface asks for focus.',
+  },
+  4: {
+    statement: 'Targeted serum support for renewal.',
+    description: 'Refines texture. Keeps the surface controlled.',
+    gallery: ['assets/wow-pdrn.jpg', 'assets/wow-serum.jpg', 'assets/primary4.jpg', 'assets/header.jpg'],
+    ingredients: ['PDRN for renewal', 'Hyaluronic acid for hydration', 'Botanical actives for surface balance'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply after cleansing and before richer textures. Use consistently morning or evening.',
+  },
+  5: {
+    statement: 'Daily support for skin stability.',
+    description: 'Restores comfort. Reinforces the barrier.',
+    gallery: ['assets/primary.jpg', 'assets/primary4.jpg', 'assets/primary6.jpg', 'assets/primary5.jpg'],
+    ingredients: ['Hydration for comfort', 'Ceramides for barrier stability', 'Niacinamide for balance'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to clean skin with the roller. Move slowly across face, neck and eye area. Repeat where comfort is needed.',
+  },
+  6: {
+    statement: 'Precision support for lashes and brows.',
+    description: 'Reinforces integrity. Keeps application controlled.',
+    gallery: ['assets/royal-elixir.jpg', 'assets/organic-oil-sunset.jpg', 'assets/organic-oil.jpg', 'assets/header.jpg'],
+    ingredients: ['Peptides for structure', 'Keratin and silk proteins for integrity', 'Biotin for consistent use'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply along clean lashes or brows with the applicator. Use consistently and with care around the eye area.',
+  },
+  7: {
+    statement: 'Light control where balance shifts.',
+    description: 'Absorbs excess. Keeps the surface stable.',
+    gallery: ['assets/nanopowder.jpg', 'assets/micellar-wipes.jpg', 'assets/header.jpg', 'assets/primary4.jpg'],
+    ingredients: ['Hydroxyapatite for controlled polish', 'Coconut-shell charcoal for absorption', 'Menthol for a clean finish'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Use a measured amount with a damp toothbrush. Polish lightly. Rinse thoroughly.',
+  },
+  8: {
+    statement: 'Cleanse without excess.',
+    description: 'Removes buildup. Keeps balance intact.',
+    gallery: ['assets/micellar-foam.jpg', 'assets/micellar-wipes.jpg', 'assets/organic-oil-sunset.jpg', 'assets/header.jpg'],
+    ingredients: ['Micellar agents for clean removal', 'Panthenol for comfort', 'Botanical actives for surface balance'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to damp skin. Massage lightly. Rinse thoroughly. Use as the first cleansing step.',
+  },
+  9: {
+    statement: 'Cleanse and condition without excess.',
+    description: 'Maintains scalp balance. Leaves hair controlled.',
+    gallery: ['assets/mave-shampoo-conditioner-set.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg'],
+    ingredients: ['Jamaican black castor oil for density', 'Shea butter for condition', 'Protein and keratin for hair integrity'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Massage shampoo into wet hair and rinse thoroughly. Apply conditioner through lengths and ends, leave briefly, then rinse.',
+  },
+  10: {
+    statement: 'Cleanse with a serum finish.',
+    description: 'Removes buildup. Leaves a conditioned finish.',
+    gallery: ['assets/taliora-shower-serum.jpg', 'assets/taliora-shower-serum.jpg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/micellar-foam.jpg'],
+    ingredients: ['Coco-glucoside for clean removal', 'Panthenol for comfort', 'Jojoba oil for a conditioned finish'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to wet skin in the shower. Massage and rinse. Use on hands when a conditioned finish is required.',
+  },
+  11: {
+    statement: 'Focused support where balance is lost.',
+    description: 'Applied precisely. Used when required.',
+    gallery: ['assets/organic-paste-skin-repair.png', 'assets/category-daily-care.jpg', 'assets/organic-oil.jpg', 'assets/treatment-oil-clean.jpg'],
+    ingredients: ['Dense phase for local use', 'Propolis for controlled support', 'Botanical oils for focused balance'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply a small amount to clean skin. Use only where needed. Repeat with precision.',
+  },
+  12: {
+    statement: 'Clean removal without disruption.',
+    description: 'Removes residue. Leaves a clear finish.',
+    gallery: ['assets/micellar-wipes-new.png', 'assets/micellar-wipes.jpg', 'assets/micellar-foam.jpg', 'assets/header.jpg'],
+    ingredients: ['Micellar base for removal', 'Panthenol for comfort', 'Botanical actives for a clean finish'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Sweep over skin as needed. Close the pack after use to preserve freshness.',
+  },
+  13: {
+    statement: 'Intensive support for hair integrity.',
+    description: 'Restores control. Reinforces the fiber.',
+    gallery: ['assets/slime-hair-mask.png', 'assets/category-hair-integrity.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/taliora-shower-serum.jpg'],
+    ingredients: ['Polypeptide for structure', 'Keratin for integrity', 'Conditioning actives for control'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply through clean wet hair. Focus on lengths and ends. Leave briefly, then rinse thoroughly.',
+  },
+  14: {
+    statement: 'More support when skin asks for it.',
+    description: 'Creates comfort. Reinforces balance.',
+    gallery: ['assets/invisible-mask-premium.png', 'assets/micellar-wipes-new.png', 'assets/wow-serum.jpg', 'assets/wow-pdrn.jpg'],
+    ingredients: ['Humectants for hydration', 'Niacinamide for balance', 'Botanical actives for comfort'],
+    inci: 'See product packaging for the full INCI list.',
+    use: 'Apply to clean skin. Leave according to packaging directions. Remove and finish with the next layer.',
+  },
+};
+
+const productFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('product');
+  return slug ? PRODUCTS.find(p => p.slug === slug) || null : null;
+};
+
+const viewFromUrl = () => {
+  if (window.location.pathname === '/science') return 'science';
+  const params = new URLSearchParams(window.location.search);
+  return params.get('view') === 'catalog' ? 'catalog' : 'landing';
+};
+
+const setProductUrl = product => {
+  const url = new URL(window.location.href);
+  if (product) url.searchParams.set('product', product.slug);
+  else url.searchParams.delete('product');
+  if (product) url.searchParams.delete('view');
+  window.history.pushState({}, '', url);
+};
+
+const setViewUrl = view => {
+  const url = new URL(window.location.href);
+  url.pathname = '/mave-store.html';
+  url.searchParams.delete('product');
+  url.hash = '';
+  if (view === 'science') {
+    url.pathname = '/science';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'catalog') url.searchParams.set('view', 'catalog');
+  else url.searchParams.delete('view');
+  window.history.pushState({}, '', url);
+};
+
+const syncCartForNextCheckout = cart => {
+  const toNumber = value => Number(String(value || '').replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+  const toPath = value => String(value || '').startsWith('/') ? value : `/${value}`;
+  const items = cart.map(item => ({
+    product: {
+      id: item.slug || String(item.id),
+      name: item.name,
+      price: toNumber(item.price),
+      shortDescription: item.desc || '',
+      description: item.desc || '',
+      step: item.collection || '',
+      image: toPath(item.image),
+      ingredients: [],
+      benefits: [],
+      size: item.vol || '',
+    },
+    quantity: item.qty,
+  }));
+  localStorage.setItem('mave-cart', JSON.stringify({ state: { items }, version: 0 }));
+};
+
+/* в”Ђв”Ђ MAVE WORDMARK (inline SVG, just MAVE letters) в”Ђв”Ђ */
+const MaveLogo = ({ height = 44 }) => (
+  <svg
+    viewBox="99 172 648 166"
+    style={{ height, width: 'auto', display: 'block' }}
+    fill={C.gold}
+    aria-label="MAVE"
+  >
+    <polygon points="268.92,176.66 309.15,176.66 309.15,332.98 283,332.98 283,203.82 221.44,332.98 187.25,332.98 125.68,203.82 125.68,332.98 99.53,332.98 99.53,176.66 139.77,176.66 204.34,315.87" />
+    <path d="M569.22,176.63l-58.99,137.09l-0.96,2.18l-24.99-58.16l-37.6-81.1h-43.05l-72.39,156.31h27.74l22.36-49.65h87.51l22.3,49.65h36.64l69.44-156.31H569.22z M389.15,266.19l32.61-72.45h7.04l25.63,57.4l6.72,15.05H389.15z" />
+    <polygon points="619.3,176.66 737.18,176.66 737.18,193.77 645.45,193.77 645.45,246.06 731.55,246.06 731.55,263.17 645.45,263.17 645.45,315.87 743.01,315.87 743.01,332.98 619.3,332.98" />
+  </svg>
+);
+
+/* в”Ђв”Ђ SHARED в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Reveal = ({ children, delay = 0, y = 36, style = {}, ...rest }) => (
+  <motion.div
+    initial={{ opacity: 0, y }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.85, delay, ease: [0.4, 0, 0.2, 1] }}
+    style={style}
+    {...rest}
+  >{children}</motion.div>
+);
+
+/* в”Ђв”Ђ HEADER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, surface = 'dark' }) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', h);
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+
+  // Close menu on scroll
+  React.useEffect(() => {
+    if (scrolled && menuOpen) setMenuOpen(false);
+  }, [scrolled]);
+
+  const onLightSurface = surface === 'light' && !menuOpen;
+  const navText = onLightSurface ? 'rgba(26,20,16,0.66)' : 'rgba(245,240,232,0.68)';
+  const actionText = onLightSurface ? 'rgba(26,20,16,0.58)' : 'rgba(245,240,232,0.55)';
+  const navBg = menuOpen
+    ? 'rgba(26,20,16,0.97)'
+    : onLightSurface
+      ? 'rgba(245,240,232,0.94)'
+      : scrolled ? 'rgba(26,20,16,0.97)' : 'transparent';
+  const navBorder = menuOpen || scrolled || onLightSurface
+    ? '1px solid rgba(200,169,110,0.18)'
+    : '1px solid transparent';
+
+  const linkSt = {
+    fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400,
+    letterSpacing: '0.22em', textTransform: 'uppercase',
+    color: navText, background: 'none', border: 'none',
+    cursor: 'pointer', padding: '4px 0', transition: 'color 0.3s',
+  };
+
+  const navLinks = [
+    ['Collections', () => onCatalogOpen && onCatalogOpen()],
+    ['Science', () => onScienceOpen && onScienceOpen()],
+    ['Ingredients', () => onSectionOpen && onSectionOpen('mave-ingredients')],
+    ['About', () => onSectionOpen && onSectionOpen('mave-approach')],
+  ];
+
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.9, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+        style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500, height: 72,
+          background: navBg,
+          backdropFilter: scrolled || menuOpen || onLightSurface ? 'blur(14px)' : 'none',
+          borderBottom: navBorder,
+          transition: 'background 0.7s ease, border-color 0.7s ease',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 52px',
+        }}
+        className="mave-nav"
+      >
+        {/* Logo */}
+        <button onClick={onHome} aria-label="Go to MAVE landing" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', userSelect: 'none', marginLeft: 24, background: 'none', border: 'none', padding: 0 }}>
+          <MaveLogo height={16} />
+          <sup style={{ fontSize: 9, color: C.gold, fontWeight: 400, marginLeft: 2, marginTop: -20 }}>®</sup>
+        </button>
+
+        {/* Desktop Nav */}
+        <div className="mave-nav-links" style={{ display: 'flex', gap: 40 }}>
+          {navLinks.map(([l, action]) => (
+            <button key={l} onClick={action} style={linkSt}
+              onMouseEnter={e => e.target.style.color = C.gold}
+              onMouseLeave={e => e.target.style.color = navText}
+            >{l}</button>
+          ))}
+        </div>
+
+        {/* Actions + Hamburger */}
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+          <button className="mave-nav-links" onClick={onCatalogOpen} style={{ ...linkSt, color: actionText }}
+            onMouseEnter={e => e.target.style.color = C.gold}
+            onMouseLeave={e => e.target.style.color = actionText}
+          >Search</button>
+          <button className="mave-nav-links" onClick={() => { window.location.href = '/account'; }} style={{ ...linkSt, color: actionText }}
+            onMouseEnter={e => e.target.style.color = C.gold}
+            onMouseLeave={e => e.target.style.color = actionText}
+          >Account</button>
+          <motion.button
+            onClick={onCartOpen}
+            whileTap={{ scale: 0.94 }}
+            style={{ ...linkSt, color: cartCount > 0 ? C.gold : actionText, display: 'flex', alignItems: 'center', gap: 8 }}
+            onMouseEnter={e => e.currentTarget.style.color = C.gold}
+            onMouseLeave={e => e.currentTarget.style.color = cartCount > 0 ? C.gold : actionText}
+          >
+            Cart
+            <AnimatePresence mode="wait">
+              <motion.span key={cartCount}
+                initial={{ scale: 1.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                style={{ fontSize: 10 }}
+              >({cartCount})</motion.span>
+            </AnimatePresence>
+          </motion.button>
+
+          {/* Hamburger вЂ” mobile only */}
+          <button
+            className="mave-hamburger"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            style={{ display: 'none', flexDirection: 'column', gap: 5, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+          >
+            <motion.span animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 9 : 0 }} transition={{ duration: 0.25 }}
+              style={{ display: 'block', width: 22, height: 1.5, background: C.gold, transformOrigin: 'center' }} />
+            <motion.span animate={{ opacity: menuOpen ? 0 : 1 }} transition={{ duration: 0.2 }}
+              style={{ display: 'block', width: 22, height: 1.5, background: C.gold }} />
+            <motion.span animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -9 : 0 }} transition={{ duration: 0.25 }}
+              style={{ display: 'block', width: 22, height: 1.5, background: C.gold, transformOrigin: 'center' }} />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile dropdown menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+            style={{
+              position: 'fixed', top: 72, left: 0, right: 0, zIndex: 499,
+              background: 'rgba(26,20,16,0.97)', backdropFilter: 'blur(14px)',
+              borderBottom: '1px solid rgba(200,169,110,0.18)',
+              padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', gap: 0,
+            }}
+          >
+            {navLinks.map(([l, action], i) => (
+              <motion.button
+                key={l}
+                initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.06, duration: 0.3 }}
+                onClick={() => { action && action(); setMenuOpen(false); }}
+                style={{ ...linkSt, fontSize: 13, letterSpacing: '0.28em', padding: '16px 0', borderBottom: '1px solid rgba(200,169,110,0.1)', textAlign: 'left' }}
+                onMouseEnter={e => e.target.style.color = C.gold}
+                onMouseLeave={e => e.target.style.color = 'rgba(245,240,232,0.68)'}
+              >{l}</motion.button>
+            ))}
+            <motion.button
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.28 }}
+              onClick={() => { window.location.href = '/account'; }}
+              style={{ marginTop: 20, padding: '14px', background: 'transparent', border: `1px solid rgba(200,169,110,0.38)`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', cursor: 'pointer' }}
+            >Account</motion.button>
+            <motion.button
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.34 }}
+              onClick={() => { onCartOpen(); setMenuOpen(false); }}
+              style={{ marginTop: 12, padding: '14px', background: 'transparent', border: `1px solid ${C.gold}`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', cursor: 'pointer' }}
+            >Cart ({cartCount})</motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+/* в”Ђв”Ђ HERO в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Hero = ({ onCatalogOpen }) => {
+  const { scrollY } = useViewportScroll();
+  const imgY     = useTransform(scrollY, [0, 700], [0, -140]);
+  const imgScale = useTransform(scrollY, [0, 700], [1, 1.1]);
+  const textOp   = useTransform(scrollY, [0, 450], [1, 0]);
+  const textY    = useTransform(scrollY, [0, 450], [0, -60]);
+  const alpha = (overlayDark / 100).toFixed(2);
+
+  return (
+    <section style={{ position: 'relative', height: '100vh', minHeight: 600, overflow: 'hidden', background: C.black }}>
+      <motion.div style={{ position: 'absolute', inset: 0, y: imgY, scale: imgScale }}>
+        <img
+          src={HERO_IMAGES[heroImage] || HERO_IMAGES.header}
+          alt=""
+          style={{ width: '100%', height: '115%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'saturate(0.82) brightness(0.78)' }}
+        />
+      </motion.div>
+
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `linear-gradient(105deg, rgba(5,4,3,0.82) 0%, rgba(26,20,16,${alpha}) 34%, rgba(26,20,16,${(overlayDark * 0.18 / 100).toFixed(2)}) 58%, rgba(26,20,16,${(overlayDark * 0.58 / 100).toFixed(2)}) 100%)` }}></div>
+
+      <motion.div
+        initial={{ scaleY: 0 }} animate={{ scaleY: 1 }}
+        transition={{ duration: 1.4, delay: 1, ease: [0.4, 0, 0.2, 1] }}
+        style={{ position: 'absolute', left: 52, top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, transparent, rgba(200,169,110,0.35) 30%, rgba(200,169,110,0.35) 70%, transparent)`, transformOrigin: 'top', zIndex: 2 }}
+      />
+
+      <motion.div className="mave-hero-content" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 84px', opacity: textOp, y: textY }}>
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+          <div style={{ width: 32, height: 1, background: C.gold }}></div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.gold }}>Molecular Care</span>
+        </motion.div>
+
+        <h1 className="mave-hero-title" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,6.4vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.08, color: C.cream, marginBottom: 18, maxWidth: 760 }}>
+          <motion.span initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.8, ease: [0.4, 0, 0.2, 1] }} style={{ display: 'block' }}>
+            The art of
+          </motion.span>
+          <motion.span initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.95, ease: [0.4, 0, 0.2, 1] }} style={{ display: 'block' }}>
+            molecular care.
+          </motion.span>
+        </h1>
+
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.4 }}
+          style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.7)', maxWidth: 420, marginBottom: 44 }}>
+          For daily balance and when more is needed
+        </motion.p>
+
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.7 }}
+          style={{ display: 'flex', gap: 14 }}>
+          <button onClick={onCatalogOpen} style={{ padding: '15px 48px', background: 'transparent', border: `1px solid ${C.gold}`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', cursor: 'pointer', transition: 'background 0.45s, color 0.45s' }}
+            onMouseEnter={e => { e.target.style.background = C.gold; e.target.style.color = C.black; }}
+            onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = C.gold; }}
+          >Explore collection →</button>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 0.65 }} transition={{ delay: 2.2, duration: 1.2 }}
+        style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, zIndex: 2 }}
+      >
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold }}>Scroll</span>
+        <motion.div animate={{ y: [0, 9, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ width: 1, height: 44, background: `linear-gradient(to bottom, ${C.gold}, transparent)` }} />
+      </motion.div>
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ STICKY CTA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const StickyCTA = ({ onCatalogOpen }) => {
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    const h = () => setVisible(window.scrollY > window.innerHeight * 0.85);
+    window.addEventListener('scroll', h, { passive: true });
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          style={{
+            position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
+            zIndex: 490, display: 'flex', alignItems: 'center', gap: 0,
+            boxShadow: '0 8px 40px rgba(26,20,16,0.38)',
+          }}
+        >
+          <div style={{ background: 'rgba(26,20,16,0.96)', backdropFilter: 'blur(12px)', borderTop: `1px solid rgba(200,169,110,0.25)`, borderBottom: `1px solid rgba(200,169,110,0.25)`, borderLeft: `1px solid rgba(200,169,110,0.25)`, padding: '14px 24px' }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.55)', whiteSpace: 'nowrap' }}>Core system</span>
+          </div>
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={onCatalogOpen}
+            style={{ padding: '14px 36px', background: C.gold, border: `1px solid ${C.gold}`, color: C.black, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.28em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'opacity 0.3s' }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+          >Explore collection</motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+/* в”Ђв”Ђ TESTIMONIALS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Testimonials = () => {
+  const reviews = [
+    { quote: 'It absorbs quickly, leaves no oily film, and stays controlled on the skin.', name: 'Janine K.', role: 'Molecular Oil · verified note', rating: 5 },
+    { quote: 'My clients are more than satisfied. It has become a permanent part of my studio care.', name: 'Claudia S.', role: 'Organic Oil · Verified purchase', rating: 5 },
+    { quote: 'Clear surface. Fresh finish. Measured use.', name: 'Nicole M.', role: 'Micellar Cleansing Foam · verified note', rating: 5 },
+  ];
+  const Stars = ({ n }) => (
+    <div style={{ display: 'flex', gap: 3, marginBottom: 20 }}>
+      {Array.from({ length: n }).map((_, i) => (
+        <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill={C.gold}>
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      ))}
+    </div>
+  );
+  return (
+    <section style={{ background: C.black, padding: '100px 80px' }}>
+      <Reveal style={{ textAlign: 'center', marginBottom: 64 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 18 }}>
+          <div style={{ width: 32, height: 1, background: 'rgba(200,169,110,0.4)' }}></div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold }}>Notes from daily use</span>
+          <div style={{ width: 32, height: 1, background: 'rgba(200,169,110,0.4)' }}></div>
+        </div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(28px,4vw,52px)', fontWeight: 300, fontStyle: 'italic', color: C.cream }}>What remains after use.</h2>
+      </Reveal>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2 }} className="mave-grid-3">
+        {reviews.map((r, i) => (
+          <motion.div key={i}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.85, delay: i * 0.14, ease: [0.4, 0, 0.2, 1] }}
+            style={{ background: 'rgba(245,240,232,0.04)', border: '1px solid rgba(200,169,110,0.14)', padding: '44px 40px' }}
+          >
+            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.65, color: C.cream, marginBottom: 32 }}>"{r.quote}"</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 32, height: 1, background: C.gold, opacity: 0.5 }}></div>
+              <div>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.gold, display: 'block' }}>{r.name}</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.1em', color: C.gray }}>{r.role}</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      <Reveal delay={0.3} style={{ textAlign: 'center', marginTop: 52 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+          <div style={{ display: 'none', gap: 3 }}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={C.gold}>
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+          </div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.12em', color: 'rgba(245,240,232,0.5)' }}>Independent customer notes</span>
+        </div>
+      </Reveal>
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ MARQUEE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Marquee = () => {
+  const chunk = 'MAVE® · MOLECULAR SYSTEM · CORE CARE · CONTROLLED SEQUENCE · ';
+  return (
+    <div style={{ background: C.black, borderTop: '1px solid rgba(200,169,110,0.14)', borderBottom: '1px solid rgba(200,169,110,0.14)', overflow: 'hidden', padding: '14px 0' }}>
+      <motion.div animate={{ x: [0, '-50%'] }} transition={{ duration: marqueeSpeed, repeat: Infinity, ease: 'linear' }}
+        style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.28em', color: C.gold }}>{chunk.repeat(8)}</span>
+      </motion.div>
+    </div>
+  );
+};
+
+/* в”Ђв”Ђ EDITORIAL TRIO в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const EditorialPanel = ({ p, i }) => {
+  const [hov, setHov] = React.useState(false);
+  return (
+    <motion.button
+      type="button"
+      onClick={p.onClick}
+      aria-label={p.title}
+      initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.85, delay: i * 0.14, ease: [0.4, 0, 0.2, 1] }}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{ position: 'relative', overflow: 'hidden', minHeight: '72vh', cursor: 'pointer', border: 'none', padding: 0, background: C.black, textAlign: 'left' }}
+    >
+      <motion.img loading="lazy" src={p.img} alt={p.title}
+        animate={{ scale: hov ? 1.03 : 1, filter: hov ? 'saturate(0.9) brightness(0.78)' : 'saturate(0.86) brightness(0.72)' }}
+        transition={{ duration: 1.25, ease: [0.16, 1, 0.3, 1] }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+
+      <motion.div
+        animate={{ opacity: hov ? 1 : 0.86 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.0))' }} />
+      <motion.div
+        animate={{ scaleX: hov ? 1 : 0 }}
+        transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: C.gold, transformOrigin: 'left' }}
+      />
+
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 34 }}>
+        <motion.div
+          animate={{ y: hov ? -4 : 0, opacity: hov ? 1 : 0.94 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(28px,3vw,40px)', fontWeight: 300, fontStyle: 'italic', color: '#fff', lineHeight: 1.08, marginBottom: 8 }}
+        >{p.title}</motion.div>
+
+        <motion.span
+          animate={{ y: hov ? -4 : 0, opacity: hov ? 0.78 : 0.65 }}
+          transition={{ duration: 0.85, delay: hov ? 0.04 : 0, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', display: 'block' }}
+        >{p.sub}</motion.span>
+        <motion.span
+          animate={{ opacity: hov ? 1 : 0, y: hov ? 0 : 8 }}
+          transition={{ duration: 0.75, delay: hov ? 0.1 : 0, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gold, display: 'block', marginTop: 24 }}
+        >
+          Explore →
+        </motion.span>
+      </div>
+    </motion.button>
+  );
+};
+
+const EditorialTrio = ({ onSelect }) => {
+  const panels = [
+    { img: 'assets/category-targeted-use.jpg', title: 'Daily balance', sub: 'Cleanse. Maintain. Control.', onClick: () => onSelect(PRODUCTS[0]) },
+    { img: 'assets/category-daily-care.jpg', title: 'Focused support', sub: 'When more is required.', onClick: () => onSelect(PRODUCTS[10]) },
+    { img: 'assets/category-hair-integrity.jpeg', title: 'Hair integrity', sub: 'Strength. Balance. Control.', onClick: () => onSelect(PRODUCTS[8]) },
+  ];
+  return (
+    <motion.section
+      className="mave-grid-3"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: '-70px' }}
+      variants={{ show: { transition: { staggerChildren: 0.15 } } }}
+      style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 0, background: C.black }}
+    >
+      {panels.map((p, i) => <EditorialPanel key={i} p={p} i={i} />)}
+    </motion.section>
+  );
+};
+
+/* в”Ђв”Ђ PRODUCT CARD в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const ProductCard = ({ product, onSelect, index }) => {
+  const [hov, setHov] = React.useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.85, delay: index * 0.09, ease: [0.4, 0, 0.2, 1] }}
+      onClick={() => onSelect(product)}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        cursor: 'pointer',
+        background: 'rgba(245,240,232,0.86)',
+        position: 'relative',
+        boxShadow: hov ? '0 24px 70px rgba(26,20,16,0.14)' : '0 4px 18px rgba(26,20,16,0.045)',
+        transition: 'box-shadow 700ms cubic-bezier(0.23, 1, 0.32, 1), opacity 700ms cubic-bezier(0.23, 1, 0.32, 1)',
+      }}
+    >
+      <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
+        <motion.img src={product.image} alt={product.name}
+          animate={{ scale: hov ? 1.035 : 1, opacity: hov ? 0.92 : 1 }} transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
+        <motion.div
+          animate={{ opacity: hov ? 1 : 0 }}
+          transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+          style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(200,169,110,0.08), rgba(26,20,16,0.08))', pointerEvents: 'none' }}
+        />
+        {product.badge && (
+          <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
+            {product.badge}
+          </span>
+        )}
+        <motion.span
+          animate={{ opacity: hov ? 1 : 0.34, y: hov ? 0 : 6 }}
+          transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+          style={{ position: 'absolute', left: 20, bottom: 18, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.cream, textShadow: '0 8px 22px rgba(0,0,0,0.42)', pointerEvents: 'none' }}
+        >
+          Explore →
+        </motion.span>
+      </div>
+      <div style={{ padding: '22px 8px 30px' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 300, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 10 }}>{product.name}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, letterSpacing: '0.1em', color: C.black }}>{product.price}</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+/* в”Ђв”Ђ FEATURED PRODUCTS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const FeaturedProducts = ({ onSelect }) => {
+  const { scrollY } = useViewportScroll();
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, -100]);
+  const textY = useTransform(scrollY, [0, 1000], [0, -20]);
+
+  return (
+  <section className="mave-section" style={{ position: 'relative', overflow: 'hidden', padding: '88px 80px 72px', background: C.cream }}>
+    <motion.div style={{ y: backgroundY, position: 'absolute', inset: '0 0 auto 0', height: 260, background: 'radial-gradient(circle at 18% 28%, rgba(200,169,110,0.16), transparent 60%)', pointerEvents: 'none' }} />
+    <motion.div style={{ y: textY, position: 'relative', zIndex: 1 }}>
+    <Reveal style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 44 }}>
+      <div>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 10 }}>Core formulations</span>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,52px)', fontWeight: 300, fontStyle: 'italic', color: C.black }}>A focused selection.</h2>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.8, letterSpacing: '0.04em', color: C.bark, maxWidth: 520, marginTop: 16 }}>Clear roles. No excess.</p>
+      </div>
+      <button style={{ display: 'none' }}
+        onMouseEnter={e => { e.target.style.color = C.gold; e.target.style.borderColor = C.gold; }}
+        onMouseLeave={e => { e.target.style.color = C.black; e.target.style.borderColor = C.taupe; }}
+      >View collection</button>
+    </Reveal>
+    <div className="mave-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 2 }}>
+      {[PRODUCTS[6], PRODUCTS[8], PRODUCTS[2], PRODUCTS[3]].map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
+    </div>
+    </motion.div>
+  </section>
+  );
+};
+
+/* в”Ђв”Ђ BRAND STATEMENT в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const BrandStatement = () => {
+  const words = "For skin that asks for more.".split(' ');
+  return (
+    <section id="mave-approach" className="mave-section-dark" style={{ position: 'relative', overflow: 'hidden', background: C.black, padding: '148px 80px', textAlign: 'center' }}>
+      <video
+        src="assets/mave-approach-hand.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.78, filter: 'saturate(0.72) brightness(0.62) blur(1px)', transform: 'scale(1.02)', pointerEvents: 'none' }}
+      />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26,20,16,0.68) 0%, rgba(26,20,16,0.58) 46%, rgba(26,20,16,0.74) 100%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 46%, rgba(200,169,110,0.12), transparent 58%)', mixBlendMode: 'soft-light', pointerEvents: 'none' }} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+      <Reveal style={{ marginBottom: 44 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+          <div style={{ width: 32, height: 1, background: 'rgba(200,169,110,0.4)' }}></div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold }}>The MAVE Approach</span>
+          <div style={{ width: 32, height: 1, background: 'rgba(200,169,110,0.4)' }}></div>
+        </div>
+      </Reveal>
+      <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(28px,4vw,56px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.45, color: C.cream, maxWidth: 880, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', columnGap: '0.26em', rowGap: 0 }}>
+        {words.map((w, i) => (
+          <motion.span key={i}
+            initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.55, delay: i * 0.06, ease: [0.4, 0, 0.2, 1] }}
+          >{w}</motion.span>
+        ))}
+      </h2>
+      <motion.div
+        initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }} viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.6 }}
+        style={{ width: 56, height: 1, background: C.gold, margin: '52px auto 0', transformOrigin: 'center' }} />
+      <Reveal delay={0.2} style={{ marginTop: 34 }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.95, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.58)', maxWidth: 720, margin: '0 auto' }}>
+          Not more products. More precise.
+        </p>
+      </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ ROUTINE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const LiquidReveal = ({ onCatalogOpen }) => {
+  const { scrollY } = useViewportScroll();
+  const ref = React.useRef(null);
+  const [top, setTop] = React.useState(1600);
+
+  React.useEffect(() => {
+    const updateTop = () => {
+      if (ref.current) setTop(ref.current.getBoundingClientRect().top + window.scrollY);
+    };
+    updateTop();
+    window.addEventListener('resize', updateTop);
+    return () => window.removeEventListener('resize', updateTop);
+  }, []);
+
+  const glowY = useTransform(scrollY, [top - 500, top + 700], [28, -44]);
+  const textY = useTransform(scrollY, [top - 200, top + 500], [34, -18]);
+
+  return (
+    <section
+      id="liquid-reveal"
+      ref={ref}
+      style={{
+        position: 'relative',
+        minHeight: '100vh',
+        overflow: 'hidden',
+        background: C.black,
+        backgroundImage: `
+          radial-gradient(circle at 72% 56%, rgba(120,68,28,0.28), transparent 30%),
+          radial-gradient(circle at 50% 92%, rgba(200,169,110,0.12), transparent 34%),
+          linear-gradient(180deg, #090705 0%, #1A1410 52%, #050403 100%)
+        `,
+        borderTop: '1px solid rgba(200,169,110,0.08)',
+        borderBottom: '1px solid rgba(200,169,110,0.08)',
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.35 }}
+        transition={{ duration: 2.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          position: 'absolute',
+          inset: '-20% -10%',
+          y: glowY,
+          background: `
+            radial-gradient(circle at 68% 48%, rgba(200,169,110,0.30), transparent 30%),
+            radial-gradient(circle at 54% 62%, rgba(124,74,24,0.24), transparent 38%)
+          `,
+          filter: 'blur(14px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <motion.div
+        animate={{ opacity: [0.2, 0.35, 0.2], scale: [1, 1.08, 1] }}
+        transition={{ duration: 8.4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute',
+          right: '5%',
+          bottom: '6%',
+          width: '46vw',
+          maxWidth: 680,
+          aspectRatio: '1 / 1',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(200,169,110,0.24), transparent 68%)',
+          filter: 'blur(18px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <motion.img
+        className="mave-liquid-image"
+        src="assets/liquid-reveal-corrected.png"
+        alt="MAVE organic oil bottle in liquid reflection"
+        loading="lazy"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        animate={{ scale: [1, 1.06, 1], y: [0, -10, 0] }}
+        viewport={{ once: true, amount: 0.38 }}
+        transition={{
+          opacity: { duration: 2.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] },
+          scale: { duration: 14, repeat: Infinity, ease: 'easeInOut' },
+          y: { duration: 14, repeat: Infinity, ease: 'easeInOut' }
+        }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center center',
+          filter: 'saturate(0.98) contrast(1.06) brightness(0.98)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 2,
+          background: `
+            linear-gradient(
+              90deg,
+              rgba(5,4,3,0.85) 0%,
+              rgba(5,4,3,0.55) 40%,
+              rgba(5,4,3,0.0) 70%
+            )
+          `,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <motion.div
+        animate={{
+          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+          opacity: [0.18, 0.34, 0.18]
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 3,
+          background: `
+            radial-gradient(circle at 30% 44%, rgba(200,169,110,0.14), transparent 42%),
+            radial-gradient(circle at 72% 62%, rgba(120,80,40,0.12), transparent 48%),
+            linear-gradient(115deg, transparent 18%, rgba(255,221,160,0.08) 46%, transparent 72%)
+          `,
+          backgroundSize: '220% 220%',
+          mixBlendMode: 'soft-light',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <motion.div
+        animate={{ x: ['-10%', '14%', '-10%'], opacity: [0.06, 0.18, 0.06] }}
+        transition={{ duration: 9.5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute',
+          right: '10%',
+          bottom: '9%',
+          width: '34%',
+          height: '28%',
+          zIndex: 6,
+          background: 'linear-gradient(105deg, transparent 8%, rgba(255,226,176,0.18) 45%, transparent 76%)',
+          filter: 'blur(10px)',
+          mixBlendMode: 'screen',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <motion.div
+        className="mave-liquid-boundary"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.34 }}
+        transition={{ duration: 3.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 3,
+          background: 'radial-gradient(circle at 70% 56%, rgba(200,169,110,0.22), transparent 36%)',
+          filter: 'blur(6px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        className="mave-liquid-reveal-inner"
+        style={{
+          position: 'relative',
+          zIndex: 6,
+          isolation: 'isolate',
+          minHeight: '100vh',
+          display: 'block',
+          padding: '110px 90px',
+        }}
+      >
+        <motion.div
+          className="mave-liquid-copy"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.48 }}
+          transition={{ duration: 1.8, delay: 2.0, ease: [0.4, 0, 0.2, 1] }}
+          style={{
+            y: textY,
+            position: 'absolute',
+            left: '18%',
+            top: '18%',
+            maxWidth: 560,
+            padding: 0,
+            textShadow: '0 10px 30px rgba(0,0,0,0.4)',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              inset: '-24px -70px -30px -92px',
+              zIndex: -1,
+              background: 'radial-gradient(circle at 30% 50%, rgba(200,169,110,0.08), transparent 60%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <motion.span
+            initial={{ opacity: 0, y: 14, filter: 'blur(4px)' }}
+            whileInView={{ opacity: 0.38, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.48 }}
+            transition={{ duration: 1.05, delay: 2.7, ease: [0.23, 1, 0.32, 1] }}
+            style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#FFF9EE', display: 'block', marginBottom: 22, position: 'relative', left: -18, top: -24 }}>
+            Molecular System
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 24, filter: 'blur(5px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.48 }}
+            transition={{ duration: 1.25, delay: 2.05, ease: [0.23, 1, 0.32, 1] }}
+            style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(45px,5.55vw,67px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.16, color: '#FFF9EE', marginBottom: 18 }}>
+            <span style={{ opacity: 0.9, display: 'block' }}>Skincare, refined</span>
+            <span style={{ opacity: 1, display: 'block' }}>for more than routine.</span>
+          </motion.h2>
+          <motion.span
+            initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+            whileInView={{ opacity: 0.55, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.48 }}
+            transition={{ duration: 1.0, delay: 2.9, ease: [0.23, 1, 0.32, 1] }}
+            style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.18em', color: '#FFF9EE', display: 'block', marginBottom: 18 }}>
+            Care that adapts.
+          </motion.span>
+          <motion.button
+            initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.48 }}
+            transition={{ duration: 1.0, delay: 3.1, ease: [0.23, 1, 0.32, 1] }}
+            onClick={onCatalogOpen}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '1px solid rgba(200,169,110,0.36)',
+              color: 'rgba(255,249,238,0.62)',
+              cursor: 'pointer',
+              fontFamily: "'Montserrat',sans-serif",
+              fontSize: 10,
+              fontWeight: 300,
+              letterSpacing: '0.24em',
+              padding: '0 0 8px',
+              textTransform: 'uppercase',
+            }}
+          >
+            Explore the product →
+          </motion.button>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const OilDropMoment = ({ onCatalogOpen }) => {
+  const item = {
+    hidden: { opacity: 0, y: 22, filter: 'blur(6px)' },
+    show: { opacity: 1, y: 0, filter: 'blur(0px)' },
+  };
+  return (
+    <section
+      style={{
+        position: 'relative',
+        minHeight: '100vh',
+        overflow: 'hidden',
+        background: '#080604',
+        margin: 0,
+        padding: 0,
+      }}
+    >
+      <motion.video
+        src="assets/mave-oil-drop.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        initial={{ opacity: 0, scale: 1.055 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.42 }}
+        transition={{ duration: 2.8, delay: 0.35, ease: [0.23, 1, 0.32, 1] }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: '75% center',
+          opacity: 0.98,
+          filter: 'saturate(0.88) brightness(0.88)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.46) 35%, rgba(0,0,0,0.12) 65%, rgba(0,0,0,0.24) 100%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 25% 45%, rgba(200,169,110,0.16), transparent 55%)', pointerEvents: 'none' }} />
+      <motion.div
+        initial={{ opacity: 1 }}
+        whileInView={{ opacity: 0 }}
+        viewport={{ once: true, amount: 0.42 }}
+        transition={{ duration: 2.4, delay: 0.25, ease: [0.23, 1, 0.32, 1] }}
+        style={{ position: 'absolute', inset: 0, zIndex: 1, background: '#050403', pointerEvents: 'none' }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.08, 1], opacity: [0.16, 0.28, 0.16] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', right: '24%', top: '18%', width: 460, height: 460, background: 'radial-gradient(circle, rgba(200,169,110,0.22), transparent 64%)', filter: 'blur(38px)', pointerEvents: 'none' }}
+      />
+      <motion.div
+        animate={{ x: ['-12%', '10%', '-12%'], opacity: [0.04, 0.16, 0.04] }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(108deg, transparent 18%, rgba(255,215,150,0.18) 46%, transparent 72%)', filter: 'blur(18px)', mixBlendMode: 'screen', pointerEvents: 'none' }}
+      />
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.48 }}
+        variants={{ show: { transition: { staggerChildren: 0.24, delayChildren: 1.75 } } }}
+        style={{ position: 'absolute', zIndex: 2, left: '8%', bottom: '12%', maxWidth: 320 }}
+      >
+        <motion.p variants={item} transition={{ duration: 1.05, ease: [0.23, 1, 0.32, 1] }}
+          style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.14em', color: 'rgba(245,240,232,0.62)', margin: '0 0 18px' }}>
+          Precision in every drop.
+        </motion.p>
+        <motion.button variants={item} transition={{ duration: 0.95, ease: [0.23, 1, 0.32, 1] }}
+          onClick={onCatalogOpen}
+          style={{ background: 'transparent', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.58)', color: 'rgba(200,169,110,0.86)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', padding: '0 0 8px' }}>
+          Discover oils →
+        </motion.button>
+      </motion.div>
+    </section>
+  );
+};
+
+const RoutineSection = ({ onSelect }) => {
+  const { scrollY } = useViewportScroll();
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, -100]);
+  const productY = useTransform(scrollY, [0, 1000], [0, -50]);
+  const copyY = useTransform(scrollY, [0, 1000], [0, -20]);
+  const steps = [
+    {
+      num: '01',
+      phase: 'Cleanse',
+      title: 'Cleanse',
+      desc: 'Surface reset. Clean base. Ready for sequence.',
+      product: PRODUCTS[7],
+      detail: 'First step · fresh skin feel',
+    },
+    {
+      num: '02',
+      phase: 'Treat',
+      title: 'Treat',
+      desc: 'Surface polish. Controlled finish. Fresh mouth feel.',
+      product: PRODUCTS[6],
+      detail: 'Refined polish · fresh finish',
+    },
+    {
+      num: '03',
+      phase: 'Restore',
+      title: 'Restore',
+      desc: 'Hydration. Surface balance. Restored finish.',
+      product: PRODUCTS[2],
+      detail: 'Daily treatment · visible freshness',
+    },
+    {
+      num: '04',
+      phase: 'Finish',
+      title: 'Finish',
+      desc: 'Seals the sequence for skin, nails and dry areas.',
+      product: PRODUCTS[0],
+      detail: 'Final touch · protective veil',
+    },
+  ];
+
+  return (
+    <section className="mave-section" style={{ position: 'relative', overflow: 'hidden', background: C.cream, padding: '100px 80px' }}>
+      <motion.div style={{ y: backgroundY, position: 'absolute', inset: '0 0 auto 0', height: 320, background: 'radial-gradient(circle at 82% 22%, rgba(120,80,40,0.1), transparent 60%)', pointerEvents: 'none' }} />
+      {/* Header */}
+      <Reveal style={{ y: copyY, position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 80 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 18 }}>
+          <div style={{ width: 32, height: 1, background: C.gold }}></div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold }}>Controlled Sequence</span>
+          <div style={{ width: 32, height: 1, background: C.gold }}></div>
+        </div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,56px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.1 }}>Daily use<br />builds lasting balance.</h2>
+      </Reveal>
+
+      {/* Steps */}
+      <motion.div className="mave-grid-4" style={{ y: productY, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0, position: 'relative' }}>
+        {/* Connecting line */}
+        <motion.div
+          initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
+          transition={{ duration: 1.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          className="mave-routine-line" style={{ position: 'absolute', top: 28, left: '12.5%', right: '12.5%', height: 1, background: `linear-gradient(to right, ${C.gold}, ${C.goldD})`, transformOrigin: 'left', zIndex: 0 }}
+        />
+
+        {steps.map((step, i) => (
+          <motion.div key={i}
+            initial={{ opacity: 0, y: 48 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.85, delay: i * 0.14, ease: [0.4, 0, 0.2, 1] }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 28px', position: 'relative', zIndex: 1 }}
+          >
+            {/* Step circle */}
+            <div style={{ width: 56, height: 56, borderRadius: '50%', border: `1px solid ${C.gold}`, background: C.cream, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 32, flexShrink: 0 }}>
+              <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, fontWeight: 300, fontStyle: 'italic', color: C.gold }}>{step.num}</span>
+            </div>
+
+            {/* Image */}
+            <motion.div
+              whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              onClick={() => onSelect(step.product)}
+              style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', marginBottom: 28, cursor: 'pointer', position: 'relative' }}
+            >
+              <motion.img loading="lazy" src={step.product.image} alt={step.title}
+                whileHover={{ scale: 1.06 }} transition={{ duration: 0.7 }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.85)' }} />
+            </motion.div>
+
+            {/* Text */}
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 14, textAlign: 'center' }}>{step.title}</span>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.8, letterSpacing: '0.02em', color: C.bark, textAlign: 'center', marginBottom: 14 }}>{step.desc}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ SPLIT FEATURE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const SplitFeature = ({ onSelect, onCatalogOpen }) => {
+  const featured = PRODUCTS[4];
+  return (
+    <section className="mave-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', background: C.cream, minHeight: '80vh' }}>
+      <motion.div initial={{ opacity: 0, x: -72 }} whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-80px' }} transition={{ duration: 1.05, ease: [0.4, 0, 0.2, 1] }}
+        style={{ overflow: 'hidden', position: 'relative' }}>
+        <motion.img src="assets/primary.jpg" alt="28 Powerful Actives" whileHover={{ scale: 1.04 }} transition={{ duration: 1 }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
+        <div style={{ position: 'absolute', top: 16, left: 16, background: '#6B1C1C', color: C.cream, fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '4px 10px' }}>Limited Edition</div>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, x: 72 }} whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-80px' }} transition={{ duration: 1.05, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
+        className="mave-split-text" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '80px 76px' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Limited Edition · 2026</span>
+        <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 'clamp(18px,2.2vw,30px)', fontWeight: 200, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black, lineHeight: 1.3, marginBottom: 10 }}>MAVE 28 Cream</h2>
+        <div style={{ width: 40, height: 2, background: '#6B1C1C', marginBottom: 30 }}></div>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.95, letterSpacing: '0.03em', color: C.earth, marginBottom: 18 }}>
+          Precision cream with a massage roller for face, neck and eye area. 28 active components. Measured application.
+        </p>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.gray, marginBottom: 44 }}>
+          Peptides · Probiotics · Hyaluron · Ceramides · Niacinamide
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 28, fontWeight: 300, color: C.black }}>€29.95</span>
+          <button onClick={onCatalogOpen || (() => onSelect(featured))}
+            style={{ padding: '15px 48px', background: C.black, border: `1px solid ${C.black}`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', cursor: 'pointer', transition: 'background 0.45s, color 0.45s, border-color 0.45s' }}
+            onMouseEnter={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.color = C.black; e.currentTarget.style.borderColor = C.gold; }}
+            onMouseLeave={e => { e.currentTarget.style.background = C.black; e.currentTarget.style.color = C.gold; e.currentTarget.style.borderColor = C.black; }}
+          >View product</button>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ COLLECTION GRID в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const CollectionGrid = ({ onSelect }) => (
+  <section className="mave-section" style={{ padding: '80px 80px 72px', background: C.sand }}>
+    <Reveal style={{ marginBottom: 44 }}>
+      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 10 }}>Collection</span>
+      <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 300, fontStyle: 'italic', color: C.black }}>Clear roles. Measured selection.</h2>
+    </Reveal>
+    <div className="mave-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 2 }}>
+      {PRODUCTS.slice(4).map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
+    </div>
+  </section>
+);
+
+const CatalogPage = ({ onBack, onSelect }) => {
+  const collections = ['All', ...Array.from(new Set(PRODUCTS.map(p => p.collection)))];
+  const [active, setActive] = React.useState('All');
+  const [query, setQuery] = React.useState('');
+  const filtered = PRODUCTS.filter(p => {
+    const byCollection = active === 'All' || p.collection === active;
+    const byQuery = !query.trim() || `${p.name} ${p.collection}`.toLowerCase().includes(query.toLowerCase());
+    return byCollection && byQuery;
+  });
+
+  return (
+    <motion.main
+      initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}
+      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+      style={{ background: C.cream, minHeight: '100vh', paddingTop: 92 }}
+    >
+      <section className="mave-section" style={{ padding: '104px 80px 36px', background: C.cream }}>
+        <button onClick={onBack}
+          style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 46 }}>
+          Back to landing
+        </button>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.24fr 0.76fr', gap: 80, alignItems: 'end' }} className="mave-grid-2">
+          <div>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Collection</span>
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,6vw,86px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 22 }}>A focused collection.</h1>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.85, letterSpacing: '0.03em', color: C.bark, maxWidth: 540 }}>Clear roles.<br />No excess.</p>
+          </div>
+          <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 26, alignItems: 'stretch' }}>
+            <input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              type="search"
+              aria-label="Search by role"
+              placeholder="Search by role"
+              style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid rgba(107,87,68,0.28)`, padding: '0 0 14px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
+            />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 22px' }}>
+              {collections.map(c => (
+                <button key={c} onClick={() => setActive(c)}
+                  className="mave-catalog-filter"
+                  data-active={active === c}
+                  style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="mave-section" style={{ padding: '12px 80px 112px', background: C.cream }}>
+        <div className="mave-grid-4 mave-catalog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+          {filtered.map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
+        </div>
+        {filtered.length === 0 && (
+          <div style={{ padding: '80px 0', textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', color: C.bark }}>No match in this view.</p>
+          </div>
+        )}
+      </section>
+      <Footer />
+    </motion.main>
+  );
+};
+
+/* в”Ђв”Ђ INGREDIENTS STRIP в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const IngredientsStrip = () => {
+  const items = ['Monarda Oil Serum','Green Tea Oil','Chamomile Extract','Sodium Hyaluronate','Allantoin','Panthenol','Hydroxyapatite','Coconut-Shell Charcoal'];
+  return (
+    <section id="mave-ingredients" style={{ background: C.linen, padding: '60px 80px', borderTop: `1px solid ${C.taupe}`, borderBottom: `1px solid ${C.taupe}` }}>
+      <Reveal style={{ textAlign: 'center', marginBottom: 32 }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gray }}>Selected ingredients with clear function</span>
+      </Reveal>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {items.map((ing, i) => (
+          <React.Fragment key={i}>
+            <motion.span initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
+              style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.earth, padding: '4px 20px' }}>
+              {ing}
+            </motion.span>
+            {i < items.length - 1 && <span style={{ color: C.gold, fontSize: 10, alignSelf: 'center', opacity: 0.7 }}>·</span>}
+          </React.Fragment>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* в”Ђв”Ђ FULL BLEED CTA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const FullBleedCTA = ({ onCatalogOpen }) => {
+  const { scrollY } = useViewportScroll();
+  const ref = React.useRef(null);
+  const [top, setTop] = React.useState(3000);
+  React.useEffect(() => { if (ref.current) setTop(ref.current.getBoundingClientRect().top + window.scrollY); }, []);
+  const imgY = useTransform(scrollY, [top - 600, top + 400], [-50, 50]);
+
+  return (
+    <section ref={ref} style={{ position: 'relative', height: '70vh', overflow: 'hidden', background: C.black }}>
+      <motion.div style={{ position: 'absolute', inset: 0, y: imgY }}>
+        <img src="assets/organic-oil-sunset.jpg" alt="" loading="lazy" style={{ width: '100%', height: '120%', objectFit: 'cover', filter: 'saturate(0.78) brightness(0.62)', marginTop: '-10%' }} />
+      </motion.div>
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,20,16,0.72) 0%, rgba(26,20,16,0.22) 55%, rgba(26,20,16,0.52) 100%)' }}></div>
+      <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 80px' }}>
+        <Reveal><span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>MAVE® Molecular Cosmetics</span></Reveal>
+        <Reveal delay={0.12}><h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,6vw,76px)', fontWeight: 300, fontStyle: 'italic', color: C.cream, lineHeight: 1.08, marginBottom: 36 }}>Made to stay<br />within</h2></Reveal>
+        <Reveal delay={0.24}>
+          <button onClick={onCatalogOpen} style={{ padding: '17px 60px', background: 'transparent', border: `1px solid ${C.gold}`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', cursor: 'pointer', transition: 'background 0.45s, color 0.45s' }}
+            onMouseEnter={e => { e.target.style.background = C.gold; e.target.style.color = C.black; }}
+            onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = C.gold; }}
+          >Explore collection</button>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* SCIENCE PAGE */
+const ScienceProductLink = ({ product, onSelect }) => (
+  <motion.button
+    onClick={() => onSelect(product)}
+    whileHover={{ opacity: 0.72 }}
+    transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+    style={{
+      width: '100%',
+      background: 'transparent',
+      border: 'none',
+      borderTop: `1px solid rgba(200,169,110,0.18)`,
+      padding: '18px 0',
+      cursor: 'pointer',
+      textAlign: 'left',
+      display: 'grid',
+      gridTemplateColumns: '1fr auto',
+      gap: 24,
+      alignItems: 'baseline',
+    }}
+  >
+    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.cream }}>{product.name}</span>
+    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gold }}>{product.collection}</span>
+  </motion.button>
+);
+
+const ScienceSection = ({ id, label, headline, body, products, onSelect, delay = 0 }) => (
+  <section id={id} style={{ scrollMarginTop: 92, padding: '96px 80px', borderTop: `1px solid rgba(200,169,110,0.14)` }}>
+    <Reveal delay={delay} style={{ display: 'grid', gridTemplateColumns: '0.72fr 1.28fr', gap: 86, maxWidth: 1180, margin: '0 auto' }} className="mave-grid-2">
+      <div>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 24 }}>{label}</span>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,5vw,76px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: C.cream, maxWidth: 560 }}>{headline}</h2>
+      </div>
+      <div style={{ alignSelf: 'end' }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.66)', marginBottom: 46 }}>
+          {body.map((line, i) => <React.Fragment key={line}>{i > 0 && <br />}{line}</React.Fragment>)}
+        </p>
+        <div>
+          {products.map(product => (
+            <ScienceProductLink key={product.id} product={product} onSelect={onSelect} />
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  </section>
+);
+
+const SciencePage = ({ onBack, onSelect }) => {
+  const mechanismCopy = {
+    barrier: {
+      label: 'Barrier',
+      headline: 'Structure. Stability. Comfort.',
+      body: ['Supports the barrier', 'and keeps the skin stable.'],
+    },
+    balance: {
+      label: 'Balance',
+      headline: 'A controlled skin environment.',
+      body: ['Supports balance', 'where disruption begins.'],
+    },
+    renewal: {
+      label: 'Renewal',
+      headline: 'Turnover without excess.',
+      body: ['Supports natural renewal', 'and refines texture.'],
+    },
+    cleanse: {
+      label: 'Cleanse',
+      headline: 'Removal without disruption.',
+      body: ['Removes buildup', 'while keeping balance intact.'],
+    },
+  };
+  const mechanismOrder = ['barrier', 'balance', 'renewal', 'cleanse'];
+  const productsByMechanism = mechanismOrder.reduce((acc, id) => {
+    acc[id] = PRODUCTS.filter(product => product.science?.mechanisms?.includes(id));
+    return acc;
+  }, {});
+
+  React.useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <motion.main
+      initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}
+      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+      style={{ minHeight: '100vh', background: C.black, color: C.cream, paddingTop: 92 }}
+    >
+      <section style={{ padding: '118px 80px 76px', borderBottom: `1px solid rgba(200,169,110,0.12)` }}>
+        <Reveal style={{ maxWidth: 1180, margin: '0 auto' }}>
+          <button onClick={onBack}
+            style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: 'rgba(245,240,232,0.58)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 56 }}>
+            Back to landing
+          </button>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 28 }}>Science</span>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(58px,8vw,118px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.96, color: C.cream, marginBottom: 28 }}>Skin is a system.</h1>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.05em', color: 'rgba(245,240,232,0.64)' }}>We work with how it functions.</p>
+        </Reveal>
+      </section>
+
+      <section style={{ padding: '72px 80px 84px', background: '#211813' }}>
+        <Reveal style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 76, alignItems: 'end' }} className="mave-grid-2">
+          <div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(34px,4.8vw,70px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, color: C.cream, marginBottom: 22 }}>Not surface care.<br />Function, balance, structure.</h2>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.06em', color: 'rgba(245,240,232,0.54)' }}>Each formula works through a clear role.</p>
+          </div>
+          <nav aria-label="Science mechanisms" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+            {mechanismOrder.map(id => (
+              <a key={id} href={`#${id}`} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gold, textDecoration: 'none', borderBottom: `1px solid rgba(200,169,110,0.44)`, paddingBottom: 10 }}>
+                {scienceMechanisms[id].label}
+              </a>
+            ))}
+          </nav>
+        </Reveal>
+      </section>
+
+      {mechanismOrder.map((id, index) => (
+        <ScienceSection
+          key={id}
+          id={id}
+          label={mechanismCopy[id].label}
+          headline={mechanismCopy[id].headline}
+          body={mechanismCopy[id].body}
+          products={productsByMechanism[id]}
+          onSelect={onSelect}
+          delay={index * 0.04}
+        />
+      ))}
+      <Footer />
+    </motion.main>
+  );
+};
+
+/* в”Ђв”Ђ PRODUCT PAGE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const RelatedProductCard = ({ product, index, onSelect }) => {
+  const [hov, setHov] = React.useState(false);
+  return (
+    <motion.button
+      onClick={() => onSelect(product)}
+      aria-label={`View ${product.name}`}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.23, 1, 0.32, 1] }}
+      style={{ textAlign: 'left', background: 'rgba(245,240,232,0.58)', border: 'none', cursor: 'pointer', padding: 0, overflow: 'hidden' }}
+    >
+      <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: C.black, position: 'relative' }}>
+        <motion.img
+          src={product.image}
+          alt={product.name}
+          loading="lazy"
+          animate={{ scale: hov ? 1.025 : 1, opacity: hov ? 0.94 : 1 }}
+          transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.84)' }}
+        />
+        <motion.div
+          animate={{ opacity: hov ? 1 : 0 }}
+          transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+          style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(200,169,110,0.08), rgba(26,20,16,0.10))', pointerEvents: 'none' }}
+        />
+      </div>
+      <div style={{ padding: '22px 8px 28px' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 10 }}>{product.name}</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18 }}>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, letterSpacing: '0.14em', color: C.bark }}>{product.price}</span>
+          <motion.span
+            animate={{ opacity: hov ? 1 : 0.46, x: hov ? 0 : 4 }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gold }}
+          >
+            View
+          </motion.span>
+        </div>
+      </div>
+    </motion.button>
+  );
+};
+
+const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
+  const details = PRODUCT_DETAILS[product.id] || PRODUCT_DETAILS[1];
+  const gallery = details.gallery && details.gallery.length ? details.gallery : [product.image];
+  const [qty, setQty] = React.useState(1);
+  const [tab, setTab] = React.useState('daily');
+  const [open, setOpen] = React.useState('ingredients');
+  const [added, setAdded] = React.useState(false);
+  const [activeImage, setActiveImage] = React.useState(gallery[0]);
+  const [lightbox, setLightbox] = React.useState(false);
+  const volumeLabel = product.vol.replace(/(\d+)(ml|g)$/i, '$1 $2');
+  const useModes = {
+    daily: {
+      label: 'DAILY',
+      heading: 'For daily use',
+      body: [
+        'Used consistently.',
+        'Kept within sequence.',
+      ],
+    },
+    targeted: {
+      label: 'TARGETED',
+      heading: 'Used where needed',
+      body: [
+        'Apply with precision.',
+        'Adjust by surface and role.',
+      ],
+    },
+    intensive: {
+      label: 'INTENSIVE',
+      heading: 'When more is required',
+      body: [
+        'Use with more focus.',
+        'Keep application measured.',
+      ],
+    },
+  };
+  const accordions = [
+    ['ingredients', 'Key ingredients', `${details.ingredients.join('. ')}.`],
+    ['how-it-works', 'How it works', 'Works through a clear role. Used daily. Adjusted when required.'],
+    ['inci', 'Full INCI', details.inci],
+    ['use', 'How to use', details.use],
+    ['care', 'Care note', 'For external use only. Use with care around sensitive areas. Store away from direct heat and light.'],
+  ];
+  const handleAdd = () => {
+    onAdd(product, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1400);
+  };
+  React.useEffect(() => {
+    setQty(1);
+    setTab('daily');
+    setOpen('ingredients');
+    setAdded(false);
+    setActiveImage(gallery[0]);
+    setLightbox(false);
+  }, [product.id]);
+  const openDisclosure = id => {
+    setOpen(id);
+    setTimeout(() => document.getElementById('formula-notes')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
+  };
+  const related = PRODUCTS.filter(p => p.id !== product.id).slice(0, 3);
+
+  return (
+    <motion.main
+      className="mave-pdp-shell"
+      initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}
+      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+      style={{ background: C.cream, color: C.black, minHeight: '100vh', paddingTop: 92 }}
+    >
+      <section className="mave-grid-2" style={{ display: 'grid', gridTemplateColumns: '1.12fr 0.88fr', gap: 0, minHeight: 'calc(100vh - 92px)', background: C.cream }}>
+        <div className="mave-pdp-gallery" style={{ position: 'relative', minHeight: 'calc(100vh - 92px)', overflow: 'hidden', background: C.black }}>
+          <motion.img key={activeImage} className="mave-pdp-hero-image" src={activeImage} alt={product.name}
+            initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.05, ease: [0.23, 1, 0.32, 1] }}
+            onClick={() => setLightbox(true)}
+            style={{ width: '100%', height: 'calc(100vh - 92px)', objectFit: 'cover', filter: 'saturate(0.86) brightness(0.88)', cursor: 'zoom-in' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,20,16,0.08), rgba(26,20,16,0.28))', pointerEvents: 'none' }} />
+          <button onClick={() => setLightbox(true)}
+            aria-label={`View larger image of ${product.name}`}
+            style={{ position: 'absolute', right: 32, top: 32, background: 'rgba(26,20,16,0.44)', border: `1px solid rgba(245,240,232,0.24)`, color: C.cream, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '11px 14px', backdropFilter: 'blur(8px)' }}>
+            View image
+          </button>
+          <div className="mave-pdp-thumbs" style={{ position: 'absolute', left: 32, bottom: 32, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(82px, 124px))', gap: 12 }}>
+            {gallery.map((img, i) => (
+              <button key={img} onClick={() => setActiveImage(img)}
+                style={{ padding: 0, border: `1px solid ${activeImage === img ? C.gold : 'rgba(245,240,232,0.16)'}`, background: C.black, cursor: 'pointer', opacity: activeImage === img ? 1 : 0.68, transition: 'opacity 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                <img className="mave-pdp-thumb" src={img} alt="" loading="lazy" style={{ width: '100%', height: 104, objectFit: 'cover', filter: 'saturate(0.74) brightness(0.78)' }} />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mave-pdp-buybox" style={{ padding: '70px 74px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: C.cream, position: 'sticky', top: 92, alignSelf: 'start', minHeight: 'calc(100vh - 92px)' }}>
+          <button onClick={onBack}
+            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 38 }}>
+            Back to collection
+          </button>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Formula role</span>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,5vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: C.black, marginBottom: 12 }}>{product.name}</h1>
+          <div style={{ marginBottom: 24 }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 300, letterSpacing: '0.08em', color: C.black }}>{volumeLabel} · {product.price}</span>
+          </div>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.black, marginBottom: 12 }}>{details.statement}</p>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.78, letterSpacing: '0.02em', color: C.earth, maxWidth: 520, marginBottom: 28 }}>{details.description}</p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '126px 1fr', gap: 12, marginBottom: 22 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: `1px solid rgba(107,87,68,0.38)`, padding: '0 18px', minHeight: 56 }}>
+              <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: C.black, padding: '16px 2px', lineHeight: 1 }}>−</button>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: C.black, minWidth: 22, textAlign: 'center' }}>{qty}</span>
+              <button onClick={() => setQty(q => q + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: C.black, padding: '16px 2px', lineHeight: 1 }}>+</button>
+            </div>
+            <motion.button onClick={handleAdd} whileTap={{ scale: 0.97 }}
+              style={{ width: '100%', minHeight: 56, padding: '18px 30px', background: added ? C.gold : C.black, color: added ? C.black : C.gold, border: `1px solid ${added ? C.gold : C.black}`, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'background 420ms cubic-bezier(0.23, 1, 0.32, 1), color 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+              {added ? 'Added' : 'Add to cart'}
+            </motion.button>
+          </div>
+          <div style={{ display: 'flex', gap: 30 }}>
+            {['How to use', 'Full INCI'].map(label => (
+              <button key={label} onClick={() => openDisclosure(label === 'How to use' ? 'use' : 'inci')}
+                style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.78)`, color: C.earth, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '0 0 7px' }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: '96px 80px', background: C.sand }}>
+        <Reveal style={{ textAlign: 'center', marginBottom: 48 }}>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Use</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,54px)', fontWeight: 300, fontStyle: 'italic', color: C.black }}>One system<br />different intensities</h2>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.05em', color: C.bark, maxWidth: 560, margin: '18px auto 0' }}>Used daily. Adjusted when required.</p>
+        </Reveal>
+        <div style={{ maxWidth: 920, margin: '0 auto' }}>
+          <div className="mave-pdp-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 30, marginBottom: 26, borderBottom: `1px solid rgba(107,87,68,0.26)` }}>
+            {Object.keys(useModes).map(k => (
+              <button key={k} onClick={() => setTab(k)}
+                style={{ position: 'relative', padding: '0 0 18px', border: 'none', background: 'transparent', color: tab === k ? C.black : C.bark, opacity: tab === k ? 1 : 0.64, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                {useModes[k].label}
+                <motion.span
+                  animate={{ scaleX: tab === k ? 1 : 0, opacity: tab === k ? 1 : 0 }}
+                  transition={{ duration: 0.52, ease: [0.23, 1, 0.32, 1] }}
+                  style={{ position: 'absolute', left: 0, right: 0, bottom: -1, height: 1, background: C.gold, transformOrigin: 'left' }}
+                />
+              </button>
+            ))}
+          </div>
+          <motion.div key={tab} initial={{ opacity: 0, y: 8, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.42, ease: [0.23, 1, 0.32, 1] }}
+            style={{ background: 'transparent', padding: '34px 24px 18px', textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.48, maxWidth: 720, margin: '0 auto 18px' }}>{useModes[tab].heading}</p>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.05em', color: C.bark, maxWidth: 620, margin: '0 auto' }}>{useModes[tab].body.map((line, i) => <React.Fragment key={line}>{i > 0 && <br />}{line}</React.Fragment>)}</p>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="formula-notes" className="mave-pdp-notes" style={{ padding: '104px 80px', background: C.cream }}>
+        <div className="mave-grid-2" style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: 80, maxWidth: 1180, margin: '0 auto' }}>
+          <div>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>Formula notes</span>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(34px,4vw,58px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.08, marginBottom: 24 }}>Works through clear function</h2>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: C.bark, marginBottom: 22 }}>Each formula carries a role<br />within the MAVE system</p>
+            <a href={`/science#${product.science?.primaryMechanism || 'balance'}`} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gold, textDecoration: 'none', borderBottom: `1px solid rgba(200,169,110,0.48)`, paddingBottom: 7 }}>
+              Learn how it works →
+            </a>
+          </div>
+          <div>
+            {accordions.map(([id, title, body]) => (
+              <div key={id} style={{ borderTop: `1px solid rgba(107,87,68,0.2)` }}>
+                <button onClick={() => setOpen(open === id ? '' : id)}
+                  style={{ width: '100%', padding: '26px 0', background: 'none', border: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.black }}>{title}</span>
+                  <span style={{ color: C.goldD, fontSize: 21, lineHeight: 1 }}>{open === id ? '−' : '+'}</span>
+                </button>
+                <AnimatePresence>
+                  {open === id && (
+                    <motion.p initial={{ opacity: 0, height: 0, filter: 'blur(2px)' }} animate={{ opacity: 1, height: 'auto', filter: 'blur(0px)' }} exit={{ opacity: 0, height: 0, filter: 'blur(2px)' }}
+                      transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+                      style={{ overflow: 'hidden', fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, color: C.earth, paddingBottom: 26 }}>
+                      {body}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section style={{ padding: '104px 80px 118px', background: C.sand }}>
+        <Reveal style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 40, marginBottom: 42 }}>
+          <div>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Selected care</span>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,54px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.08 }}>A focused selection.</h2>
+          </div>
+          <button onClick={onBack} style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', padding: '0 0 8px' }}>
+            Back to collection
+          </button>
+        </Reveal>
+        <div className="mave-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
+          {related.map((p, i) => <RelatedProductCard key={p.id} product={p} index={i} onSelect={onSelect} />)}
+        </div>
+      </section>
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+            onClick={() => setLightbox(false)}
+            style={{ position: 'fixed', inset: 0, zIndex: 900, background: 'rgba(26,20,16,0.92)', display: 'grid', placeItems: 'center', padding: 42, cursor: 'zoom-out' }}>
+            <button onClick={e => { e.stopPropagation(); setLightbox(false); }}
+              aria-label="Close image view"
+              style={{ position: 'absolute', right: 34, top: 28, width: 42, height: 42, background: 'rgba(245,240,232,0.08)', border: `1px solid rgba(245,240,232,0.18)`, color: C.cream, cursor: 'pointer', fontSize: 28, lineHeight: 1, display: 'grid', placeItems: 'center' }}>
+              ×
+            </button>
+            <motion.img src={activeImage} alt={product.name}
+              onClick={e => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.42, ease: [0.23, 1, 0.32, 1] }}
+              style={{ maxWidth: 'min(1180px, 92vw)', maxHeight: '86vh', objectFit: 'contain', filter: 'saturate(0.9)' }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Footer />
+    </motion.main>
+  );
+};
+
+/* в”Ђв”Ђ PRODUCT DRAWER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const ProductDrawer = ({ product, onClose, onAdd }) => {
+  const [qty, setQty] = React.useState(1);
+  const [added, setAdded] = React.useState(false);
+  React.useEffect(() => { if (product) { setQty(1); setAdded(false); } }, [product]);
+  React.useEffect(() => {
+    const h = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, [onClose]);
+  const handleAdd = () => {
+    onAdd(product, qty);
+    setAdded(true);
+    setTimeout(() => { setAdded(false); onClose(); }, 1500);
+  };
+
+  return (
+    <AnimatePresence>
+      {product && (
+        <>
+          <motion.div key="bd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(26,20,16,0.55)', zIndex: 600, backdropFilter: 'blur(6px)' }} />
+          <motion.div key="dw" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ duration: 0.52, ease: [0.4, 0, 0.2, 1] }}
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 601, maxHeight: '86vh', background: C.cream, display: 'grid', gridTemplateColumns: '1fr 1.3fr', boxShadow: '0 -24px 80px rgba(26,20,16,0.28)' }}>
+            <div style={{ overflow: 'hidden', maxHeight: '86vh' }}>
+              <motion.img src={product.image} alt={product.name} initial={{ scale: 1.08 }} animate={{ scale: 1 }}
+                transition={{ duration: 0.7 }} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
+            </div>
+            <div style={{ padding: '52px 60px', overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
+              <button onClick={onClose} style={{ position: 'absolute', top: 20, right: 24, background: 'none', border: 'none', cursor: 'pointer', color: C.gray, fontSize: 22, lineHeight: 1, transition: 'color 0.3s' }}
+                onMouseEnter={e => e.target.style.color = C.black} onMouseLeave={e => e.target.style.color = C.gray}>×</button>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>{product.collection}</span>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 'clamp(18px,2vw,28px)', fontWeight: 200, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.black, lineHeight: 1.3, marginBottom: 10 }}>{product.name}</h2>
+              <div style={{ width: 36, height: 2, background: product.accent, marginBottom: 28 }}></div>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.95, letterSpacing: '0.03em', color: C.earth, marginBottom: 20 }}>{product.desc}</p>
+              <div style={{ borderTop: `1px solid ${C.linen}`, borderBottom: `1px solid ${C.linen}`, padding: '18px 0', marginBottom: 32 }}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.08em', color: C.gray, display: 'block', marginBottom: 8 }}>Formula role</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 28, fontWeight: 300, color: C.black }}>{product.price}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, border: `1px solid ${C.taupe}`, padding: '0 18px' }}>
+                  <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: C.black, padding: '13px 0', lineHeight: 1 }}>−</button>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: C.black, minWidth: 22, textAlign: 'center' }}>{qty}</span>
+                  <button onClick={() => setQty(q => q + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: C.black, padding: '13px 0', lineHeight: 1 }}>+</button>
+                </div>
+                <motion.button onClick={handleAdd} whileTap={{ scale: 0.97 }}
+                  style={{ flex: 1, padding: '15px 24px', background: added ? C.gold : C.black, color: added ? C.black : C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.28em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'background 0.4s, color 0.4s' }}>
+                  {added ? 'Added ✓' : 'Add to cart'}
+                </motion.button>
+              </div>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.1em', color: C.gray, textAlign: 'center' }}>Free shipping on orders over €120 · 30-day returns</span>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+/* в”Ђв”Ђ CART SIDEBAR в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <>
+        <motion.div key="cbg" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(26,20,16,0.45)', zIndex: 700, backdropFilter: 'blur(5px)' }} />
+          <motion.div key="cpn" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+            transition={{ duration: 0.48, ease: [0.4, 0, 0.2, 1] }}
+            style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: 410, background: C.cream, zIndex: 701, display: 'flex', flexDirection: 'column', boxShadow: '-16px 0 64px rgba(26,20,16,0.18)' }}>
+          <div style={{ padding: '28px 34px', borderBottom: `1px solid rgba(107,87,68,0.16)`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Cart ({cart.reduce((s,i) => s+i.qty,0)})</span>
+            <button onClick={onClose} aria-label="Close cart" style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.bark, fontSize: 24, lineHeight: 1, padding: 4 }}>×</button>
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto', padding: '28px 34px' }}>
+            {cart.length === 0
+              ? <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.gray, letterSpacing: '0.05em' }}>Your cart is empty.</p>
+              : cart.map((item, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}
+                    style={{ display: 'flex', gap: 18, marginBottom: 26, paddingBottom: 26, borderBottom: `1px solid rgba(107,87,68,0.14)` }}>
+                    <img src={item.image} alt={item.name} style={{ width: 84, height: 104, objectFit: 'cover', filter: 'saturate(0.88)' }} />
+                    <div style={{ flex: 1, paddingTop: 2 }}>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 7 }}>{item.collection}</span>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 9 }}>{item.name}</span>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.bark, display: 'block', marginBottom: 14 }}>{item.price}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', border: `1px solid rgba(107,87,68,0.28)`, height: 34 }}>
+                          <button onClick={() => onQtyChange(item.id, -1)} aria-label={`Decrease ${item.name} quantity`} style={{ width: 34, height: 32, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 16, lineHeight: 1 }}>−</button>
+                          <span style={{ minWidth: 24, textAlign: 'center', fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.black }}>{item.qty}</span>
+                          <button onClick={() => onQtyChange(item.id, 1)} aria-label={`Increase ${item.name} quantity`} style={{ width: 34, height: 32, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 16, lineHeight: 1 }}>+</button>
+                        </div>
+                        <button onClick={() => onRemove(item.id)}
+                          aria-label={`Remove ${item.name} from cart`}
+                          style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.58)`, color: C.gray, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '0 0 5px' }}>
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+            }
+          </div>
+          {cart.length > 0 && (
+            <div style={{ padding: '26px 34px 30px', borderTop: `1px solid rgba(107,87,68,0.16)` }}>
+              <div style={{ padding: '0 0 22px', marginBottom: 24, borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.06em', color: C.bark, display: 'block', marginBottom: 6 }}>Shipping calculated at checkout</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.06em', color: C.gray }}>Free shipping over €120</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 24 }}>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.bark }}>Total</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 24, fontWeight: 300, letterSpacing: '0.04em', color: C.black }}>€{cart.reduce((s,i) => s + parseFloat(i.price.replace('€','')) * i.qty, 0).toFixed(2)}</span>
+              </div>
+              <button onClick={() => { syncCartForNextCheckout(cart); window.location.href = '/checkout/contact'; }}
+                style={{ width: '100%', padding: 18, background: C.black, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'background 0.4s' }}
+                onMouseEnter={e => e.target.style.background = C.earth}
+                onMouseLeave={e => e.target.style.background = C.black}
+              >Checkout</button>
+              <button onClick={onClose} style={{ width: '100%', marginTop: 16, background: 'none', border: 'none', color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                Continue shopping
+              </button>
+            </div>
+          )}
+        </motion.div>
+      </>
+    )}
+  </AnimatePresence>
+);
+
+/* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const Footer = () => {
+  const cols = [
+    { head:'Care', links:['Core Oils','WOW Serums','Cleanse','Limited Edition'] },
+    { head:'MAVE',         links:['Approach','Ingredients','Science','Stockists'] },
+    { head:'Service',      links:['Shipping','Returns','Contact','Privacy'] },
+  ];
+  const lnk = { fontFamily:"'Montserrat',sans-serif", fontSize:11, fontWeight:300, letterSpacing:'0.06em', color:'rgba(245,240,232,0.44)', display:'block', marginBottom:11 };
+  return (
+    <footer style={{ background: C.black, padding: '78px 80px 42px', borderTop: '1px solid rgba(200,169,110,0.12)' }}>
+      <div className="mave-grid-footer" style={{ display: 'grid', gridTemplateColumns: '2.2fr 1fr 1fr 1fr', gap: 62, marginBottom: 58 }}>
+        <div>
+          <div style={{ marginBottom: 8 }}><MaveLogo height={32} /></div>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>Molecular Cosmetics</span>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.9, color: 'rgba(245,240,232,0.46)', maxWidth: 300 }}>Molecular system. Controlled depth.</p>
+        </div>
+        {cols.map(col => (
+          <div key={col.head}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>{col.head}</span>
+            {col.links.map(l => <span key={l} style={lnk}>{l}</span>)}
+          </div>
+        ))}
+      </div>
+      <div style={{ height: 1, background: 'rgba(200,169,110,0.12)', marginBottom: 24 }}></div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 28, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.07em', color: 'rgba(245,240,232,0.28)' }}>© 2026 MAVE® Molecular Cosmetics. All rights reserved.</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.07em', color: 'rgba(245,240,232,0.28)' }}>MAVE® Molecular Cosmetics</span>
+      </div>
+    </footer>
+  );
+};
+
+/* в”Ђв”Ђ APP в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+const App = () => {
+  const [productPage, setProductPage] = React.useState(() => productFromUrl());
+  const [view, setView] = React.useState(() => viewFromUrl());
+  const [cartOpen, setCartOpen] = React.useState(false);
+  const [cart, setCart]         = React.useState([]);
+
+  const addToCart = (product, qty) => {
+    setCart(prev => {
+      const exists = prev.find(i => i.id === product.id);
+      if (exists) return prev.map(i => i.id === product.id ? { ...i, qty: i.qty + qty } : i);
+      return [...prev, { ...product, qty }];
+    });
+    setCartOpen(true);
+  };
+  const removeFromCart = id => setCart(prev => prev.filter(i => i.id !== id));
+  const changeCartQty = (id, delta) => setCart(prev => prev
+    .map(i => i.id === id ? { ...i, qty: i.qty + delta } : i)
+    .filter(i => i.qty > 0)
+  );
+
+  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+
+  React.useEffect(() => {
+    if (productPage) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [productPage]);
+  React.useEffect(() => {
+    const onPop = () => {
+      setProductPage(productFromUrl());
+      setView(viewFromUrl());
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  const openProduct = product => {
+    setProductUrl(product);
+    setProductPage(product);
+    setView('catalog');
+  };
+  const closeProduct = () => {
+    setViewUrl('catalog');
+    setProductPage(null);
+    setView('catalog');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const openCatalog = () => {
+    setViewUrl('catalog');
+    setProductPage(null);
+    setView('catalog');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const openScience = () => {
+    setViewUrl('science');
+    setProductPage(null);
+    setView('science');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const openLanding = () => {
+    setViewUrl('landing');
+    setProductPage(null);
+    setView('landing');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const openLandingSection = id => {
+    setViewUrl('landing');
+    setProductPage(null);
+    setView('landing');
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  };
+  const closeCatalog = () => {
+    setViewUrl('landing');
+    setView('landing');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 1.02 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.5 }}
+      style={{ background: C.cream, overflowX: 'hidden' }}
+    >
+      <Header
+        cartCount={cartCount}
+        onCartOpen={() => setCartOpen(true)}
+        onCatalogOpen={openCatalog}
+        onHome={openLanding}
+        onSectionOpen={openLandingSection}
+        onScienceOpen={openScience}
+        surface={productPage || view === 'catalog' ? 'light' : 'dark'}
+      />
+      {productPage ? (
+        <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
+      ) : view === 'science' ? (
+        <SciencePage onBack={openLanding} onSelect={openProduct} />
+      ) : view === 'catalog' ? (
+        <CatalogPage onBack={closeCatalog} onSelect={openProduct} />
+      ) : (
+        <>
+          <Hero onCatalogOpen={openCatalog} />
+          <BrandStatement />
+          <LiquidReveal onCatalogOpen={openCatalog} />
+          <OilDropMoment onCatalogOpen={openCatalog} />
+          <RoutineSection onSelect={openProduct} />
+          <FeaturedProducts onSelect={openProduct} />
+          <Marquee />
+          <EditorialTrio onSelect={openProduct} />
+          <SplitFeature onSelect={openProduct} onCatalogOpen={openCatalog} />
+          <Testimonials />
+          <IngredientsStrip />
+          <FullBleedCTA onCatalogOpen={openCatalog} />
+          <Footer />
+        </>
+      )}
+      <CartSidebar cart={cart} isOpen={cartOpen} onClose={() => setCartOpen(false)} onRemove={removeFromCart} onQtyChange={changeCartQty} />
+    </motion.div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
+
+
