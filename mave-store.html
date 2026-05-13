@@ -185,11 +185,12 @@
   }
   .mave-member-benefits-grid {
     position: relative;
-    max-width: 920px;
+    max-width: 780px;
     margin: 24px auto 28px;
     display: grid;
-    grid-template-columns: repeat(5, minmax(92px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(5, 128px);
+    justify-content: center;
+    gap: 24px;
     align-items: start;
   }
   .mave-member-benefit {
@@ -221,6 +222,16 @@
     border-color: rgba(200,169,110,0.86);
     background: rgba(255,251,244,0.62);
   }
+  .mave-login-page .mave-site-footer {
+    padding: 46px 80px 26px !important;
+  }
+  .mave-login-page .mave-site-footer-grid {
+    margin-bottom: 30px !important;
+  }
+  .mave-login-page .mave-member-benefits {
+    padding-top: 38px;
+    padding-bottom: 34px;
+  }
   @media (max-width: 1180px) {
     .mave-login-shell { grid-template-columns: 1fr; height: auto; min-height: 0; }
     .mave-login-visual { min-height: 640px; }
@@ -238,6 +249,7 @@
     .mave-login-main { padding: 48px 24px 56px; }
     .mave-member-benefits { padding: 40px 24px 42px; }
     .mave-member-benefits-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 24px 18px; }
+    .mave-login-page .mave-site-footer { padding: 48px 24px 28px !important; }
   }
 </style>
 </head>
@@ -2365,8 +2377,8 @@ const Footer = () => {
   ];
   const lnk = { fontFamily:"'Montserrat',sans-serif", fontSize:11, fontWeight:300, letterSpacing:'0.06em', color:'rgba(245,240,232,0.44)', display:'block', marginBottom:11 };
   return (
-    <footer style={{ background: C.black, padding: '78px 80px 42px', borderTop: '1px solid rgba(200,169,110,0.12)' }}>
-      <div className="mave-grid-footer" style={{ display: 'grid', gridTemplateColumns: '2.2fr 1fr 1fr 1fr', gap: 62, marginBottom: 58 }}>
+    <footer className="mave-site-footer" style={{ background: C.black, padding: '78px 80px 42px', borderTop: '1px solid rgba(200,169,110,0.12)' }}>
+      <div className="mave-grid-footer mave-site-footer-grid" style={{ display: 'grid', gridTemplateColumns: '2.2fr 1fr 1fr 1fr', gap: 62, marginBottom: 58 }}>
         <div>
           <div style={{ marginBottom: 8 }}><MaveLogo height={32} /></div>
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>Molecular Cosmetics</span>
