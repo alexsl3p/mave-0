@@ -2283,13 +2283,13 @@ const LoginPage = ({ onBack }) => {
             <form onSubmit={e => e.preventDefault()}>
               <motion.label initial={hiddenSoft} animate={showSoft} transition={softTransition(0.06)} style={{ display: 'block', marginBottom: 18 }}>
                 <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 12 }}>Email</span>
-                <input className="mave-login-input" type="email" placeholder="alex@example.com" autoComplete="email" />
+                <input className="mave-login-input" type="email" autoComplete="email" />
               </motion.label>
 
               <motion.label initial={hiddenSoft} animate={showSoft} transition={softTransition(0.08)} style={{ display: 'block', marginBottom: 18 }}>
                 <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 12 }}>Password</span>
                 <span style={{ position: 'relative', display: 'block' }}>
-                  <input className="mave-login-input" type={showPassword ? 'text' : 'password'} defaultValue="maveaccount" autoComplete="current-password" style={{ paddingRight: 78 }} />
+                  <input className="mave-login-input" type={showPassword ? 'text' : 'password'} autoComplete="current-password" style={{ paddingRight: 78 }} />
                   <motion.button whileHover={textHover} transition={hoverTransition} type="button" onClick={() => setShowPassword(v => !v)} style={{ position: 'absolute', right: 19, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(26,20,16,0.62)', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{showPassword ? 'Hide' : 'Show'}</motion.button>
                 </span>
               </motion.label>
