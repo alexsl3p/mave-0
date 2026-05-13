@@ -2,7 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/collections", "destination": "/index.html" },
-    { "source": "/science", "destination": "/index.html" },
-    { "source": "/assets/:path*", "destination": "/public/assets/:path*" }
+    { "source": "/science", "destination": "/index.html" }
   ]
 }
