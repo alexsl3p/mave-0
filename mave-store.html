@@ -143,10 +143,22 @@
   .mave-login-main {
     position: relative;
     padding: 48px min(8vw, 150px) 52px 78px;
-    border-left: 1px solid rgba(107,87,68,0.08);
-    background: linear-gradient(90deg, rgba(232,221,208,0.28) 0%, #F5F0E8 13%, #F5F0E8 100%);
+    border-left: 0;
+    background: #F5F0E8;
+  }
+  .mave-login-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -180px;
+    width: 240px;
+    background: linear-gradient(90deg, rgba(245,240,232,0) 0%, rgba(245,240,232,0.56) 42%, #F5F0E8 82%, #F5F0E8 100%);
+    pointer-events: none;
   }
   .mave-login-form-panel {
+    position: relative;
+    z-index: 1;
     max-width: 560px;
   }
   .mave-member-benefits {
@@ -211,6 +223,7 @@
     .mave-login-visual { min-height: 640px; }
     .mave-login-visual-copy { left: 50%; width: min(380px, 42vw); }
     .mave-login-main { padding: 58px 42px 64px; border-left: 0; background: #F5F0E8; }
+    .mave-login-main::before { display: none; }
     .mave-login-form-panel { max-width: none; }
     .mave-member-benefits { padding: 46px 42px 44px; }
     .mave-member-benefits-grid { grid-template-columns: repeat(3, minmax(120px, 1fr)); max-width: 620px; }
@@ -2236,7 +2249,7 @@ const LoginPage = ({ onBack }) => {
           transition={{ duration: 0 }}
         >
           <img src="assets/login-shampoo.png" alt="MAVE Expert Molecular Shampoo" />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.08) 42%, rgba(245,240,232,0.38) 82%, rgba(245,240,232,0.78) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.10) 36%, rgba(245,240,232,0.48) 72%, rgba(245,240,232,0.94) 100%)' }} />
           <motion.div
             className="mave-login-visual-copy"
             initial={hiddenSoft}
