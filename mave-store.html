@@ -116,8 +116,7 @@
     color: #1A1410;
   }
   .mave-login-shell {
-    height: calc(100dvh - 188px);
-    min-height: 700px;
+    min-height: 760px;
     display: grid;
     grid-template-columns: minmax(500px, 49.1vw) minmax(430px, 30.3vw) minmax(300px, 1fr);
   }
@@ -131,21 +130,21 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 37% center;
+    object-position: 32% center;
     filter: saturate(0.82) contrast(0.95) brightness(1.04);
   }
   .mave-login-visual-copy {
     position: absolute;
-    left: 47.2%;
-    top: 26.8%;
-    width: min(360px, 42%);
+    left: 46.4%;
+    top: 25.8%;
+    width: min(340px, 40%);
   }
   .mave-login-main {
-    padding: 66px 68px 72px;
+    padding: 58px 68px 64px;
     border-left: 1px solid rgba(107,87,68,0.12);
   }
   .mave-login-benefits {
-    padding: 196px 64px 72px 88px;
+    padding: 176px 64px 72px 88px;
     border-left: 1px solid rgba(107,87,68,0.2);
   }
   .mave-login-input {
@@ -166,25 +165,16 @@
     border-color: rgba(200,169,110,0.86);
     background: rgba(255,251,244,0.62);
   }
-  .mave-login-bottom {
-    min-height: 116px;
-    display: grid;
-    grid-template-columns: 1fr 0.48fr 1fr;
-    align-items: center;
-    border-top: 1px solid rgba(107,87,68,0.12);
-    background: linear-gradient(90deg, rgba(245,240,232,0.96), rgba(232,221,208,0.54));
-  }
   @media (max-width: 1180px) {
     .mave-login-shell { grid-template-columns: 1fr; height: auto; min-height: 0; }
     .mave-login-visual { min-height: 640px; }
     .mave-login-visual-copy { left: 50%; width: min(380px, 42vw); }
     .mave-login-main { padding: 58px 42px 64px; border-left: 0; }
     .mave-login-benefits { padding: 54px 42px 68px; border-left: 0; border-top: 1px solid rgba(107,87,68,0.14); }
-    .mave-login-bottom { grid-template-columns: 1fr; gap: 18px; padding: 30px 28px; text-align: center; }
   }
   @media (max-width: 640px) {
-    .mave-login-visual { min-height: 560px; }
-    .mave-login-visual img { object-position: 15% center; }
+    .mave-login-visual { min-height: 430px; }
+    .mave-login-visual img { object-position: 26% center; }
     .mave-login-visual-copy { display: none; }
     .mave-login-main { padding: 48px 24px 56px; }
     .mave-login-benefits { padding: 42px 24px 58px; }
@@ -2189,13 +2179,13 @@ const LoginPage = ({ onBack }) => {
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.1) 38%, rgba(245,240,232,0.34) 100%)' }} />
           <div className="mave-login-visual-copy">
             <div>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: '0.42em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 28 }}>Account</span>
-              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,5.2vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 26 }}>Welcome<br />back.</h1>
-              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.72, letterSpacing: '0.01em', color: 'rgba(26,20,16,0.68)', maxWidth: 345 }}>Sign in to access your orders, saved products, and personalized skincare recommendations.</p>
-              <div style={{ height: 1, background: 'rgba(200,169,110,0.72)', margin: '34px 0 46px', width: '100%' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '64px 1fr', gap: 26, alignItems: 'center' }}>
-                <div style={{ width: 56, height: 56, border: `1px solid ${C.gold}`, borderRadius: '50%', display: 'grid', placeItems: 'center', color: C.gold, fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontStyle: 'italic' }}>✦</div>
-                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.62, color: 'rgba(26,20,16,0.62)' }}>Thoughtful formulas.<br />Proven results.<br />Made for your skin.</p>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 24 }}>Account</span>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.4vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>Welcome<br />back.</h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.68, letterSpacing: '0.01em', color: 'rgba(26,20,16,0.68)', maxWidth: 330 }}>Sign in to access your orders, saved products, and personalized skincare recommendations.</p>
+              <div style={{ height: 1, background: 'rgba(200,169,110,0.72)', margin: '30px 0 38px', width: '100%' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: 22, alignItems: 'center' }}>
+                <div style={{ width: 50, height: 50, border: `1px solid ${C.gold}`, borderRadius: '50%', display: 'grid', placeItems: 'center', color: C.gold, fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontStyle: 'italic' }}>✦</div>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.62, color: 'rgba(26,20,16,0.62)' }}>Thoughtful formulas.<br />Proven results.<br />Made for your skin.</p>
               </div>
             </div>
           </div>
@@ -2203,30 +2193,30 @@ const LoginPage = ({ onBack }) => {
 
         <div className="mave-login-main">
           <div>
-            <button onClick={onBack} style={{ background: 'none', border: 'none', color: 'rgba(154,122,66,0.92)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 42, padding: 0 }}>← Back to MAVE</button>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(56px,4.8vw,72px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.96, color: C.black, marginBottom: 28 }}>Login.</h2>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, color: 'rgba(26,20,16,0.7)', marginBottom: 52 }}>Access your account to continue.</p>
+            <button onClick={onBack} style={{ background: 'none', border: 'none', color: 'rgba(154,122,66,0.92)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 36, padding: 0 }}>← Back to MAVE</button>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,4.1vw,62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.96, color: C.black, marginBottom: 24 }}>Login.</h2>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.7)', marginBottom: 44 }}>Access your account to continue.</p>
 
             <form onSubmit={e => e.preventDefault()}>
               <label style={{ display: 'block', marginBottom: 24 }}>
-                <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 13 }}>Email</span>
+                <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 12 }}>Email</span>
                 <input className="mave-login-input" type="email" placeholder="alex@example.com" autoComplete="email" />
               </label>
 
               <label style={{ display: 'block', marginBottom: 22 }}>
-                <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 13 }}>Password</span>
+                <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 12 }}>Password</span>
                 <span style={{ position: 'relative', display: 'block' }}>
                   <input className="mave-login-input" type={showPassword ? 'text' : 'password'} defaultValue="maveaccount" autoComplete="current-password" style={{ paddingRight: 78 }} />
                   <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: 'absolute', right: 19, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(26,20,16,0.62)', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{showPassword ? 'Hide' : 'Show'}</button>
                 </span>
               </label>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, marginBottom: 34 }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, marginBottom: 30 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.68)' }}>
                   <input type="checkbox" defaultChecked style={{ accentColor: C.gold, width: 16, height: 16 }} />
                   Remember me
                 </label>
-                <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(154,122,66,0.9)', fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300 }}>Forgot password?</button>
+                <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(154,122,66,0.9)', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>Forgot password?</button>
               </div>
 
               <motion.button type="submit" whileTap={{ scale: 0.985 }} style={{ width: '100%', height: 58, background: C.black, color: C.gold, border: 'none', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.42em', textTransform: 'uppercase', marginBottom: 34, transition: 'background 620ms cubic-bezier(0.32,0.72,0,1)' }}>Log in</motion.button>
@@ -2244,13 +2234,13 @@ const LoginPage = ({ onBack }) => {
 
         <aside className="mave-login-benefits">
           <div>
-            <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, lineHeight: 1.55, marginBottom: 22 }}>Your account<br />benefits</span>
+            <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, lineHeight: 1.55, marginBottom: 22 }}>Your account<br />benefits</span>
             <div style={{ width: 44, height: 1, background: 'rgba(200,169,110,0.78)', marginBottom: 48 }} />
             <div style={{ display: 'grid', gap: 43 }}>
               {benefits.map(([icon, a, b]) => (
                 <div key={a} style={{ display: 'grid', gridTemplateColumns: '38px 1fr', gap: 22, alignItems: 'center' }}>
                   <LoginIcon type={icon} />
-                  <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.45, color: 'rgba(26,20,16,0.62)' }}>{a}<br />{b}</p>
+                  <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.45, color: 'rgba(26,20,16,0.62)' }}>{a}<br />{b}</p>
                 </div>
               ))}
             </div>
@@ -2258,25 +2248,7 @@ const LoginPage = ({ onBack }) => {
         </aside>
       </section>
 
-      <section className="mave-login-bottom">
-        <div />
-        <div style={{ textAlign: 'center' }}>
-          <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 16 }}>Skincare is personal.</h3>
-          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.56)' }}>We're here to support your journey.</span>
-        </div>
-        <div style={{ justifySelf: 'start', borderLeft: '1px solid rgba(107,87,68,0.18)', paddingLeft: 76, display: 'grid', gridTemplateColumns: '44px 1fr', gap: 24, alignItems: 'center' }}>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke={C.gold} strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M7 19v-3.5C7 9.7 11.3 5.5 17 5.5s10 4.2 10 10V19" />
-            <path d="M7 18.5h4v8H7zM23 18.5h4v8h-4z" />
-            <path d="M22 28.5h-4" />
-          </svg>
-          <div>
-            <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 8 }}>Need help?</span>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.55)', marginBottom: 12 }}>Contact our skincare specialists.</p>
-            <button style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, padding: '0 0 5px', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.goldD }}>Contact us</button>
-          </div>
-        </div>
-      </section>
+      <Footer />
     </main>
   );
 };
