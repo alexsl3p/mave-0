@@ -1,7 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/public/mave-store.html" },
+    { "source": "/collections", "destination": "/index.html" },
+    { "source": "/science", "destination": "/index.html" },
     { "source": "/assets/:path*", "destination": "/public/assets/:path*" }
   ]
 }
