@@ -57,15 +57,15 @@
   .mave-catalog-scale {
     position: relative;
     z-index: 2;
-    width: 116.279%;
-    margin-left: 50%;
-    margin-bottom: -260px;
-    transform: translateX(-50%) scale(0.86);
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+    transform: none;
     transform-origin: top center;
   }
   .mave-catalog-hero {
     position: relative;
-    min-height: 430px;
+    min-height: 408px;
     overflow: hidden;
   }
   .mave-catalog-hero::before {
@@ -79,15 +79,15 @@
   .mave-catalog-hero-inner {
     position: relative;
     z-index: 2;
-    min-height: 430px;
+    min-height: 408px;
     display: grid;
     grid-template-columns: 1.24fr 0.76fr;
-    gap: 80px;
+    gap: 72px;
     align-items: end;
-    padding: 64px 80px 34px;
+    padding: 56px 70px 30px;
   }
   .mave-catalog-products {
-    padding: 0 80px 64px;
+    padding: 0 70px 56px;
     background: transparent;
   }
   .mave-catalog-grid { gap: 16px !important; }
@@ -1682,15 +1682,15 @@ const CatalogPage = ({ onBack, onSelect }) => {
           <div className="mave-catalog-hero-inner">
             <div>
               <button onClick={onBack}
-                style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 44 }}>
+                style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 7px', marginBottom: 34 }}>
                 Back to landing
               </button>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Collection</span>
-              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,5.9vw,84px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 24 }}>A focused collection.</h1>
-              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.85, letterSpacing: '0.03em', color: C.bark, maxWidth: 540 }}>Clear roles.<br />No excess.</p>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 15 }}>Collection</span>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,5.35vw,76px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 20 }}>A focused collection.</h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.03em', color: C.bark, maxWidth: 500 }}>Clear roles.<br />No excess.</p>
             </div>
-            <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch', paddingBottom: 8 }}>
-              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
+            <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'stretch', paddingBottom: 6 }}>
+              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
               <input
                 id="catalog-search"
                 value={query}
@@ -1698,14 +1698,14 @@ const CatalogPage = ({ onBack, onSelect }) => {
                 type="search"
                 aria-label="Search by role"
                 placeholder=""
-                style={{ width: '100%', background: 'transparent', border: 'none', borderTop: `1px solid rgba(107,87,68,0.24)`, padding: '18px 0 0', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
+                style={{ width: '100%', background: 'transparent', border: 'none', borderTop: `1px solid rgba(107,87,68,0.24)`, padding: '14px 0 0', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
               />
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 22px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px 19px' }}>
                 {collections.map(c => (
                   <button key={c} onClick={() => setActive(c)}
                     className="mave-catalog-filter"
                     data-active={active === c}
-                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
                     {c}
                   </button>
                 ))}
