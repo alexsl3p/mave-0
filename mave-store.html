@@ -33,10 +33,10 @@
     top: 72px;
     left: 0;
     right: 0;
-    height: 860px;
+    height: 840px;
     background-image: url('assets/collections-hero.png');
     background-size: 100% auto;
-    background-position: center -118px;
+    background-position: center -28px;
     background-repeat: no-repeat;
     z-index: 0;
   }
@@ -46,10 +46,10 @@
     top: 72px;
     left: 0;
     right: 0;
-    height: 860px;
+    height: 840px;
     background:
-      linear-gradient(180deg, rgba(245,240,232,0) 0%, rgba(245,240,232,0) 58%, rgba(245,240,232,0.3) 76%, rgba(245,240,232,0.82) 92%, #F5F0E8 100%),
-      linear-gradient(90deg, rgba(245,240,232,0.34) 0%, rgba(245,240,232,0.14) 42%, rgba(245,240,232,0) 100%);
+      linear-gradient(180deg, rgba(245,240,232,0) 0%, rgba(245,240,232,0) 62%, rgba(245,240,232,0.36) 80%, rgba(245,240,232,0.88) 94%, #F5F0E8 100%),
+      linear-gradient(90deg, rgba(245,240,232,0.5) 0%, rgba(245,240,232,0.22) 42%, rgba(245,240,232,0.08) 68%, rgba(245,240,232,0) 100%);
     z-index: 1;
     pointer-events: none;
   }
@@ -1681,7 +1681,7 @@ const CatalogPage = ({ onBack, onSelect }) => {
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.03em', color: C.bark, maxWidth: 500 }}>Clear roles.<br />No excess.</p>
             </div>
             <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'stretch', paddingBottom: 6 }}>
-              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
+              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black, textShadow: '0 1px 8px rgba(245,240,232,0.58)' }}>Search by role</label>
               <input
                 id="catalog-search"
                 value={query}
@@ -1689,14 +1689,14 @@ const CatalogPage = ({ onBack, onSelect }) => {
                 type="search"
                 aria-label="Search by role"
                 placeholder=""
-                style={{ width: '100%', background: 'transparent', border: 'none', borderTop: `1px solid rgba(107,87,68,0.24)`, padding: '14px 0 0', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
+                style={{ width: '100%', background: 'transparent', border: 'none', borderTop: `1px solid rgba(26,20,16,0.26)`, padding: '12px 0 0', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
               />
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px 19px' }}>
                 {collections.map(c => (
                   <button key={c} onClick={() => setActive(c)}
                     className="mave-catalog-filter"
                     data-active={active === c}
-                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : 'rgba(26,20,16,0.82)', opacity: active === c ? 1 : 0.94, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: active === c ? 700 : 600, letterSpacing: '0.18em', textTransform: 'uppercase', textShadow: '0 1px 8px rgba(245,240,232,0.64)', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
                     {c}
                   </button>
                 ))}
