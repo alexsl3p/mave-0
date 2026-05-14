@@ -34,12 +34,22 @@
   }
   .mave-catalog-hero {
     position: relative;
-    min-height: 450px;
-    background-image: url('assets/collections-hero.png');
-    background-size: 96% auto;
-    background-position: center 55%;
-    background-repeat: no-repeat;
+    min-height: 510px;
     overflow: hidden;
+  }
+  .mave-catalog-hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 111.111vw;
+    background-image: url('assets/collections-hero.png');
+    background-size: 100% auto;
+    background-position: center 54%;
+    background-repeat: no-repeat;
+    transform: translateX(-50%);
+    z-index: 0;
   }
   .mave-catalog-hero::before {
     content: "";
@@ -48,18 +58,18 @@
     background:
       linear-gradient(90deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.2) 42%, rgba(245,240,232,0) 100%),
       linear-gradient(0deg, rgba(245,240,232,0.5) 0%, rgba(245,240,232,0.06) 38%, rgba(245,240,232,0) 100%);
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
   }
   .mave-catalog-hero-inner {
     position: relative;
-    z-index: 1;
-    min-height: 450px;
+    z-index: 2;
+    min-height: 510px;
     display: grid;
     grid-template-columns: 1.24fr 0.76fr;
     gap: 80px;
     align-items: end;
-    padding: 104px 80px 48px;
+    padding: 104px 80px 58px;
   }
   .mave-catalog-products {
     padding: 0 80px 104px;
