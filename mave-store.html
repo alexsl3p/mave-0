@@ -33,10 +33,10 @@
     top: 72px;
     left: 0;
     right: 0;
-    height: 875px;
+    height: 820px;
     background-image: url('assets/collections-hero.png');
     background-size: 100% auto;
-    background-position: center top;
+    background-position: center -70px;
     background-repeat: no-repeat;
     z-index: 0;
   }
@@ -46,7 +46,7 @@
     top: 72px;
     left: 0;
     right: 0;
-    height: 875px;
+    height: 820px;
     background:
       linear-gradient(180deg, rgba(245,240,232,0) 0%, rgba(245,240,232,0) 66%, rgba(245,240,232,0.64) 84%, #F5F0E8 100%),
       linear-gradient(90deg, rgba(245,240,232,0.36) 0%, rgba(245,240,232,0.16) 42%, rgba(245,240,232,0) 100%),
@@ -59,12 +59,13 @@
     z-index: 2;
     width: 116.279%;
     margin-left: 50%;
+    margin-bottom: -260px;
     transform: translateX(-50%) scale(0.86);
     transform-origin: top center;
   }
   .mave-catalog-hero {
     position: relative;
-    min-height: 510px;
+    min-height: 430px;
     overflow: hidden;
   }
   .mave-catalog-hero::before {
@@ -78,15 +79,15 @@
   .mave-catalog-hero-inner {
     position: relative;
     z-index: 2;
-    min-height: 510px;
+    min-height: 430px;
     display: grid;
     grid-template-columns: 1.24fr 0.76fr;
     gap: 80px;
     align-items: end;
-    padding: 104px 80px 58px;
+    padding: 64px 80px 34px;
   }
   .mave-catalog-products {
-    padding: 0 80px 104px;
+    padding: 0 80px 64px;
     background: transparent;
   }
   .mave-catalog-grid { gap: 16px !important; }
@@ -169,6 +170,7 @@
     .mave-catalog-scale {
       width: 100% !important;
       margin-left: 0 !important;
+      margin-bottom: 0 !important;
       transform: none !important;
     }
     .mave-catalog-hero,
