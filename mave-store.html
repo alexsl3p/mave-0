@@ -20,6 +20,51 @@
   ::-webkit-scrollbar-track { background: #F5F0E8; }
   ::-webkit-scrollbar-thumb { background: #C8A96E; }
 
+  .mave-catalog-page {
+    min-height: 100vh;
+    padding-top: 72px;
+    background: #F5F0E8;
+    overflow: hidden;
+  }
+  .mave-catalog-scale {
+    width: 111.111%;
+    margin-left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    transform-origin: top center;
+  }
+  .mave-catalog-hero {
+    position: relative;
+    min-height: 450px;
+    background-image: url('assets/collections-hero.png');
+    background-size: 96% auto;
+    background-position: center 55%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+  }
+  .mave-catalog-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.2) 42%, rgba(245,240,232,0) 100%),
+      linear-gradient(0deg, rgba(245,240,232,0.5) 0%, rgba(245,240,232,0.06) 38%, rgba(245,240,232,0) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .mave-catalog-hero-inner {
+    position: relative;
+    z-index: 1;
+    min-height: 450px;
+    display: grid;
+    grid-template-columns: 1.24fr 0.76fr;
+    gap: 80px;
+    align-items: end;
+    padding: 104px 80px 48px;
+  }
+  .mave-catalog-products {
+    padding: 0 80px 104px;
+    background: #F5F0E8;
+  }
   .mave-catalog-grid { gap: 16px !important; }
   .mave-catalog-filter {
     position: relative;
@@ -97,6 +142,23 @@
     .mave-pdp-tabs { grid-template-columns: 1fr !important; }
     .mave-pdp-notes { padding: 68px 28px !important; }
     .mave-catalog-grid { gap: 10px !important; }
+    .mave-catalog-scale {
+      width: 100% !important;
+      margin-left: 0 !important;
+      transform: none !important;
+    }
+    .mave-catalog-hero,
+    .mave-catalog-hero-inner {
+      min-height: auto !important;
+    }
+    .mave-catalog-hero-inner {
+      grid-template-columns: 1fr !important;
+      gap: 44px !important;
+      padding: 92px 24px 52px !important;
+    }
+    .mave-catalog-products {
+      padding: 0 24px 72px !important;
+    }
     .mave-catalog-controls { align-items: flex-start !important; }
     .mave-pdp-gallery { min-height: 68vh !important; }
     .mave-pdp-thumbs { position: relative !important; left: auto !important; bottom: auto !important; padding: 2px !important; background: #1A1410 !important; }
@@ -537,7 +599,7 @@ const Reveal = ({ children, delay = 0, y = 36, style = {}, ...rest }) => (
 );
 
 /* в”Ђв”Ђ HEADER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
-const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, onAccountOpen, surface = 'dark' }) => {
+const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, onAccountOpen, surface = 'dark', activeView = '' }) => {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -572,10 +634,10 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   };
 
   const navLinks = [
-    ['Collections', () => onCatalogOpen && onCatalogOpen()],
-    ['Science', () => onScienceOpen && onScienceOpen()],
-    ['Ingredients', () => onSectionOpen && onSectionOpen('mave-ingredients')],
-    ['About', () => onSectionOpen && onSectionOpen('mave-approach')],
+    ['Collections', 'catalog', () => onCatalogOpen && onCatalogOpen()],
+    ['Science', 'science', () => onScienceOpen && onScienceOpen()],
+    ['Ingredients', 'ingredients', () => onSectionOpen && onSectionOpen('mave-ingredients')],
+    ['About', 'about', () => onSectionOpen && onSectionOpen('mave-approach')],
   ];
 
   return (
@@ -603,12 +665,22 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Desktop Nav */}
         <div className="mave-nav-links" style={{ display: 'flex', gap: 40 }}>
-          {navLinks.map(([l, action]) => (
-            <button key={l} onClick={action} style={linkSt}
+          {navLinks.map(([l, id, action]) => {
+            const isActive = activeView === id;
+            const idleColor = isActive ? C.gold : navText;
+            return (
+            <button key={l} onClick={action} style={{
+              ...linkSt,
+              color: idleColor,
+              border: isActive ? `1px solid ${C.gold}` : '1px solid transparent',
+              padding: isActive ? '8px 11px' : '8px 0',
+              margin: '0 -11px',
+            }}
               onMouseEnter={e => e.target.style.color = C.gold}
-              onMouseLeave={e => e.target.style.color = navText}
+              onMouseLeave={e => e.target.style.color = idleColor}
             >{l}</button>
-          ))}
+            );
+          })}
         </div>
 
         {/* Actions + Hamburger */}
@@ -1575,54 +1647,83 @@ const CatalogPage = ({ onBack, onSelect }) => {
 
   return (
     <motion.main
-      initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}
-      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-      style={{ background: C.cream, minHeight: '100vh', paddingTop: 92 }}
+      initial={false} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }}
+      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+      className="mave-catalog-page"
     >
-      <section className="mave-section" style={{ padding: '104px 80px 36px', background: C.cream }}>
-        <button onClick={onBack}
-          style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 46 }}>
-          Back to landing
-        </button>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.24fr 0.76fr', gap: 80, alignItems: 'end' }} className="mave-grid-2">
-          <div>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Collection</span>
-            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,6vw,86px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 22 }}>A focused collection.</h1>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.85, letterSpacing: '0.03em', color: C.bark, maxWidth: 540 }}>Clear roles.<br />No excess.</p>
-          </div>
-          <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 26, alignItems: 'stretch' }}>
-            <input
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              type="search"
-              aria-label="Search by role"
-              placeholder="Search by role"
-              style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid rgba(107,87,68,0.28)`, padding: '0 0 14px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
-            />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 22px' }}>
-              {collections.map(c => (
-                <button key={c} onClick={() => setActive(c)}
-                  className="mave-catalog-filter"
-                  data-active={active === c}
-                  style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
-                  {c}
-                </button>
-              ))}
+      <div className="mave-catalog-scale">
+        <section className="mave-catalog-hero">
+          <div className="mave-catalog-hero-inner">
+            <div>
+              <button onClick={onBack}
+                style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 44 }}>
+                Back to landing
+              </button>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Collection</span>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,5.9vw,84px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 24 }}>A focused collection.</h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.85, letterSpacing: '0.03em', color: C.bark, maxWidth: 540 }}>Clear roles.<br />No excess.</p>
+            </div>
+            <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch', paddingBottom: 8 }}>
+              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
+              <input
+                id="catalog-search"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                type="search"
+                aria-label="Search by role"
+                placeholder=""
+                style={{ width: '100%', background: 'transparent', border: 'none', borderTop: `1px solid rgba(107,87,68,0.24)`, padding: '18px 0 0', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, outline: 'none' }}
+              />
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 22px' }}>
+                {collections.map(c => (
+                  <button key={c} onClick={() => setActive(c)}
+                    className="mave-catalog-filter"
+                    data-active={active === c}
+                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : C.bark, opacity: active === c ? 1 : 0.62, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                    {c}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section className="mave-section" style={{ padding: '12px 80px 112px', background: C.cream }}>
-        <div className="mave-grid-4 mave-catalog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
-          {filtered.map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
-        </div>
-        {filtered.length === 0 && (
-          <div style={{ padding: '80px 0', textAlign: 'center' }}>
-            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', color: C.bark }}>No match in this view.</p>
+        </section>
+        <section className="mave-catalog-products">
+          <div className="mave-grid-4 mave-catalog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+            {filtered.map((p, i) => (
+              <motion.button
+                key={p.id}
+                type="button"
+                onClick={() => onSelect(p)}
+                initial={false}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.995 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                style={{ position: 'relative', display: 'block', width: '100%', aspectRatio: '0.92 / 1', padding: 0, border: 'none', background: C.sand, overflow: 'hidden', cursor: 'pointer' }}
+              >
+                <motion.img
+                  src={p.image}
+                  alt={p.name}
+                  loading={i < 4 ? 'eager' : 'lazy'}
+                  whileHover={{ scale: 1.035 }}
+                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.9)' }}
+                />
+                {p.badge && (
+                  <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.76)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
+                    {p.badge}
+                  </span>
+                )}
+              </motion.button>
+            ))}
           </div>
-        )}
-      </section>
-      <Footer />
+          {filtered.length === 0 && (
+            <div style={{ padding: '80px 0', textAlign: 'center' }}>
+              <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', color: C.bark }}>No match in this view.</p>
+            </div>
+          )}
+        </section>
+        <Footer />
+      </div>
     </motion.main>
   );
 };
@@ -2510,6 +2611,7 @@ const App = () => {
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
         surface={productPage || view === 'catalog' || view === 'account' ? 'light' : 'dark'}
+        activeView={productPage ? '' : view}
       />
       {productPage ? (
         <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
