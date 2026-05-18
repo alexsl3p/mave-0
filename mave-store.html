@@ -342,6 +342,274 @@
     .mave-member-benefits-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 24px 18px; }
     .mave-login-page .mave-site-footer { padding: 40px 24px 26px !important; }
   }
+
+  .mave-account-page {
+    min-height: 100dvh;
+    padding-top: 72px;
+    background: #F5F0E8;
+    color: #1A1410;
+    overflow-x: hidden;
+  }
+  .mave-account-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: 170px 295px minmax(0, 1fr);
+    min-height: calc(100dvh - 72px);
+  }
+  .mave-account-bg-strip {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-account-bg-strip img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 24% center;
+    filter: saturate(0.7) contrast(0.88) brightness(1.08);
+  }
+  .mave-account-bg-strip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(245,240,232,0.24), rgba(245,240,232,0.72));
+    backdrop-filter: blur(2px);
+  }
+  .mave-account-sidebar {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(107,87,68,0.14);
+    padding: 56px 22px 48px;
+    background: rgba(245,240,232,0.72);
+  }
+  .mave-account-profile {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin: 0 12px 46px;
+  }
+  .mave-account-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #D8C9B6;
+  }
+  .mave-account-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.78) contrast(0.9);
+  }
+  .mave-account-main {
+    position: relative;
+    padding: 58px clamp(56px, 5vw, 80px) 64px;
+    background:
+      radial-gradient(circle at 72% 0%, rgba(221,208,188,0.22), transparent 36%),
+      #F5F0E8;
+  }
+  .mave-account-top {
+    display: grid;
+    grid-template-columns: minmax(340px, .88fr) minmax(470px, 1.12fr);
+    gap: 54px;
+    align-items: start;
+    margin-bottom: 30px;
+  }
+  .mave-account-quiz {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    min-height: 252px;
+    border: 1px solid rgba(107,87,68,0.13);
+    background: rgba(245,240,232,0.44);
+  }
+  .mave-account-quiz img {
+    width: 100%;
+    height: 100%;
+    min-height: 252px;
+    object-fit: cover;
+    object-position: 58% center;
+    filter: saturate(0.82) contrast(0.94) brightness(1.04);
+  }
+  .mave-account-quiz-copy {
+    padding: 34px 42px 32px;
+    background: rgba(245,240,232,0.58);
+  }
+  .mave-account-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+  .mave-account-summary-card,
+  .mave-account-panel {
+    border: 1px solid rgba(107,87,68,0.18);
+    background: rgba(245,240,232,0.62);
+  }
+  .mave-account-summary-card {
+    min-height: 150px;
+    padding: 30px 24px 24px;
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .mave-account-icon-disc {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(232,221,208,0.72);
+    color: #B88D4D;
+  }
+  .mave-account-panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: 18px;
+  }
+  .mave-account-panel {
+    padding: 26px;
+  }
+  .mave-account-order-row {
+    display: grid;
+    grid-template-columns: 58px 1fr auto auto;
+    gap: 22px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-account-order-row:last-of-type { border-bottom: 0; }
+  .mave-account-order-thumb {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+    background: #E8DDD0;
+  }
+  .mave-account-rewards-box {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(245,240,232,0.66);
+    padding: 24px;
+    margin-top: 18px;
+  }
+  .mave-account-progress {
+    height: 8px;
+    background: rgba(107,87,68,0.10);
+    margin: 22px 0 18px;
+    overflow: hidden;
+  }
+  .mave-account-progress span {
+    display: block;
+    height: 100%;
+    width: 34%;
+    background: linear-gradient(90deg, #B88D4D, #C8A96E);
+  }
+  .mave-account-mini-benefits {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(107,87,68,0.12);
+    margin: 24px -24px -24px;
+  }
+  .mave-account-mini-benefits div {
+    min-height: 70px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 16px 18px;
+    border-right: 1px solid rgba(107,87,68,0.10);
+  }
+  .mave-account-mini-benefits div:last-child { border-right: 0; }
+  .mave-account-nav {
+    display: grid;
+    gap: 10px;
+  }
+  .mave-account-nav button,
+  .mave-account-logout {
+    width: 100%;
+    height: 58px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 18px;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: rgba(26,20,16,0.62);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0 16px;
+    transition: color 360ms cubic-bezier(0.32,0.72,0,1), background 360ms cubic-bezier(0.32,0.72,0,1), transform 360ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-account-nav button:hover,
+  .mave-account-nav button.is-active,
+  .mave-account-logout:hover {
+    color: #9A7A42;
+    background: rgba(232,221,208,0.46);
+    transform: translateX(2px);
+  }
+  .mave-account-logout {
+    margin-top: auto;
+    border-top: 1px solid rgba(107,87,68,0.12);
+    padding-top: 26px;
+  }
+  .mave-account-status {
+    display: inline-grid;
+    place-items: center;
+    min-width: 80px;
+    height: 28px;
+    padding: 0 12px;
+    background: rgba(202,213,182,0.45);
+    color: #66704D;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .mave-account-status.is-progress {
+    background: rgba(232,221,208,0.82);
+    color: #9A7A42;
+  }
+  .mave-account-page .mave-site-footer {
+    display: none;
+  }
+  .mave-account-floating-bot {
+    position: absolute;
+    right: 34px;
+    bottom: 28px;
+    width: 74px;
+    height: auto;
+    pointer-events: none;
+  }
+  @media (max-width: 1180px) {
+    .mave-account-layout { grid-template-columns: 1fr; }
+    .mave-account-bg-strip { display: none; }
+    .mave-account-sidebar { padding: 36px 42px; border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.14); }
+    .mave-account-nav { grid-template-columns: repeat(4, minmax(150px, 1fr)); overflow-x: auto; }
+    .mave-account-logout { margin-top: 24px; }
+    .mave-account-main { padding: 42px; }
+    .mave-account-top,
+    .mave-account-quiz,
+    .mave-account-panels { grid-template-columns: 1fr; }
+    .mave-account-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .mave-account-sidebar,
+    .mave-account-main { padding: 30px 24px; }
+    .mave-account-nav,
+    .mave-account-summary-grid,
+    .mave-account-panels,
+    .mave-account-mini-benefits { grid-template-columns: 1fr; }
+    .mave-account-quiz-copy { padding: 28px 24px; }
+    .mave-account-order-row { grid-template-columns: 52px 1fr; }
+    .mave-account-order-row > *:nth-child(n+3) { justify-self: start; }
+  }
 </style>
 </head>
 <body>
@@ -669,6 +937,25 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
     ['Ingredients', 'ingredients', () => onSectionOpen && onSectionOpen('mave-ingredients')],
     ['About', 'about', () => onSectionOpen && onSectionOpen('mave-approach')],
   ];
+  const iconButtonStyle = {
+    width: 28, height: 28, display: 'grid', placeItems: 'center',
+    background: 'none', border: 'none', color: actionText, cursor: 'pointer', padding: 0,
+  };
+  const HeaderMiniIcon = ({ type }) => (
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {type === 'search' ? (
+        <>
+          <circle cx="10.5" cy="10.5" r="5.8" />
+          <path d="m15 15 5 5" />
+        </>
+      ) : (
+        <>
+          <circle cx="12" cy="7.7" r="3.2" />
+          <path d="M6.5 20c.8-4.1 2.8-6.1 5.5-6.1s4.7 2 5.5 6.1" />
+        </>
+      )}
+    </svg>
+  );
 
   return (
     <>
@@ -715,14 +1002,29 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          <button className="mave-nav-links" onClick={onCatalogOpen} style={{ ...linkSt, color: actionText }}
-            onMouseEnter={e => e.target.style.color = C.gold}
-            onMouseLeave={e => e.target.style.color = actionText}
-          >Search</button>
-          <button className="mave-nav-links" onClick={onAccountOpen} style={{ ...linkSt, color: actionText }}
-            onMouseEnter={e => e.target.style.color = C.gold}
-            onMouseLeave={e => e.target.style.color = actionText}
-          >Account</button>
+          {activeView === 'account' ? (
+            <>
+              <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
+                onMouseEnter={e => e.currentTarget.style.color = C.gold}
+                onMouseLeave={e => e.currentTarget.style.color = actionText}
+              ><HeaderMiniIcon type="search" /></button>
+              <button className="mave-nav-links" aria-label="Account" onClick={onAccountOpen} style={iconButtonStyle}
+                onMouseEnter={e => e.currentTarget.style.color = C.gold}
+                onMouseLeave={e => e.currentTarget.style.color = actionText}
+              ><HeaderMiniIcon type="account" /></button>
+            </>
+          ) : (
+            <>
+              <button className="mave-nav-links" onClick={onCatalogOpen} style={{ ...linkSt, color: actionText }}
+                onMouseEnter={e => e.target.style.color = C.gold}
+                onMouseLeave={e => e.target.style.color = actionText}
+              >Search</button>
+              <button className="mave-nav-links" onClick={onAccountOpen} style={{ ...linkSt, color: actionText }}
+                onMouseEnter={e => e.target.style.color = C.gold}
+                onMouseLeave={e => e.target.style.color = actionText}
+              >Account</button>
+            </>
+          )}
           <motion.button
             className="mave-cart-action"
             onClick={onCartOpen}
@@ -2660,6 +2962,231 @@ const ForgotPasswordPage = ({ onBack, onLogin, onRegister }) => {
   );
 };
 
+const AccountLineIcon = ({ type, size = 28 }) => {
+  const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.3, strokeLinecap: 'round', strokeLinejoin: 'round' };
+  const paths = {
+    home: (
+      <>
+        <path d="M5 13.5 16 5l11 8.5" />
+        <path d="M8.5 12v14h15V12" />
+        <path d="M13.5 26v-7h5v7" />
+      </>
+    ),
+    orders: (
+      <>
+        <path d="M8 9h16v17H8z" />
+        <path d="M11 9c0-3 2-5 5-5s5 2 5 5" />
+        <path d="M12 15h8" />
+      </>
+    ),
+    heart: <path d="M16 26s-10-6.1-10-14a5.4 5.4 0 0 1 9.6-3.4A5.4 5.4 0 0 1 26 12c0 7.9-10 14-10 14z" />,
+    profile: (
+      <>
+        <path d="M16 16a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" />
+        <path d="M7 27c1.4-5 4.6-7.5 9-7.5s7.6 2.5 9 7.5" />
+      </>
+    ),
+    pin: (
+      <>
+        <path d="M16 27s8-7.2 8-14a8 8 0 0 0-16 0c0 6.8 8 14 8 14z" />
+        <path d="M16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+      </>
+    ),
+    box: (
+      <>
+        <path d="M7 11.5 16 6l9 5.5v10.8L16 28l-9-5.7z" />
+        <path d="M7 11.5 16 17l9-5.5" />
+        <path d="M16 17v11" />
+      </>
+    ),
+    truck: (
+      <>
+        <path d="M5 10h13v10H5z" />
+        <path d="M18 14h5l4 4v2h-9z" />
+        <path d="M9 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+        <path d="M23 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+      </>
+    ),
+    lock: (
+      <>
+        <path d="M9 14h14v12H9z" />
+        <path d="M12 14v-3.5a4 4 0 0 1 8 0V14" />
+      </>
+    ),
+    check: (
+      <>
+        <path d="M16 27a11 11 0 1 0 0-22 11 11 0 0 0 0 22z" />
+        <path d="m11 16 3.2 3.2L21 12.5" />
+      </>
+    ),
+    sparkle: (
+      <>
+        <path d="M16 4c1.6 6 4 8.4 10 10-6 1.6-8.4 4-10 10-1.6-6-4-8.4-10-10 6-1.6 8.4-4 10-10z" />
+        <path d="M25 5c.7 2.6 1.7 3.6 4.3 4.3-2.6.7-3.6 1.7-4.3 4.3-.7-2.6-1.7-3.6-4.3-4.3C23.3 8.6 24.3 7.6 25 5z" />
+      </>
+    ),
+    tag: (
+      <>
+        <path d="M6 7h12l8 8-11 11-8-8z" />
+        <path d="M12 12h.1" />
+      </>
+    ),
+    envelope: (
+      <>
+        <path d="M5 9h22v15H5z" />
+        <path d="m5 10 11 8 11-8" />
+      </>
+    ),
+  };
+  return (
+    <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true" style={{ color: 'currentColor', display: 'block' }} {...common}>
+      {paths[type] || paths.sparkle}
+    </svg>
+  );
+};
+
+const AccountDashboardPage = ({ onBack }) => {
+  const reduceMotion = useReducedMotion ? useReducedMotion() : false;
+  const hoverTransition = reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 30, mass: 0.8 };
+  const reveal = { opacity: 1, y: 0 };
+  const showReveal = { opacity: 1, y: 0 };
+  const revealTransition = () => ({ duration: 0 });
+  const nav = [
+    ['home', 'Dashboard'],
+    ['orders', 'Orders'],
+    ['pin', 'Addresses'],
+    ['lock', 'Payment methods'],
+    ['heart', 'Wishlist'],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support'],
+  ];
+  const summary = [
+    ['box', 'Total orders', '12', 'View all orders'],
+    ['truck', 'Next order', 'In progress', 'Track your order'],
+    ['sparkle', 'Bonus points', '320', 'View rewards'],
+    ['heart', 'Wishlist items', '8', 'Go to wishlist'],
+  ];
+  const orders = [
+    ['assets/primary.jpg', 'Order #1045', 'May 15, 2024', 'Delivered', '€89,00'],
+    ['assets/login-shampoo.png', 'Order #1021', 'Apr 28, 2024', 'In progress', '€129,00'],
+    ['assets/organic-oil.jpg', 'Order #0987', 'Apr 10, 2024', 'Delivered', '€64,00'],
+  ];
+  const miniBenefits = [
+    ['tag', 'Exclusive offers'],
+    ['sparkle', 'Early access to new products'],
+    ['box', 'Member gift'],
+    ['truck', 'Free shipping over €60'],
+  ];
+
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Account dashboard">
+        <div className="mave-account-bg-strip"><img src="assets/collections-hero.png" alt="" /></div>
+
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="assets/account-avatar.png" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 500, color: C.black, marginBottom: 6 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 8 }}>alessandra@mail.com</p>
+              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label], index) => (
+              <button key={label} type="button" className={index === 0 ? 'is-active' : ''}>
+                <span style={{ color: index === 0 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout">
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+
+        <div className="mave-account-main">
+          <div className="mave-account-top">
+            <motion.div initial={reveal} animate={showReveal} transition={revealTransition(0)}>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,4.8vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, color: C.black, marginBottom: 28 }}>Welcome back,<br />Alessandra <span style={{ color: C.gold, fontSize: '0.8em' }}>♡</span></h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.85, color: 'rgba(26,20,16,0.72)', maxWidth: 330 }}>Here's what's happening with your account and your skin journey.</p>
+            </motion.div>
+            <motion.div className="mave-account-quiz" initial={reveal} animate={showReveal} transition={revealTransition(0.06)}>
+              <img src="assets/collections-hero.png" alt="MAVE skin quiz still life" />
+              <div className="mave-account-quiz-copy">
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 18 }}>Skin quiz</span>
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 29, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.15, color: C.black, marginBottom: 22 }}>Not sure what your skin needs right now?</h2>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.8, color: 'rgba(26,20,16,0.68)', marginBottom: 28 }}>Take our quiz and get personalized product recommendations.</p>
+                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Take the quiz →</button>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="mave-account-summary-grid">
+            {summary.map(([icon, label, value, action], index) => (
+              <motion.div key={label} className="mave-account-summary-card" initial={reveal} animate={showReveal} transition={revealTransition(0.09 + index * 0.04)}>
+                <div className="mave-account-icon-disc"><AccountLineIcon type={icon} size={26} /></div>
+                <div>
+                  <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', marginBottom: 10 }}>{label}</span>
+                  <strong style={{ display: 'block', fontFamily: "'Cormorant Garamond',serif", fontSize: value === 'In progress' ? 26 : 28, fontWeight: 400, color: C.black, marginBottom: 22 }}>{value}</strong>
+                  <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: 'rgba(61,43,31,0.78)', cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300 }}>{action} →</button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mave-account-panels">
+            <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0)}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 18 }}>Recent orders</span>
+              {orders.map(([img, name, date, status, total]) => (
+                <div className="mave-account-order-row" key={name}>
+                  <img className="mave-account-order-thumb" src={img} alt="" />
+                  <div>
+                    <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, color: C.black, marginBottom: 8 }}>{name}</h3>
+                    <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.62)' }}>{date}</p>
+                  </div>
+                  <span className={`mave-account-status ${status === 'In progress' ? 'is-progress' : ''}`}>{status}</span>
+                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, color: C.black }}>{total} ›</strong>
+                </div>
+              ))}
+              <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>View all orders →</button>
+            </motion.section>
+
+            <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0.05)}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 18 }}>Your benefits</span>
+              <div className="mave-account-rewards-box">
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, marginBottom: 4 }}>
+                  <div>
+                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 6 }}>Your tier</span>
+                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 400, color: C.black }}>GOLD ☆</strong>
+                  </div>
+                  <div style={{ borderLeft: '1px solid rgba(107,87,68,0.14)', paddingLeft: 26 }}>
+                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 6 }}>Until next tier</span>
+                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 400, color: C.black }}>180 points</strong>
+                  </div>
+                </div>
+                <div className="mave-account-progress"><span /></div>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.64)' }}>You're 180 points away from Platinum tier</p>
+                <div className="mave-account-mini-benefits">
+                  {miniBenefits.map(([icon, label]) => (
+                    <div key={label}>
+                      <span style={{ color: 'rgba(26,20,16,0.54)' }}><AccountLineIcon type={icon} size={22} /></span>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.35, color: 'rgba(26,20,16,0.62)' }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button type="button" style={{ marginTop: 24, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Learn more about our rewards →</button>
+            </motion.section>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
 /* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const Footer = () => {
   const cols = [
@@ -2807,7 +3334,7 @@ const App = () => {
       {productPage ? (
         <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
       ) : view === 'account' ? (
-        <LoginPage onBack={openLanding} onRegister={openRegister} onForgot={openForgot} />
+        <AccountDashboardPage onBack={openLanding} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
