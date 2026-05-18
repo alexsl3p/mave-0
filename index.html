@@ -577,7 +577,14 @@
     color: #9A7A42;
   }
   .mave-account-page .mave-site-footer {
-    display: none;
+    padding: 52px 80px 28px !important;
+  }
+  .mave-account-page .mave-site-footer-grid {
+    gap: 42px !important;
+    margin-bottom: 28px !important;
+  }
+  .mave-account-page .mave-site-footer-divider {
+    margin-bottom: 18px !important;
   }
   .mave-account-floating-bot {
     position: absolute;
@@ -3183,6 +3190,7 @@ const AccountDashboardPage = ({ onBack }) => {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 };
