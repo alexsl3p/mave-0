@@ -576,6 +576,10 @@
     background: rgba(232,221,208,0.82);
     color: #9A7A42;
   }
+  .mave-account-status.is-cancelled {
+    background: rgba(232,221,208,0.66);
+    color: rgba(61,43,31,0.64);
+  }
   .mave-account-page .mave-site-footer {
     padding: 52px 80px 28px !important;
   }
@@ -585,6 +589,143 @@
   }
   .mave-account-page .mave-site-footer-divider {
     margin-bottom: 18px !important;
+  }
+  .mave-orders-top {
+    display: grid;
+    grid-template-columns: minmax(320px, .72fr) minmax(500px, 1fr);
+    gap: clamp(42px, 5vw, 78px);
+    align-items: start;
+    margin-bottom: 32px;
+  }
+  .mave-orders-help {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    height: 202px;
+    min-height: 202px;
+    border: 1px solid rgba(107,87,68,0.13);
+    background: rgba(245,240,232,0.54);
+    overflow: hidden;
+  }
+  .mave-orders-help img {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.78) contrast(0.94) brightness(1.04);
+  }
+  .mave-orders-help-copy {
+    padding: 36px 46px 30px;
+    background: rgba(245,240,232,0.62);
+  }
+  .mave-orders-controls {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 360px);
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+  .mave-orders-tabs {
+    display: flex;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+  }
+  .mave-orders-tab {
+    height: 42px;
+    padding: 0 20px;
+    border: 0;
+    background: transparent;
+    color: rgba(26,20,16,0.68);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  .mave-orders-tab.is-active {
+    border-radius: 999px;
+    background: rgba(232,221,208,0.82);
+    color: #9A7A42;
+  }
+  .mave-orders-search {
+    height: 42px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.48);
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 0 18px;
+    color: rgba(26,20,16,0.5);
+  }
+  .mave-orders-search input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1A1410;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+  }
+  .mave-orders-table {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(245,240,232,0.46);
+  }
+  .mave-orders-head,
+  .mave-orders-row {
+    display: grid;
+    grid-template-columns: .72fr .72fr 1.28fr .72fr .7fr 1fr;
+    align-items: center;
+    gap: 22px;
+  }
+  .mave-orders-head {
+    min-height: 44px;
+    padding: 0 22px;
+    border-bottom: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-orders-row {
+    min-height: 82px;
+    padding: 10px 22px;
+    border-bottom: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-orders-row:last-child { border-bottom: 0; }
+  .mave-orders-items {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .mave-orders-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    background: #E8DDD0;
+  }
+  .mave-orders-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .mave-orders-pagination {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .mave-orders-page-btn {
+    min-width: 24px;
+    height: 24px;
+    border: 0;
+    background: transparent;
+    color: rgba(26,20,16,0.58);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+  }
+  .mave-orders-page-btn.is-active {
+    border-radius: 50%;
+    background: rgba(232,221,208,0.92);
+    color: #9A7A42;
   }
   .mave-account-floating-bot {
     position: absolute;
@@ -602,8 +743,13 @@
     .mave-account-logout { margin-top: 24px; }
     .mave-account-main { padding: 42px; }
     .mave-account-top,
+    .mave-orders-top,
     .mave-account-quiz,
+    .mave-orders-help,
     .mave-account-panels { grid-template-columns: 1fr; }
+    .mave-orders-controls { grid-template-columns: 1fr; }
+    .mave-orders-head { display: none; }
+    .mave-orders-row { grid-template-columns: 1fr 1fr; gap: 12px 22px; }
     .mave-account-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
@@ -616,6 +762,9 @@
     .mave-account-quiz-copy { padding: 28px 24px; }
     .mave-account-order-row { grid-template-columns: 52px 1fr; }
     .mave-account-order-row > *:nth-child(n+3) { justify-self: start; }
+    .mave-orders-tabs { gap: 10px; overflow-x: auto; }
+    .mave-orders-row { grid-template-columns: 1fr; }
+    .mave-orders-footer { align-items: flex-start; flex-direction: column; }
   }
 </style>
 </head>
@@ -810,6 +959,7 @@ const productFromUrl = () => {
 
 const viewFromUrl = () => {
   if (window.location.pathname === '/account') return 'account';
+  if (window.location.pathname === '/orders') return 'orders';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -839,6 +989,11 @@ const setViewUrl = view => {
   }
   if (view === 'account') {
     url.pathname = '/account';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'orders') {
+    url.pathname = '/orders';
     window.history.pushState({}, '', url);
     return;
   }
@@ -1009,7 +1164,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          {activeView === 'account' ? (
+          {(activeView === 'account' || activeView === 'orders') ? (
             <>
               <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
                 onMouseEnter={e => e.currentTarget.style.color = C.gold}
@@ -3044,6 +3199,12 @@ const AccountLineIcon = ({ type, size = 28 }) => {
         <path d="m5 10 11 8 11-8" />
       </>
     ),
+    search: (
+      <>
+        <circle cx="13.5" cy="13.5" r="6.5" />
+        <path d="m18.4 18.4 5.1 5.1" />
+      </>
+    ),
   };
   return (
     <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true" style={{ color: 'currentColor', display: 'block' }} {...common}>
@@ -3052,7 +3213,7 @@ const AccountLineIcon = ({ type, size = 28 }) => {
   );
 };
 
-const AccountDashboardPage = ({ onBack }) => {
+const AccountDashboardPage = ({ onBack, onOrders }) => {
   const reduceMotion = useReducedMotion ? useReducedMotion() : false;
   const hoverTransition = reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 30, mass: 0.8 };
   const reveal = { opacity: 1, y: 0 };
@@ -3060,7 +3221,7 @@ const AccountDashboardPage = ({ onBack }) => {
   const revealTransition = () => ({ duration: 0 });
   const nav = [
     ['home', 'Dashboard'],
-    ['orders', 'Orders'],
+    ['orders', 'Orders', onOrders],
     ['pin', 'Addresses'],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist'],
@@ -3101,8 +3262,8 @@ const AccountDashboardPage = ({ onBack }) => {
             </div>
           </div>
           <nav className="mave-account-nav" aria-label="Account navigation">
-            {nav.map(([icon, label], index) => (
-              <button key={label} type="button" className={index === 0 ? 'is-active' : ''}>
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 0 ? 'is-active' : ''}>
                 <span style={{ color: index === 0 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
                 {label}
               </button>
@@ -3187,6 +3348,127 @@ const AccountDashboardPage = ({ onBack }) => {
               </div>
               <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Learn more about our rewards →</button>
             </motion.section>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
+const OrdersPage = ({ onDashboard }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders'],
+    ['pin', 'Addresses'],
+    ['lock', 'Payment methods'],
+    ['heart', 'Wishlist'],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support'],
+  ];
+  const rows = [
+    ['#1045', 'May 16, 2024', ['assets/orders-product-set.png', 'assets/primary.jpg'], '+1', 'Delivered', '€89,00', ['View order', 'Reorder']],
+    ['#1021', 'Apr 28, 2024', ['assets/primary.jpg', 'assets/orders-product-set.png'], '', 'In progress', '€129,00', ['Track', 'View order']],
+    ['#0987', 'Apr 10, 2024', ['assets/login-shampoo.png'], '', 'Delivered', '€64,00', ['View order', 'Reorder']],
+    ['#0955', 'Mar 22, 2024', ['assets/orders-product-set.png', 'assets/primary6.jpg', 'assets/orders-package-box.png'], '', 'Delivered', '€153,00', ['View order', 'Reorder']],
+    ['#0912', 'Mar 05, 2024', ['assets/orders-package-wide.png', 'assets/primary.jpg'], '', 'Cancelled', '€98,00', ['View order']],
+  ];
+  const statusClass = status => status === 'In progress' ? 'is-progress' : status === 'Cancelled' ? 'is-cancelled' : '';
+
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Orders">
+        <div className="mave-account-bg-strip"><img src="assets/orders-vase-still-life.png" alt="" /></div>
+
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="assets/orders-help-still-life.png" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
+              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 1 ? 'is-active' : ''}>
+                <span style={{ color: index === 1 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout">
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+
+        <div className="mave-account-main">
+          <div className="mave-orders-top">
+            <div>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(52px,4.6vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 24 }}>Orders<span style={{ color: C.gold }}>.</span></h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)', maxWidth: 330 }}>Review your recent orders and track their delivery status.</p>
+            </div>
+            <div className="mave-orders-help">
+              <img src="assets/orders-vase-still-life.png" alt="MAVE order support still life" />
+              <div className="mave-orders-help-copy">
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.2, color: C.black, marginBottom: 20 }}>Need help with your order?</h2>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.7, color: 'rgba(26,20,16,0.62)', marginBottom: 24 }}>Our support team is here for you.</p>
+                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mave-orders-controls">
+            <div className="mave-orders-tabs">
+              {['All orders', 'In progress', 'Delivered', 'Cancelled'].map((tab, index) => (
+                <button key={tab} type="button" className={`mave-orders-tab ${index === 0 ? 'is-active' : ''}`}>{tab}</button>
+              ))}
+            </div>
+            <label className="mave-orders-search">
+              <AccountLineIcon type="search" size={17} />
+              <input type="search" placeholder="Search by order number or product" />
+            </label>
+          </div>
+
+          <section className="mave-orders-table" aria-label="Recent orders">
+            <div className="mave-orders-head">
+              {['Order', 'Date', 'Items', 'Status', 'Total', 'Actions'].map(label => (
+                <span key={label} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' }}>{label}</span>
+              ))}
+            </div>
+            {rows.map(([order, date, items, more, status, total, actions]) => (
+              <div className="mave-orders-row" key={order}>
+                <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 27, fontWeight: 400, color: C.black }}>{order}</strong>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.72)' }}>{date}</span>
+                <div className="mave-orders-items">
+                  {items.map((src, index) => <img key={`${order}-${src}-${index}`} className="mave-orders-thumb" src={src} alt="" />)}
+                  {more && <span style={{ marginLeft: 10, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.72)' }}>{more}</span>}
+                </div>
+                <span className={`mave-account-status ${statusClass(status)}`}>{status}</span>
+                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, color: C.black }}>{total}</strong>
+                <div style={{ display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'wrap' }}>
+                  {actions.map((action, index) => (
+                    <React.Fragment key={action}>
+                      {index > 0 && <span style={{ color: 'rgba(107,87,68,0.38)' }}>|</span>}
+                      <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>{action}</button>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </section>
+
+          <div className="mave-orders-footer">
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.56)' }}>Showing 1 to 5 of 12 orders</span>
+            <div className="mave-orders-pagination">
+              <button type="button" className="mave-orders-page-btn">‹</button>
+              <button type="button" className="mave-orders-page-btn is-active">1</button>
+              <button type="button" className="mave-orders-page-btn">2</button>
+              <button type="button" className="mave-orders-page-btn">3</button>
+              <button type="button" className="mave-orders-page-btn">›</button>
+            </div>
           </div>
         </div>
       </section>
@@ -3290,6 +3572,12 @@ const App = () => {
     setView('account');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openOrders = () => {
+    setViewUrl('orders');
+    setProductPage(null);
+    setView('orders');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openRegister = () => {
     setViewUrl('register');
     setProductPage(null);
@@ -3336,13 +3624,15 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'orders' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
         <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
       ) : view === 'account' ? (
-        <AccountDashboardPage onBack={openLanding} />
+        <AccountDashboardPage onBack={openLanding} onOrders={openOrders} />
+      ) : view === 'orders' ? (
+        <OrdersPage onDashboard={openAccount} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
