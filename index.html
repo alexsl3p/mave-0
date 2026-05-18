@@ -353,7 +353,7 @@
   .mave-account-layout {
     position: relative;
     display: grid;
-    grid-template-columns: 170px 295px minmax(0, 1fr);
+    grid-template-columns: 150px 266px minmax(0, 1fr);
     min-height: calc(100dvh - 72px);
   }
   .mave-account-bg-strip {
@@ -379,19 +379,19 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid rgba(107,87,68,0.14);
-    padding: 56px 22px 48px;
+    padding: 46px 18px 38px;
     background: rgba(245,240,232,0.72);
   }
   .mave-account-profile {
     display: grid;
-    grid-template-columns: 58px 1fr;
-    gap: 18px;
+    grid-template-columns: 50px 1fr;
+    gap: 15px;
     align-items: center;
-    margin: 0 12px 46px;
+    margin: 0 10px 38px;
   }
   .mave-account-avatar {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
     background: #D8C9B6;
@@ -405,42 +405,42 @@
   }
   .mave-account-main {
     position: relative;
-    padding: 58px clamp(56px, 5vw, 80px) 64px;
+    padding: 44px clamp(42px, 4vw, 62px) 48px;
     background:
       radial-gradient(circle at 72% 0%, rgba(221,208,188,0.22), transparent 36%),
       #F5F0E8;
   }
   .mave-account-top {
     display: grid;
-    grid-template-columns: minmax(340px, .88fr) minmax(470px, 1.12fr);
-    gap: 54px;
+    grid-template-columns: minmax(310px, .86fr) minmax(430px, 1.14fr);
+    gap: 42px;
     align-items: start;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
   .mave-account-quiz {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    min-height: 252px;
+    grid-template-columns: 1fr 285px;
+    min-height: 222px;
     border: 1px solid rgba(107,87,68,0.13);
     background: rgba(245,240,232,0.44);
   }
   .mave-account-quiz img {
     width: 100%;
     height: 100%;
-    min-height: 252px;
+    min-height: 222px;
     object-fit: cover;
     object-position: 58% center;
     filter: saturate(0.82) contrast(0.94) brightness(1.04);
   }
   .mave-account-quiz-copy {
-    padding: 34px 42px 32px;
+    padding: 28px 32px 26px;
     background: rgba(245,240,232,0.58);
   }
   .mave-account-summary-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
-    margin-bottom: 20px;
+    gap: 14px;
+    margin-bottom: 16px;
   }
   .mave-account-summary-card,
   .mave-account-panel {
@@ -448,16 +448,16 @@
     background: rgba(245,240,232,0.62);
   }
   .mave-account-summary-card {
-    min-height: 150px;
-    padding: 30px 24px 24px;
+    min-height: 126px;
+    padding: 24px 20px 20px;
     display: grid;
-    grid-template-columns: 54px 1fr;
-    gap: 20px;
+    grid-template-columns: 46px 1fr;
+    gap: 16px;
     align-items: start;
   }
   .mave-account-icon-disc {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -467,36 +467,36 @@
   .mave-account-panels {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-    gap: 18px;
+    gap: 14px;
   }
   .mave-account-panel {
-    padding: 26px;
+    padding: 22px;
   }
   .mave-account-order-row {
     display: grid;
-    grid-template-columns: 58px 1fr auto auto;
-    gap: 22px;
+    grid-template-columns: 50px 1fr auto auto;
+    gap: 18px;
     align-items: center;
-    padding: 16px 0;
+    padding: 13px 0;
     border-bottom: 1px solid rgba(107,87,68,0.12);
   }
   .mave-account-order-row:last-of-type { border-bottom: 0; }
   .mave-account-order-thumb {
-    width: 58px;
-    height: 58px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     background: #E8DDD0;
   }
   .mave-account-rewards-box {
     border: 1px solid rgba(107,87,68,0.14);
     background: rgba(245,240,232,0.66);
-    padding: 24px;
-    margin-top: 18px;
+    padding: 20px;
+    margin-top: 15px;
   }
   .mave-account-progress {
-    height: 8px;
+    height: 7px;
     background: rgba(107,87,68,0.10);
-    margin: 22px 0 18px;
+    margin: 18px 0 14px;
     overflow: hidden;
   }
   .mave-account-progress span {
@@ -507,43 +507,43 @@
   }
   .mave-account-mini-benefits {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     border-top: 1px solid rgba(107,87,68,0.12);
-    margin: 24px -24px -24px;
+    margin: 20px -20px -20px;
   }
   .mave-account-mini-benefits div {
-    min-height: 70px;
+    min-height: 62px;
     display: grid;
-    grid-template-columns: 24px 1fr;
-    gap: 12px;
+    grid-template-columns: 19px minmax(0, 1fr);
+    gap: 9px;
     align-items: center;
-    padding: 16px 18px;
+    padding: 13px 12px;
     border-right: 1px solid rgba(107,87,68,0.10);
   }
   .mave-account-mini-benefits div:last-child { border-right: 0; }
   .mave-account-nav {
     display: grid;
-    gap: 10px;
+    gap: 7px;
   }
   .mave-account-nav button,
   .mave-account-logout {
     width: 100%;
-    height: 58px;
+    height: 50px;
     display: grid;
     grid-template-columns: 24px 1fr;
-    gap: 18px;
+    gap: 15px;
     align-items: center;
     background: transparent;
     border: 0;
     color: rgba(26,20,16,0.62);
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     text-align: left;
-    padding: 0 16px;
+    padding: 0 14px;
     transition: color 360ms cubic-bezier(0.32,0.72,0,1), background 360ms cubic-bezier(0.32,0.72,0,1), transform 360ms cubic-bezier(0.32,0.72,0,1);
   }
   .mave-account-nav button:hover,
@@ -556,18 +556,18 @@
   .mave-account-logout {
     margin-top: auto;
     border-top: 1px solid rgba(107,87,68,0.12);
-    padding-top: 26px;
+    padding-top: 22px;
   }
   .mave-account-status {
     display: inline-grid;
     place-items: center;
-    min-width: 80px;
-    height: 28px;
-    padding: 0 12px;
+    min-width: 72px;
+    height: 24px;
+    padding: 0 10px;
     background: rgba(202,213,182,0.45);
     color: #66704D;
     font-family: 'Montserrat', sans-serif;
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -3088,9 +3088,9 @@ const AccountDashboardPage = ({ onBack }) => {
           <div className="mave-account-profile">
             <div className="mave-account-avatar"><img src="assets/account-avatar.png" alt="Alessandra" /></div>
             <div>
-              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 500, color: C.black, marginBottom: 6 }}>Alessandra</h2>
-              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 8 }}>alessandra@mail.com</p>
-              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400 }}>Edit profile</button>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
+              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
             </div>
           </div>
           <nav className="mave-account-nav" aria-label="Account navigation">
@@ -3110,16 +3110,16 @@ const AccountDashboardPage = ({ onBack }) => {
         <div className="mave-account-main">
           <div className="mave-account-top">
             <motion.div initial={reveal} animate={showReveal} transition={revealTransition(0)}>
-              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,4.8vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, color: C.black, marginBottom: 28 }}>Welcome back,<br />Alessandra <span style={{ color: C.gold, fontSize: '0.8em' }}>♡</span></h1>
-              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.85, color: 'rgba(26,20,16,0.72)', maxWidth: 330 }}>Here's what's happening with your account and your skin journey.</p>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.1vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Welcome back,<br />Alessandra <span style={{ color: C.gold, fontSize: '0.8em' }}>♡</span></h1>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)', maxWidth: 310 }}>Here's what's happening with your account and your skin journey.</p>
             </motion.div>
             <motion.div className="mave-account-quiz" initial={reveal} animate={showReveal} transition={revealTransition(0.06)}>
               <img src="assets/collections-hero.png" alt="MAVE skin quiz still life" />
               <div className="mave-account-quiz-copy">
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 18 }}>Skin quiz</span>
-                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 29, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.15, color: C.black, marginBottom: 22 }}>Not sure what your skin needs right now?</h2>
-                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.8, color: 'rgba(26,20,16,0.68)', marginBottom: 28 }}>Take our quiz and get personalized product recommendations.</p>
-                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Take the quiz →</button>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 15 }}>Skin quiz</span>
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 25, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.14, color: C.black, marginBottom: 18 }}>Not sure what your skin needs right now?</h2>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)', marginBottom: 22 }}>Take our quiz and get personalized product recommendations.</p>
+                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Take the quiz →</button>
               </div>
             </motion.div>
           </div>
@@ -3129,9 +3129,9 @@ const AccountDashboardPage = ({ onBack }) => {
               <motion.div key={label} className="mave-account-summary-card" initial={reveal} animate={showReveal} transition={revealTransition(0.09 + index * 0.04)}>
                 <div className="mave-account-icon-disc"><AccountLineIcon type={icon} size={26} /></div>
                 <div>
-                  <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', marginBottom: 10 }}>{label}</span>
-                  <strong style={{ display: 'block', fontFamily: "'Cormorant Garamond',serif", fontSize: value === 'In progress' ? 26 : 28, fontWeight: 400, color: C.black, marginBottom: 22 }}>{value}</strong>
-                  <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: 'rgba(61,43,31,0.78)', cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300 }}>{action} →</button>
+                  <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', marginBottom: 8 }}>{label}</span>
+                  <strong style={{ display: 'block', fontFamily: "'Cormorant Garamond',serif", fontSize: value === 'In progress' ? 23 : 25, fontWeight: 400, color: C.black, marginBottom: 17 }}>{value}</strong>
+                  <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: 'rgba(61,43,31,0.78)', cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300 }}>{action} →</button>
                 </div>
               </motion.div>
             ))}
@@ -3139,46 +3139,46 @@ const AccountDashboardPage = ({ onBack }) => {
 
           <div className="mave-account-panels">
             <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0)}>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 18 }}>Recent orders</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 15 }}>Recent orders</span>
               {orders.map(([img, name, date, status, total]) => (
                 <div className="mave-account-order-row" key={name}>
                   <img className="mave-account-order-thumb" src={img} alt="" />
                   <div>
-                    <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, color: C.black, marginBottom: 8 }}>{name}</h3>
-                    <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.62)' }}>{date}</p>
+                    <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, color: C.black, marginBottom: 7 }}>{name}</h3>
+                    <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.62)' }}>{date}</p>
                   </div>
                   <span className={`mave-account-status ${status === 'In progress' ? 'is-progress' : ''}`}>{status}</span>
-                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, color: C.black }}>{total} ›</strong>
+                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, color: C.black }}>{total} ›</strong>
                 </div>
               ))}
-              <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>View all orders →</button>
+              <button type="button" style={{ marginTop: 16, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>View all orders →</button>
             </motion.section>
 
             <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0.05)}>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 18 }}>Your benefits</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.64)', display: 'block', marginBottom: 15 }}>Your benefits</span>
               <div className="mave-account-rewards-box">
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, marginBottom: 4 }}>
                   <div>
-                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 6 }}>Your tier</span>
-                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 400, color: C.black }}>GOLD ☆</strong>
+                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 5 }}>Your tier</span>
+                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 25, fontWeight: 400, color: C.black }}>GOLD ☆</strong>
                   </div>
                   <div style={{ borderLeft: '1px solid rgba(107,87,68,0.14)', paddingLeft: 26 }}>
-                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 6 }}>Until next tier</span>
-                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 400, color: C.black }}>180 points</strong>
+                    <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, color: 'rgba(26,20,16,0.56)', marginBottom: 5 }}>Until next tier</span>
+                    <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 23, fontWeight: 400, color: C.black }}>180 points</strong>
                   </div>
                 </div>
                 <div className="mave-account-progress"><span /></div>
-                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.64)' }}>You're 180 points away from Platinum tier</p>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.64)' }}>You're 180 points away from Platinum tier</p>
                 <div className="mave-account-mini-benefits">
                   {miniBenefits.map(([icon, label]) => (
                     <div key={label}>
                       <span style={{ color: 'rgba(26,20,16,0.54)' }}><AccountLineIcon type={icon} size={22} /></span>
-                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.35, color: 'rgba(26,20,16,0.62)' }}>{label}</span>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8.5, fontWeight: 300, lineHeight: 1.28, color: 'rgba(26,20,16,0.62)', overflowWrap: 'normal' }}>{label}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <button type="button" style={{ marginTop: 24, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Learn more about our rewards →</button>
+              <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Learn more about our rewards →</button>
             </motion.section>
           </div>
         </div>
