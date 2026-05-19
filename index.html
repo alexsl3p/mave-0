@@ -1208,6 +1208,290 @@
     font-size: 20px;
     font-style: italic;
   }
+  .mave-checkout-page {
+    min-height: 100dvh;
+    padding-top: 72px;
+    background:
+      linear-gradient(90deg, rgba(245,240,232,0.18), rgba(245,240,232,0.92) 13%, #F7F3EC 100%),
+      url('/assets/addresses-bg.png') left top / 180px 100% no-repeat,
+      #F7F3EC;
+    color: #1A1410;
+  }
+  .mave-checkout-shell {
+    width: min(1380px, calc(100vw - 160px));
+    margin: 0 auto;
+    padding: 48px 0 0;
+  }
+  .mave-checkout-steps {
+    width: min(860px, 100%);
+    margin: 0 auto 58px;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 18px;
+  }
+  .mave-checkout-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    color: rgba(26,20,16,0.62);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .mave-checkout-step span:first-child {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: 1px solid rgba(107,87,68,0.18);
+    display: grid;
+    place-items: center;
+    background: rgba(247,243,236,0.72);
+    color: #1A1410;
+    font-size: 11px;
+  }
+  .mave-checkout-step.is-active {
+    color: #9A7A42;
+    font-weight: 600;
+  }
+  .mave-checkout-step.is-active span:first-child {
+    background: linear-gradient(180deg, #CFAE6D, #A87318);
+    color: #fff;
+    border-color: transparent;
+  }
+  .mave-checkout-line {
+    height: 1px;
+    background: rgba(107,87,68,0.13);
+  }
+  .mave-checkout-content {
+    display: grid;
+    grid-template-columns: minmax(0, 570px) 430px;
+    gap: 130px;
+    align-items: start;
+    width: min(1280px, 100%);
+    margin: 0 auto;
+  }
+  .mave-checkout-form {
+    min-width: 0;
+  }
+  .mave-checkout-field-card {
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.56);
+    padding: 22px 24px;
+  }
+  .mave-checkout-logged-card {
+    display: grid;
+    gap: 12px;
+    padding: 18px 24px 16px;
+  }
+  .mave-checkout-login-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+  .mave-checkout-input-line {
+    border-bottom: 1px solid rgba(107,87,68,0.16);
+    padding: 0 0 13px;
+  }
+  .mave-checkout-input-line:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .mave-checkout-logged-card .mave-checkout-input-line {
+    padding-bottom: 9px;
+  }
+  .mave-checkout-input-line label,
+  .mave-checkout-email-input span {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(26,20,16,0.62);
+    margin-bottom: 6px;
+  }
+  .mave-checkout-input-line input,
+  .mave-checkout-email-input input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1A1410;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .mave-checkout-email-card {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    align-items: center;
+    min-height: 78px;
+  }
+  .mave-checkout-socials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+    align-items: center;
+  }
+  .mave-checkout-social {
+    height: 50px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.44);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    color: #1A1410;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .mave-checkout-or {
+    margin: 42px 0 30px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+    color: rgba(26,20,16,0.64);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+  }
+  .mave-checkout-or::before,
+  .mave-checkout-or::after {
+    content: '';
+    height: 1px;
+    background: rgba(107,87,68,0.14);
+  }
+  .mave-checkout-check {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: rgba(26,20,16,0.78);
+  }
+  .mave-checkout-check span:first-child {
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    background: #A87318;
+    color: #fff;
+    font-size: 12px;
+  }
+  .mave-checkout-primary {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    background: linear-gradient(180deg, #CFAE6D, #A87318);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    transition: transform 320ms cubic-bezier(0.32,0.72,0,1), filter 320ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-checkout-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+  .mave-checkout-note {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(26,20,16,0.64);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+  }
+  .mave-checkout-summary {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(247,243,236,0.54);
+    padding: 30px 32px 24px;
+  }
+  .mave-checkout-summary-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .mave-checkout-summary-item {
+    display: grid;
+    grid-template-columns: 62px 1fr auto auto;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .mave-checkout-summary-thumb {
+    width: 62px;
+    height: 62px;
+    background: #E8DDD0 url('/assets/orders-product-set.png') no-repeat;
+    background-size: 310% 310%;
+  }
+  .mave-checkout-total-lines {
+    border-top: 1px solid rgba(107,87,68,0.13);
+    margin-top: 18px;
+    padding-top: 22px;
+    display: grid;
+    gap: 14px;
+  }
+  .mave-checkout-total-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: rgba(26,20,16,0.8);
+  }
+  .mave-checkout-free {
+    margin-top: 28px;
+    min-height: 72px;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(219,231,210,0.42);
+    color: #2F6D3E;
+  }
+  .mave-checkout-benefits {
+    width: min(1220px, calc(100vw - 160px));
+    margin: 24px auto 0;
+    border: 1px solid rgba(107,87,68,0.12);
+    background: rgba(247,243,236,0.54);
+  }
+  .mave-checkout-benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .mave-checkout-benefit {
+    min-height: 118px;
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 24px 34px;
+    border-right: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-checkout-benefit:last-child {
+    border-right: 0;
+  }
+  .mave-checkout-support {
+    border-top: 1px solid rgba(107,87,68,0.12);
+    min-height: 106px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+    padding: 24px 126px;
+  }
   .mave-account-floating-bot {
     position: absolute;
     right: 34px;
@@ -1260,6 +1544,27 @@
     .mave-order-item,
     .mave-profile-fields { grid-template-columns: 1fr; }
     .mave-order-summary div { border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.12); }
+  }
+  @media (max-width: 1180px) {
+    .mave-checkout-page { padding-top: 96px; }
+    .mave-checkout-shell { padding: 0 42px 42px; }
+    .mave-checkout-content { grid-template-columns: 1fr; gap: 42px; }
+    .mave-checkout-form { max-width: none; }
+    .mave-checkout-summary { max-width: none; }
+    .mave-checkout-steps { max-width: none; }
+    .mave-checkout-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mave-checkout-support { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .mave-checkout-shell { padding: 0 24px 32px; }
+    .mave-checkout-steps { align-items: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+    .mave-checkout-line { min-width: 44px; }
+    .mave-checkout-content { margin-top: 42px; }
+    .mave-checkout-summary-item { grid-template-columns: 58px 1fr; }
+    .mave-checkout-summary-item > *:nth-child(n+3) { justify-self: start; }
+    .mave-checkout-socials,
+    .mave-checkout-benefit-grid,
+    .mave-checkout-support { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -1458,6 +1763,7 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/orders') return 'orders';
   if (window.location.pathname === '/orders/1045') return 'orderDetail';
   if (window.location.pathname === '/addresses') return 'addresses';
+  if (window.location.pathname === '/checkout/contact') return 'checkoutContact';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -1507,6 +1813,11 @@ const setViewUrl = view => {
   }
   if (view === 'addresses') {
     url.pathname = '/addresses';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'checkoutContact') {
+    url.pathname = '/checkout/contact';
     window.history.pushState({}, '', url);
     return;
   }
@@ -1623,6 +1934,11 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
           <circle cx="10.5" cy="10.5" r="5.8" />
           <path d="m15 15 5 5" />
         </>
+      ) : type === 'bag' ? (
+        <>
+          <path d="M7.2 8.3h9.6l.8 11.2H6.4L7.2 8.3Z" />
+          <path d="M9.2 8.3V6.4a2.8 2.8 0 0 1 5.6 0v1.9" />
+        </>
       ) : (
         <>
           <circle cx="12" cy="7.7" r="3.2" />
@@ -1677,16 +1993,16 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail' || activeView === 'addresses') ? (
+          {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail' || activeView === 'addresses' || activeView === 'checkoutContact') ? (
             <>
-              <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
-                onMouseEnter={e => e.currentTarget.style.color = C.gold}
-                onMouseLeave={e => e.currentTarget.style.color = actionText}
-              ><HeaderMiniIcon type="search" /></button>
               <button className="mave-nav-links" aria-label="Account" onClick={onAccountOpen} style={iconButtonStyle}
                 onMouseEnter={e => e.currentTarget.style.color = C.gold}
                 onMouseLeave={e => e.currentTarget.style.color = actionText}
               ><HeaderMiniIcon type="account" /></button>
+              <button className="mave-nav-links" aria-label="Open cart" onClick={onCartOpen} style={iconButtonStyle}
+                onMouseEnter={e => e.currentTarget.style.color = C.gold}
+                onMouseLeave={e => e.currentTarget.style.color = actionText}
+              ><HeaderMiniIcon type="bag" /></button>
             </>
           ) : (
             <>
@@ -4394,6 +4710,145 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile }) => {
   );
 };
 
+const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
+  const loggedIn = mode === 'loggedin';
+  const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
+  const items = [
+    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
+    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
+  ];
+  const benefits = [
+    ['check', 'Secure checkout', 'Your information is always protected'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU'],
+    ['box', 'Sample gifts', 'On every order over €50'],
+    ['sparkle', '30-day returns', 'Easy returns guaranteed'],
+  ];
+
+  return (
+    <main className="mave-checkout-page">
+      <div className="mave-checkout-shell">
+        <div className="mave-checkout-steps" aria-label="Checkout progress">
+          {[
+            ['1', 'Contact', true],
+            ['2', 'Shipping', false],
+            ['3', 'Payment', false],
+            ['4', 'Review', false],
+          ].map(([num, label, active], index, arr) => (
+            <React.Fragment key={label}>
+              <span className={`mave-checkout-step ${active ? 'is-active' : ''}`}><span>{num}</span>{label}</span>
+              {index < arr.length - 1 && <span className="mave-checkout-line" />}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <div className="mave-checkout-content">
+          <section className="mave-checkout-form" aria-label="Contact information">
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,4.8vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: loggedIn ? 28 : 18 }}>Contact<span style={{ color: C.gold }}>.</span></h1>
+            {!loggedIn && (
+              <p style={{ ...muted, fontSize: 14, marginBottom: 28 }}>Already have an account? <button type="button" onClick={onLogin} style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, font: 'inherit' }}>Log in</button></p>
+            )}
+            <span style={{ ...tiny, display: 'block', marginBottom: 12 }}>Contact information</span>
+
+            {loggedIn ? (
+              <div className="mave-checkout-field-card mave-checkout-logged-card">
+                <div className="mave-checkout-login-row">
+                  <span style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid rgba(107,87,68,0.24)', display: 'grid', placeItems: 'center', color: 'rgba(26,20,16,0.68)' }}><AccountLineIcon type="profile" size={20} /></span>
+                  <span style={muted}>Logged in as Anna Müller</span>
+                  <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Use another account</button>
+                </div>
+                {[
+                  ['Full name', 'Anna Müller'],
+                  ['Email address', 'anna.muller@example.com'],
+                  ['Phone number (optional)', '+49 171 1234567'],
+                ].map(([label, value]) => (
+                  <div className="mave-checkout-input-line" key={label}>
+                    <label>{label}</label>
+                    <input defaultValue={value} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                <label className="mave-checkout-field-card mave-checkout-email-card">
+                  <span style={{ color: 'rgba(26,20,16,0.7)' }}><AccountLineIcon type="envelope" size={26} /></span>
+                  <span className="mave-checkout-email-input">
+                    <span>Email address</span>
+                    <input type="email" placeholder="Enter your email" required />
+                  </span>
+                </label>
+              </>
+            )}
+
+            <label className="mave-checkout-check">
+              <span>✓</span>
+              {loggedIn ? 'Email me order updates and exclusive product news' : 'Subscribe to our newsletter and get 10% off your first order'}
+            </label>
+
+            {!loggedIn && (
+              <>
+                <div className="mave-checkout-or">OR</div>
+                <div className="mave-checkout-socials">
+                  <button type="button" className="mave-checkout-social"><b style={{ color: '#4285F4', fontSize: 18 }}>G</b>Continue with Google</button>
+                  <button type="button" className="mave-checkout-social"><b style={{ fontSize: 18 }}>●</b>Continue with Apple</button>
+                </div>
+                <p className="mave-checkout-note"><span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={18} /></span>We'll only use your email to send you order updates and important information.</p>
+              </>
+            )}
+
+            {loggedIn && <button type="button" className="mave-checkout-primary">Continue to delivery <span style={{ fontSize: 26, fontWeight: 200 }}>›</span></button>}
+          </section>
+
+          <aside className="mave-checkout-summary" aria-label="Order summary">
+            <div className="mave-checkout-summary-head">
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
+            </div>
+            {items.map(([name, size, price, pos]) => (
+              <div className="mave-checkout-summary-item" key={name}>
+                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
+                <span>
+                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
+                  <span style={muted}>{size}</span>
+                </span>
+                <span style={muted}>Qty: 1</span>
+                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
+              </div>
+            ))}
+            <div className="mave-checkout-total-lines">
+              {[
+                ['Subtotal', '€89,00'],
+                ['Shipping', 'Free'],
+                ['Tax', '€0,00'],
+              ].map(([label, value]) => <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>)}
+              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
+            </div>
+            <div className="mave-checkout-free">
+              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="truck" size={24} /></span>
+              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Free shipping</strong><span style={muted}>On all orders over €60</span></span>
+            </div>
+          </aside>
+        </div>
+
+        <section className="mave-checkout-benefits" aria-label="Checkout benefits">
+          <div className="mave-checkout-benefit-grid">
+            {benefits.map(([icon, title, copy]) => (
+              <div className="mave-checkout-benefit" key={title}>
+                <span style={{ color: C.goldD }}><AccountLineIcon type={icon} size={32} /></span>
+                <span><strong style={{ ...tiny, display: 'block', marginBottom: 8 }}>{title}</strong><span style={muted}>{copy}</span></span>
+              </div>
+            ))}
+          </div>
+          <div className="mave-checkout-support">
+            <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 700, color: C.black, display: 'block', marginBottom: 12 }}>Need help?</strong><button type="button" style={{ border: 0, background: 'transparent', cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 13, color: C.black }}>Contact our support team <span style={{ marginLeft: 20 }}>›</span></button></span>
+            <span style={{ display: 'grid', gridTemplateColumns: '34px 1fr', gap: 18, alignItems: 'center' }}><AccountLineIcon type="lock" size={30} /><span style={muted}>Your data is safe and encrypted<br />Learn more about our <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, font: 'inherit' }}>Privacy Policy</button></span></span>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+};
+
 /* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const Footer = () => {
   const cols = [
@@ -4559,7 +5014,7 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'checkoutContact' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -4574,6 +5029,8 @@ const App = () => {
         <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} />
       ) : view === 'addresses' ? (
         <AddressesPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
+      ) : view === 'checkoutContact' ? (
+        <CheckoutContactPage onLogin={openAccount} mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
