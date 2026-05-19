@@ -1212,10 +1212,15 @@
     position: relative;
     min-height: 0;
     padding-top: 72px;
-    --checkout-safe-left: clamp(220px, 14.5vw, 300px);
+    --checkout-safe-left: clamp(300px, 16vw, 360px);
     background: #F7F3EC;
     color: #1A1410;
     overflow: hidden;
+  }
+  .mave-checkout-page *,
+  .mave-checkout-page *::before,
+  .mave-checkout-page *::after {
+    box-sizing: border-box;
   }
   .mave-checkout-page::before {
     content: '';
@@ -1223,7 +1228,7 @@
     top: 72px;
     left: 0;
     bottom: 0;
-    width: clamp(300px, 19vw, 380px);
+    width: clamp(220px, 14vw, 280px);
     background: url('/assets/addresses-bg.png') 30% top / cover no-repeat;
     filter: saturate(0.72) contrast(0.9) brightness(1.08);
     z-index: 0;
@@ -1234,17 +1239,17 @@
     top: 72px;
     left: 0;
     bottom: 0;
-    width: clamp(420px, 30vw, 620px);
-    background: linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.18) 28%, rgba(247,243,236,0.74) 58%, #F7F3EC 100%);
+    width: clamp(420px, 34vw, 640px);
+    background: linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.2) 32%, rgba(247,243,236,0.82) 68%, #F7F3EC 100%);
     z-index: 0;
     pointer-events: none;
   }
   .mave-checkout-shell {
     position: relative;
     z-index: 1;
-    width: min(1380px, calc(100vw - var(--checkout-safe-left) - 80px));
+    width: min(1280px, calc(100vw - var(--checkout-safe-left) - 48px));
     margin-left: var(--checkout-safe-left);
-    margin-right: 80px;
+    margin-right: 48px;
     padding: 48px 0 0;
   }
   .mave-checkout-page .mave-site-footer {
@@ -1294,8 +1299,8 @@
   }
   .mave-checkout-content {
     display: grid;
-    grid-template-columns: minmax(0, 570px) 430px;
-    gap: 130px;
+    grid-template-columns: minmax(0, 570px) minmax(390px, 430px);
+    gap: clamp(56px, 7vw, 126px);
     align-items: start;
     width: min(1280px, 100%);
     margin: 0 auto;
@@ -1350,6 +1355,11 @@
     font-size: 15px;
     font-weight: 400;
   }
+  .mave-checkout-input-line:focus-within,
+  .mave-checkout-email-card:focus-within {
+    border-color: rgba(168,115,24,0.44);
+    background: rgba(255,251,244,0.62);
+  }
   .mave-checkout-email-card {
     display: grid;
     grid-template-columns: 34px 1fr;
@@ -1376,6 +1386,20 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 400;
+    transition: border-color 260ms ease, background 260ms ease, transform 260ms ease;
+  }
+  .mave-checkout-social:hover {
+    border-color: rgba(168,115,24,0.34);
+    background: rgba(255,251,244,0.66);
+    transform: translateY(-1px);
+  }
+  .mave-checkout-social:focus-visible,
+  .mave-checkout-primary:focus-visible,
+  .mave-checkout-summary button:focus-visible,
+  .mave-checkout-support button:focus-visible,
+  .mave-checkout-form button:focus-visible {
+    outline: 2px solid rgba(168,115,24,0.72);
+    outline-offset: 3px;
   }
   .mave-checkout-or {
     margin: 42px 0 30px;
@@ -1394,12 +1418,14 @@
     background: rgba(107,87,68,0.14);
   }
   .mave-checkout-check {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: flex-start;
     gap: 14px;
     margin: 24px 0 28px;
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
+    line-height: 1.55;
     color: rgba(26,20,16,0.78);
   }
   .mave-checkout-check span:first-child {
@@ -1410,6 +1436,12 @@
     background: #A87318;
     color: #fff;
     font-size: 12px;
+  }
+  .mave-checkout-check-text,
+  .mave-checkout-note-text {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
   .mave-checkout-primary {
     width: 100%;
@@ -1433,12 +1465,14 @@
   }
   .mave-checkout-note {
     margin-top: 30px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: flex-start;
     gap: 14px;
     color: rgba(26,20,16,0.64);
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
+    line-height: 1.55;
   }
   .mave-checkout-summary {
     border: 1px solid rgba(107,87,68,0.14);
@@ -1491,8 +1525,8 @@
     color: #2F6D3E;
   }
   .mave-checkout-benefits {
-    width: min(1220px, calc(100vw - 160px));
-    margin: 24px auto 0;
+    width: 100%;
+    margin: 24px 0 0;
     border: 1px solid rgba(107,87,68,0.12);
     background: rgba(247,243,236,0.54);
   }
@@ -1509,6 +1543,9 @@
     padding: 24px 34px;
     border-right: 1px solid rgba(107,87,68,0.12);
   }
+  .mave-checkout-benefit strong {
+    white-space: nowrap;
+  }
   .mave-checkout-benefit:last-child {
     border-right: 0;
   }
@@ -1519,7 +1556,7 @@
     grid-template-columns: 1fr 1.2fr;
     gap: 80px;
     align-items: center;
-    padding: 24px 126px;
+    padding: 24px clamp(42px, 8vw, 126px);
   }
   .mave-account-floating-bot {
     position: absolute;
@@ -1587,10 +1624,32 @@
     .mave-checkout-support { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
-    .mave-checkout-shell { padding: 0 24px 32px; }
+    .mave-checkout-shell {
+      width: 100vw;
+      max-width: 100vw;
+      padding: 0 24px 32px;
+      overflow: hidden;
+    }
     .mave-checkout-steps { align-items: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
     .mave-checkout-line { min-width: 44px; }
-    .mave-checkout-content { margin-top: 42px; }
+    .mave-checkout-content {
+      width: calc(100vw - 48px);
+      max-width: calc(100vw - 48px);
+      margin-top: 42px;
+      overflow: hidden;
+    }
+    .mave-checkout-form,
+    .mave-checkout-field-card,
+    .mave-checkout-email-card,
+    .mave-checkout-social,
+    .mave-checkout-summary,
+    .mave-checkout-benefits {
+      width: 100%;
+      max-width: calc(100vw - 48px);
+      min-width: 0;
+    }
+    .mave-checkout-email-card { grid-template-columns: 28px minmax(0, 1fr); padding: 18px 20px; }
+    .mave-checkout-check { align-items: flex-start; }
     .mave-checkout-summary-item { grid-template-columns: 58px 1fr; }
     .mave-checkout-summary-item > *:nth-child(n+3) { justify-self: start; }
     .mave-checkout-socials,
@@ -4813,7 +4872,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
 
             <label className="mave-checkout-check">
               <span>✓</span>
-              {loggedIn ? 'Email me order updates and exclusive product news' : 'Subscribe to our newsletter and get 10% off your first order'}
+              <span className="mave-checkout-check-text">{loggedIn ? 'Email me order updates and exclusive product news' : 'Subscribe to our newsletter and get 10% off your first order'}</span>
             </label>
 
             {!loggedIn && (
@@ -4823,7 +4882,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
                   <button type="button" className="mave-checkout-social"><b style={{ color: '#4285F4', fontSize: 18 }}>G</b>Continue with Google</button>
                   <button type="button" className="mave-checkout-social"><b style={{ fontSize: 18 }}>●</b>Continue with Apple</button>
                 </div>
-                <p className="mave-checkout-note"><span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={18} /></span>We'll only use your email to send you order updates and important information.</p>
+                <p className="mave-checkout-note"><span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={18} /></span><span className="mave-checkout-note-text">We'll only use your email to send you order updates and important information.</span></p>
               </>
             )}
 
