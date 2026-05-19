@@ -4081,9 +4081,9 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
               <section className="mave-profile-card" aria-label="Password">
                 <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Password</span>
                 <div className="mave-profile-password-list">
-                  {['Old password', 'New password'].map(label => (
+                  {['Old password', 'New password', 'Confirm new password'].map(label => (
                     <label className="mave-profile-password-field" key={label}>
-                      <input type="password" aria-label={label} placeholder={label} defaultValue="" />
+                      <input type="password" aria-label={label} placeholder={label} defaultValue="" required />
                       <span><EyeIcon /></span>
                     </label>
                   ))}
