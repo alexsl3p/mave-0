@@ -1209,11 +1209,11 @@
     font-style: italic;
   }
   .mave-checkout-page {
-    min-height: 100dvh;
+    min-height: 0;
     padding-top: 72px;
     --checkout-safe-left: clamp(220px, 14.5vw, 300px);
     background:
-      linear-gradient(90deg, rgba(245,240,232,0.18), rgba(245,240,232,0.92) 13%, #F7F3EC 100%),
+      linear-gradient(90deg, rgba(245,240,232,0) 0, rgba(245,240,232,0.22) 8%, rgba(245,240,232,0.72) 12%, #F7F3EC 17%, #F7F3EC 100%),
       url('/assets/addresses-bg.png') left top / 180px 100% no-repeat,
       #F7F3EC;
     color: #1A1410;
@@ -4847,6 +4847,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
           </div>
         </section>
       </div>
+      <Footer />
     </main>
   );
 };
