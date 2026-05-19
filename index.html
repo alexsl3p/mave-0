@@ -727,6 +727,156 @@
     background: rgba(232,221,208,0.92);
     color: #9A7A42;
   }
+  .mave-order-detail-main {
+    padding-top: 48px;
+  }
+  .mave-order-detail-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 304px;
+    gap: 18px;
+    align-items: start;
+  }
+  .mave-order-detail-heading {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 16px 0 12px;
+  }
+  .mave-order-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.54);
+    margin: 24px 0 14px;
+  }
+  .mave-order-summary div {
+    min-height: 94px;
+    padding: 26px 28px;
+    border-right: 1px solid rgba(107,87,68,0.13);
+  }
+  .mave-order-summary div:last-child { border-right: 0; }
+  .mave-order-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    gap: 14px;
+    align-items: start;
+  }
+  .mave-order-card {
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.58);
+  }
+  .mave-order-card-pad {
+    padding: 24px 26px;
+  }
+  .mave-order-item {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    padding: 18px 0;
+  }
+  .mave-order-item img {
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    background: #E8DDD0;
+  }
+  .mave-order-item-thumb {
+    width: 86px;
+    height: 86px;
+    background-color: #E8DDD0;
+    background-repeat: no-repeat;
+    background-size: 310% 310%;
+  }
+  .mave-order-total-lines {
+    border-top: 1px solid rgba(107,87,68,0.12);
+    margin-top: 10px;
+    padding-top: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .mave-order-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .mave-order-side {
+    display: grid;
+    gap: 14px;
+  }
+  .mave-order-status-timeline {
+    position: relative;
+    display: grid;
+    gap: 20px;
+    padding: 20px 0 4px;
+  }
+  .mave-order-status-timeline::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 31px;
+    bottom: 31px;
+    width: 1px;
+    background: rgba(184,141,77,0.56);
+  }
+  .mave-order-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .mave-order-step-icon {
+    position: relative;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #B88D4D;
+    background: #F5F0E8;
+    color: #B88D4D;
+    display: grid;
+    place-items: center;
+  }
+  .mave-order-step.is-done .mave-order-step-icon {
+    background: #B88D4D;
+    color: #F7F3EC;
+  }
+  .mave-order-actions {
+    display: grid;
+    gap: 10px;
+    padding: 18px 14px;
+  }
+  .mave-order-action-btn {
+    height: 38px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    transition: transform 320ms cubic-bezier(0.32,0.72,0,1), filter 320ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-order-action-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+  .mave-order-action-btn.is-primary {
+    background: linear-gradient(180deg, #CFAE6D, #B88D4D);
+    color: #fff;
+  }
+  .mave-order-action-btn.is-secondary {
+    background: rgba(232,221,208,0.7);
+    color: #1A1410;
+  }
+  .mave-order-help-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 18px 22px;
+  }
   .mave-account-floating-bot {
     position: absolute;
     right: 34px;
@@ -746,7 +896,11 @@
     .mave-orders-top,
     .mave-account-quiz,
     .mave-orders-help,
+    .mave-order-detail-shell,
+    .mave-order-detail-grid,
     .mave-account-panels { grid-template-columns: 1fr; }
+    .mave-order-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mave-order-summary div:nth-child(2) { border-right: 0; }
     .mave-orders-controls { grid-template-columns: 1fr; }
     .mave-orders-head { display: none; }
     .mave-orders-row { grid-template-columns: 1fr 1fr; gap: 12px 22px; }
@@ -765,6 +919,9 @@
     .mave-orders-tabs { gap: 10px; overflow-x: auto; }
     .mave-orders-row { grid-template-columns: 1fr; }
     .mave-orders-footer { align-items: flex-start; flex-direction: column; }
+    .mave-order-summary,
+    .mave-order-item { grid-template-columns: 1fr; }
+    .mave-order-summary div { border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.12); }
   }
 </style>
 </head>
@@ -960,6 +1117,7 @@ const productFromUrl = () => {
 const viewFromUrl = () => {
   if (window.location.pathname === '/account') return 'account';
   if (window.location.pathname === '/orders') return 'orders';
+  if (window.location.pathname === '/orders/1045') return 'orderDetail';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -994,6 +1152,11 @@ const setViewUrl = view => {
   }
   if (view === 'orders') {
     url.pathname = '/orders';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'orderDetail') {
+    url.pathname = '/orders/1045';
     window.history.pushState({}, '', url);
     return;
   }
@@ -1164,7 +1327,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          {(activeView === 'account' || activeView === 'orders') ? (
+          {(activeView === 'account' || activeView === 'orders' || activeView === 'orderDetail') ? (
             <>
               <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
                 onMouseEnter={e => e.currentTarget.style.color = C.gold}
@@ -3356,7 +3519,7 @@ const AccountDashboardPage = ({ onBack, onOrders }) => {
   );
 };
 
-const OrdersPage = ({ onDashboard }) => {
+const OrdersPage = ({ onDashboard, onOrderDetail }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders'],
@@ -3452,7 +3615,7 @@ const OrdersPage = ({ onDashboard }) => {
                   {actions.map((action, index) => (
                     <React.Fragment key={action}>
                       {index > 0 && <span style={{ color: 'rgba(107,87,68,0.38)' }}>|</span>}
-                      <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>{action}</button>
+                      <button type="button" onClick={action === 'View order' ? onOrderDetail : undefined} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>{action}</button>
                     </React.Fragment>
                   ))}
                 </div>
@@ -3469,6 +3632,176 @@ const OrdersPage = ({ onDashboard }) => {
               <button type="button" className="mave-orders-page-btn">3</button>
               <button type="button" className="mave-orders-page-btn">›</button>
             </div>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
+const OrderDetailPage = ({ onDashboard, onOrders }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders', onOrders],
+    ['pin', 'Addresses'],
+    ['lock', 'Payment methods'],
+    ['heart', 'Wishlist'],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support'],
+  ];
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
+  const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.72)' };
+  const productName = { fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 500, color: C.black, marginBottom: 10 };
+  const detailLabel = { ...body, fontSize: 10, color: 'rgba(26,20,16,0.58)' };
+  const items = [
+    ['/assets/orders-product-set.png', 'Glow Renewal Serum', '30 ml', '€59,00', '18% 52%'],
+    ['/assets/orders-product-set.png', 'Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
+  ];
+  const summary = [
+    ['Order number', '#1045'],
+    ['Date', 'May 15, 2024'],
+    ['Payment method', 'Visa •••• 4242'],
+    ['Total', '€89,00'],
+  ];
+  const steps = [
+    ['box', 'Order placed', 'May 15, 2024 - 10:24 AM'],
+    ['lock', 'Payment confirmed', 'May 15, 2024 - 10:25 AM'],
+    ['truck', 'Order shipped', 'May 16, 2024 - 02:15 PM'],
+    ['check', 'Delivered', 'May 18, 2024 - 11:03 AM'],
+  ];
+
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Order detail">
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.png" alt="" /></div>
+
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
+              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 1 ? 'is-active' : ''}>
+                <span style={{ color: index === 1 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout">
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+
+        <div className="mave-account-main mave-order-detail-main">
+          <button type="button" onClick={onOrders} style={{ background: 'none', border: 0, color: 'rgba(26,20,16,0.66)', cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, marginBottom: 10 }}>← Back to orders</button>
+          <div className="mave-order-detail-heading">
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,3.4vw,56px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black }}>Order #1045</h1>
+            <span className="mave-account-status">Delivered</span>
+          </div>
+          <p style={{ ...body, fontSize: 12, marginBottom: 0 }}>Placed on May 15, 2024 at 10:24 AM</p>
+
+          <div className="mave-order-detail-shell">
+            <div>
+              <section className="mave-order-summary" aria-label="Order summary">
+                {summary.map(([label, value]) => (
+                  <div key={label}>
+                    <span style={{ ...detailLabel, display: 'block', marginBottom: 8 }}>{label}</span>
+                    <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 400, color: C.black }}>{value}</strong>
+                  </div>
+                ))}
+              </section>
+
+              <div className="mave-order-detail-grid">
+                <section className="mave-order-card mave-order-card-pad" aria-label="Items">
+                  <span style={{ ...tiny, display: 'block', marginBottom: 16 }}>Items (2)</span>
+                  {items.map(([img, name, size, price, position]) => (
+                    <div className="mave-order-item" key={name}>
+                      <span className="mave-order-item-thumb" aria-hidden="true" style={{ backgroundImage: `url(${img})`, backgroundPosition: position }} />
+                      <div>
+                        <h3 style={productName}>{name}</h3>
+                        <p style={body}>{size}</p>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 12 }}>{price}</strong>
+                        <span style={detailLabel}>Qty: 1</span>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="mave-order-total-lines">
+                    {[
+                      ['Subtotal', '€89,00'],
+                      ['Shipping', 'Free'],
+                      ['Tax', '€0,00'],
+                    ].map(([label, value]) => (
+                      <div className="mave-order-line" key={label}>
+                        <span style={body}>{label}</span>
+                        <span style={body}>{value}</span>
+                      </div>
+                    ))}
+                    <div className="mave-order-line" style={{ marginTop: 2 }}>
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>Total</strong>
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, color: C.black }}>€89,00</strong>
+                    </div>
+                  </div>
+                </section>
+
+                <div className="mave-order-side">
+                  <section className="mave-order-card mave-order-card-pad">
+                    <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Shipping address</span>
+                    <p style={body}>Alessandra Rossi<br />Brivibas iela 52, Riga<br />LV-1011, Latvia<br />+371 20 123 456</p>
+                  </section>
+                  <section className="mave-order-card mave-order-card-pad">
+                    <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Shipping method</span>
+                    <p style={body}><strong style={{ fontWeight: 500, color: C.black }}>Standard Shipping</strong><br />Delivered on May 18, 2024</p>
+                  </section>
+                  <section className="mave-order-card mave-order-card-pad">
+                    <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Payment information</span>
+                    <div style={{ display: 'grid', gridTemplateColumns: '52px 1fr auto', gap: 16, alignItems: 'center' }}>
+                      <span style={{ display: 'grid', placeItems: 'center', height: 22, border: '1px solid rgba(107,87,68,0.16)', color: '#254AA5', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700 }}>VISA</span>
+                      <p style={body}>Visa •••• 4242<br />May 15, 2024 - 10:24 AM</p>
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, color: C.black }}>€89,00</strong>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <aside className="mave-order-side" aria-label="Order actions">
+              <section className="mave-order-card mave-order-card-pad">
+                <span style={{ ...tiny, display: 'block', marginBottom: 16 }}>Order status</span>
+                <div className="mave-order-status-timeline">
+                  {steps.map(([icon, title, date], index) => (
+                    <div className={`mave-order-step ${index === steps.length - 1 ? 'is-done' : ''}`} key={title}>
+                      <span className="mave-order-step-icon"><AccountLineIcon type={icon} size={15} /></span>
+                      <span>
+                        <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500, color: C.black, display: 'block', marginBottom: 4 }}>{title}</strong>
+                        <span style={{ ...detailLabel, fontSize: 9 }}>{date}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <section className="mave-order-card mave-order-actions">
+                <button type="button" className="mave-order-action-btn is-primary">Order again</button>
+                <button type="button" className="mave-order-action-btn is-secondary">View invoice</button>
+                <button type="button" className="mave-order-action-btn is-secondary">Track package</button>
+              </section>
+              <section className="mave-order-card mave-order-help-row">
+                <span>
+                  <span style={{ ...tiny, display: 'block', marginBottom: 8 }}>Need help?</span>
+                  <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300 }}>Contact our support team</button>
+                </span>
+                <span style={{ color: 'rgba(26,20,16,0.72)' }}>›</span>
+              </section>
+            </aside>
           </div>
         </div>
       </section>
@@ -3578,6 +3911,12 @@ const App = () => {
     setView('orders');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openOrderDetail = () => {
+    setViewUrl('orderDetail');
+    setProductPage(null);
+    setView('orderDetail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openRegister = () => {
     setViewUrl('register');
     setProductPage(null);
@@ -3624,7 +3963,7 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'orders' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'orders' || view === 'orderDetail' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -3632,7 +3971,9 @@ const App = () => {
       ) : view === 'account' ? (
         <AccountDashboardPage onBack={openLanding} onOrders={openOrders} />
       ) : view === 'orders' ? (
-        <OrdersPage onDashboard={openAccount} />
+        <OrdersPage onDashboard={openAccount} onOrderDetail={openOrderDetail} />
+      ) : view === 'orderDetail' ? (
+        <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
