@@ -1043,6 +1043,171 @@
     gap: 15px;
     margin-top: 24px;
   }
+  .mave-addresses-main {
+    padding-top: 68px;
+  }
+  .mave-addresses-top {
+    display: grid;
+    grid-template-columns: minmax(300px, .72fr) minmax(520px, 1fr);
+    gap: clamp(52px, 6vw, 86px);
+    align-items: start;
+    margin-bottom: 44px;
+  }
+  .mave-addresses-help {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) 320px;
+    height: 202px;
+    border: 1px solid rgba(107,87,68,0.13);
+    background: rgba(245,240,232,0.54);
+    overflow: hidden;
+  }
+  .mave-addresses-help img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.82) contrast(0.94) brightness(1.04);
+  }
+  .mave-addresses-help-copy {
+    padding: 38px 42px 30px;
+    background: rgba(245,240,232,0.62);
+  }
+  .mave-addresses-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 34px;
+  }
+  .mave-address-add-button {
+    min-width: 218px;
+    height: 50px;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    background: linear-gradient(180deg, #CFAE6D, #B88D4D);
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    transition: transform 320ms cubic-bezier(0.32,0.72,0,1), filter 320ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-address-add-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+  .mave-addresses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .mave-address-card {
+    position: relative;
+    min-height: 330px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.5);
+    padding: 50px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .mave-address-card.is-default {
+    border-color: rgba(184,141,77,0.82);
+  }
+  .mave-address-badge {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    padding: 7px 10px;
+    background: rgba(232,221,208,0.9);
+    color: #9A7A42;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+  }
+  .mave-address-check {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #B88D4D;
+    color: #fff;
+    font-size: 16px;
+  }
+  .mave-address-icon-disc {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(232,221,208,0.6);
+    color: rgba(26,20,16,0.56);
+    margin-bottom: 22px;
+  }
+  .mave-address-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .mave-address-link {
+    border: 0;
+    border-bottom: 1px solid rgba(107,87,68,0.34);
+    background: transparent;
+    color: #9A7A42;
+    cursor: pointer;
+    padding: 0 0 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  .mave-address-empty {
+    border-style: dashed;
+    border-color: rgba(184,141,77,0.62);
+    justify-content: center;
+    gap: 18px;
+    color: #9A7A42;
+  }
+  .mave-address-empty .mave-address-empty-plus {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 1px solid #B88D4D;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 200;
+    line-height: 1;
+  }
+  .mave-address-info {
+    margin-top: 48px;
+    min-height: 72px;
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    gap: 22px;
+    align-items: center;
+    padding: 0 32px;
+    background: rgba(232,221,208,0.42);
+    color: rgba(26,20,16,0.72);
+  }
+  .mave-address-info-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid #9A7A42;
+    color: #9A7A42;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+  }
   .mave-account-floating-bot {
     position: absolute;
     right: 34px;
@@ -1062,6 +1227,8 @@
     .mave-orders-top,
     .mave-account-quiz,
     .mave-orders-help,
+    .mave-addresses-top,
+    .mave-addresses-help,
     .mave-order-detail-shell,
     .mave-order-detail-grid,
     .mave-profile-grid,
@@ -1072,6 +1239,7 @@
     .mave-orders-head { display: none; }
     .mave-orders-row { grid-template-columns: 1fr 1fr; gap: 12px 22px; }
     .mave-account-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mave-addresses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
     .mave-account-sidebar,
@@ -1080,6 +1248,8 @@
     .mave-account-summary-grid,
     .mave-account-panels,
     .mave-account-mini-benefits { grid-template-columns: 1fr; }
+    .mave-addresses-grid,
+    .mave-address-info { grid-template-columns: 1fr; }
     .mave-account-quiz-copy { padding: 28px 24px; }
     .mave-account-order-row { grid-template-columns: 52px 1fr; }
     .mave-account-order-row > *:nth-child(n+3) { justify-self: start; }
@@ -1287,6 +1457,7 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/profile') return 'profile';
   if (window.location.pathname === '/orders') return 'orders';
   if (window.location.pathname === '/orders/1045') return 'orderDetail';
+  if (window.location.pathname === '/addresses') return 'addresses';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -1331,6 +1502,11 @@ const setViewUrl = view => {
   }
   if (view === 'orderDetail') {
     url.pathname = '/orders/1045';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'addresses') {
+    url.pathname = '/addresses';
     window.history.pushState({}, '', url);
     return;
   }
@@ -1501,7 +1677,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail') ? (
+          {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail' || activeView === 'addresses') ? (
             <>
               <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
                 onMouseEnter={e => e.currentTarget.style.color = C.gold}
@@ -3550,7 +3726,7 @@ const AccountLineIcon = ({ type, size = 28 }) => {
   );
 };
 
-const AccountDashboardPage = ({ onBack, onOrders, onProfile }) => {
+const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses }) => {
   const reduceMotion = useReducedMotion ? useReducedMotion() : false;
   const hoverTransition = reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 30, mass: 0.8 };
   const reveal = { opacity: 1, y: 0 };
@@ -3559,7 +3735,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile }) => {
   const nav = [
     ['home', 'Dashboard'],
     ['orders', 'Orders', onOrders],
-    ['pin', 'Addresses'],
+    ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist'],
     ['sparkle', 'Bonus & rewards'],
@@ -3693,11 +3869,11 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile }) => {
   );
 };
 
-const OrdersPage = ({ onDashboard, onOrderDetail, onProfile }) => {
+const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders'],
-    ['pin', 'Addresses'],
+    ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist'],
     ['sparkle', 'Bonus & rewards'],
@@ -3814,11 +3990,11 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile }) => {
   );
 };
 
-const OrderDetailPage = ({ onDashboard, onOrders, onProfile }) => {
+const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders', onOrders],
-    ['pin', 'Addresses'],
+    ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist'],
     ['sparkle', 'Bonus & rewards'],
@@ -3984,11 +4160,11 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile }) => {
   );
 };
 
-const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
+const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders', onOrders],
-    ['pin', 'Addresses'],
+    ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist'],
     ['sparkle', 'Bonus & rewards'],
@@ -4118,6 +4294,106 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
   );
 };
 
+const AddressesPage = ({ onDashboard, onOrders, onProfile }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders', onOrders],
+    ['pin', 'Addresses'],
+    ['lock', 'Payment methods'],
+    ['heart', 'Wishlist'],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support'],
+  ];
+  const addresses = [
+    ['home', 'Home', 'Alessandra Rossi', 'Brivibas iela 52, Riga', 'LV-1010, Latvia', '+371 20 123 456', true],
+    ['orders', 'Work', 'Alessandra Rossi', 'Elizabetes iela 15, Riga', 'LV-1050, Latvia', '+371 20 123 456', false],
+    ['profile', "Parents' house", 'Alessandra Rossi', 'Meza prospekts 14, Jurmala', 'LV-2015, Latvia', '+371 20 123 456', false],
+  ];
+  const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)' };
+
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Addresses">
+        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.png" alt="" /></div>
+
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@gmail.com</p>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 2 ? 'is-active' : ''}>
+                <span style={{ color: index === 2 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout">
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+
+        <div className="mave-account-main mave-addresses-main">
+          <div className="mave-addresses-top">
+            <div>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,4.7vw,76px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 24 }}>Addresses<span style={{ color: C.gold }}>.</span></h1>
+              <p style={{ ...body, fontSize: 15, maxWidth: 260 }}>Manage your delivery and billing addresses.</p>
+            </div>
+            <div className="mave-addresses-help">
+              <img src="/assets/addresses-help.png" alt="MAVE delivery still life" />
+              <div className="mave-addresses-help-copy">
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 20 }}>Need help with delivery?</h2>
+                <p style={{ ...body, fontSize: 12, marginBottom: 24 }}>Our support team is here for you.</p>
+                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mave-addresses-toolbar">
+            <button type="button" className="mave-address-add-button">Add new address <span style={{ fontSize: 28, fontWeight: 200 }}>+</span></button>
+          </div>
+
+          <div className="mave-addresses-grid">
+            {addresses.map(([icon, title, name, street, city, phone, isDefault]) => (
+              <article className={`mave-address-card ${isDefault ? 'is-default' : ''}`} key={title}>
+                {isDefault && <span className="mave-address-badge">Default</span>}
+                {isDefault && <span className="mave-address-check">✓</span>}
+                <div className="mave-address-icon-disc"><AccountLineIcon type={icon} size={30} /></div>
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 29, fontWeight: 400, color: C.black, marginBottom: 16 }}>{title}</h2>
+                <p style={body}>{name}<br />{street}<br />{city}</p>
+                <p style={{ ...body, marginTop: 14 }}>{phone}</p>
+                <div className="mave-address-actions">
+                  <button type="button" className="mave-address-link">Edit</button>
+                  <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
+                  <button type="button" className="mave-address-link">Delete</button>
+                </div>
+              </article>
+            ))}
+            <button type="button" className="mave-address-card mave-address-empty" aria-label="Add new address">
+              <span className="mave-address-empty-plus">+</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300 }}>Add new address</span>
+            </button>
+          </div>
+
+          <div className="mave-address-info">
+            <span className="mave-address-info-icon">i</span>
+            <span style={{ ...body, fontSize: 13 }}>Need to make changes? You can add, edit or remove your addresses anytime.</span>
+            <button type="button" className="mave-address-link" style={{ whiteSpace: 'nowrap' }}>Learn more →</button>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
 /* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const Footer = () => {
   const cols = [
@@ -4225,6 +4501,12 @@ const App = () => {
     setView('orders');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openAddresses = () => {
+    setViewUrl('addresses');
+    setProductPage(null);
+    setView('addresses');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openOrderDetail = () => {
     setViewUrl('orderDetail');
     setProductPage(null);
@@ -4277,19 +4559,21 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
         <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
       ) : view === 'account' ? (
-        <AccountDashboardPage onBack={openLanding} onOrders={openOrders} onProfile={openProfile} />
+        <AccountDashboardPage onBack={openLanding} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} />
       ) : view === 'profile' ? (
-        <ProfileSettingsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
+        <ProfileSettingsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} />
       ) : view === 'orders' ? (
-        <OrdersPage onDashboard={openAccount} onOrderDetail={openOrderDetail} onProfile={openProfile} />
+        <OrdersPage onDashboard={openAccount} onOrderDetail={openOrderDetail} onProfile={openProfile} onAddresses={openAddresses} />
       ) : view === 'orderDetail' ? (
-        <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
+        <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} />
+      ) : view === 'addresses' ? (
+        <AddressesPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
