@@ -877,6 +877,164 @@
     align-items: center;
     padding: 18px 22px;
   }
+  .mave-profile-main {
+    padding-top: 52px;
+  }
+  .mave-profile-page .mave-account-layout {
+    min-height: auto;
+  }
+  .mave-profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, .98fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    margin-top: 22px;
+  }
+  .mave-profile-side {
+    display: grid;
+    gap: 14px;
+  }
+  .mave-profile-card {
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.58);
+    padding: 22px 24px;
+  }
+  .mave-profile-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 18px;
+  }
+  .mave-profile-field {
+    display: grid;
+    gap: 7px;
+  }
+  .mave-profile-field.is-wide {
+    grid-column: 1 / -1;
+  }
+  .mave-profile-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(26,20,16,0.58);
+  }
+  .mave-profile-input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.52);
+    padding: 0 14px;
+    color: #1A1410;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    outline: none;
+  }
+  .mave-profile-input:focus {
+    border-color: rgba(184,141,77,0.58);
+    box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
+  }
+  .mave-profile-phone {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    align-items: center;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.52);
+  }
+  .mave-profile-phone .mave-profile-input {
+    border: 0;
+    background: transparent;
+  }
+  .mave-profile-flag {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 18px 8px;
+    gap: 7px;
+    place-content: center;
+    border-right: 1px solid rgba(107,87,68,0.12);
+  }
+  .mave-profile-flag span {
+    width: 18px;
+    height: 12px;
+    display: block;
+    background: linear-gradient(#9B1C25 0 33%, #fff 33% 66%, #9B1C25 66%);
+  }
+  .mave-profile-check-row {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    margin-top: 18px;
+  }
+  .mave-profile-checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(107,87,68,0.28);
+    background: rgba(247,243,236,0.72);
+    display: grid;
+    place-items: center;
+    color: transparent;
+    font-size: 11px;
+    line-height: 1;
+  }
+  .mave-profile-checkbox.is-checked {
+    background: #B88D4D;
+    border-color: #B88D4D;
+    color: #1A1410;
+  }
+  .mave-profile-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 34px;
+  }
+  .mave-profile-button {
+    min-width: 132px;
+    height: 38px;
+    border: 0;
+    background: linear-gradient(180deg, #CFAE6D, #B88D4D);
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    transition: transform 320ms cubic-bezier(0.32,0.72,0,1), filter 320ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-profile-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+  .mave-profile-password-list {
+    display: grid;
+    gap: 12px;
+  }
+  .mave-profile-password-field {
+    height: 40px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.52);
+    display: grid;
+    grid-template-columns: 1fr 28px;
+    gap: 12px;
+    align-items: center;
+    padding: 0 12px;
+  }
+  .mave-profile-password-field input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1A1410;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: .18em;
+  }
+  .mave-profile-password-field span {
+    color: rgba(26,20,16,0.46);
+  }
+  .mave-profile-pref-list {
+    display: grid;
+    gap: 15px;
+    margin-top: 24px;
+  }
   .mave-account-floating-bot {
     position: absolute;
     right: 34px;
@@ -898,6 +1056,7 @@
     .mave-orders-help,
     .mave-order-detail-shell,
     .mave-order-detail-grid,
+    .mave-profile-grid,
     .mave-account-panels { grid-template-columns: 1fr; }
     .mave-order-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .mave-order-summary div:nth-child(2) { border-right: 0; }
@@ -920,7 +1079,8 @@
     .mave-orders-row { grid-template-columns: 1fr; }
     .mave-orders-footer { align-items: flex-start; flex-direction: column; }
     .mave-order-summary,
-    .mave-order-item { grid-template-columns: 1fr; }
+    .mave-order-item,
+    .mave-profile-fields { grid-template-columns: 1fr; }
     .mave-order-summary div { border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.12); }
   }
 </style>
@@ -1116,6 +1276,7 @@ const productFromUrl = () => {
 
 const viewFromUrl = () => {
   if (window.location.pathname === '/account') return 'account';
+  if (window.location.pathname === '/profile') return 'profile';
   if (window.location.pathname === '/orders') return 'orders';
   if (window.location.pathname === '/orders/1045') return 'orderDetail';
   if (window.location.pathname === '/register') return 'register';
@@ -1147,6 +1308,11 @@ const setViewUrl = view => {
   }
   if (view === 'account') {
     url.pathname = '/account';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'profile') {
+    url.pathname = '/profile';
     window.history.pushState({}, '', url);
     return;
   }
@@ -1327,7 +1493,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          {(activeView === 'account' || activeView === 'orders' || activeView === 'orderDetail') ? (
+          {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail') ? (
             <>
               <button className="mave-nav-links" aria-label="Search" onClick={onCatalogOpen} style={iconButtonStyle}
                 onMouseEnter={e => e.currentTarget.style.color = C.gold}
@@ -3376,7 +3542,7 @@ const AccountLineIcon = ({ type, size = 28 }) => {
   );
 };
 
-const AccountDashboardPage = ({ onBack, onOrders }) => {
+const AccountDashboardPage = ({ onBack, onOrders, onProfile }) => {
   const reduceMotion = useReducedMotion ? useReducedMotion() : false;
   const hoverTransition = reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 30, mass: 0.8 };
   const reveal = { opacity: 1, y: 0 };
@@ -3421,7 +3587,7 @@ const AccountDashboardPage = ({ onBack, onOrders }) => {
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
-              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
             </div>
           </div>
           <nav className="mave-account-nav" aria-label="Account navigation">
@@ -3519,7 +3685,7 @@ const AccountDashboardPage = ({ onBack, onOrders }) => {
   );
 };
 
-const OrdersPage = ({ onDashboard, onOrderDetail }) => {
+const OrdersPage = ({ onDashboard, onOrderDetail, onProfile }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders'],
@@ -3550,7 +3716,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail }) => {
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
-              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
             </div>
           </div>
           <nav className="mave-account-nav" aria-label="Account navigation">
@@ -3640,7 +3806,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail }) => {
   );
 };
 
-const OrderDetailPage = ({ onDashboard, onOrders }) => {
+const OrderDetailPage = ({ onDashboard, onOrders, onProfile }) => {
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders', onOrders],
@@ -3683,7 +3849,7 @@ const OrderDetailPage = ({ onDashboard, onOrders }) => {
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
-              <button type="button" style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
             </div>
           </div>
           <nav className="mave-account-nav" aria-label="Account navigation">
@@ -3810,6 +3976,139 @@ const OrderDetailPage = ({ onDashboard, onOrders }) => {
   );
 };
 
+const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders', onOrders],
+    ['pin', 'Addresses'],
+    ['lock', 'Payment methods'],
+    ['heart', 'Wishlist'],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support'],
+  ];
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
+  const checkText = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.72)' };
+  const EyeIcon = () => (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 12s3.4-5 9-5 9 5 9 5-3.4 5-9 5-9-5-9-5z" />
+      <circle cx="12" cy="12" r="2.3" />
+    </svg>
+  );
+
+  return (
+    <main className="mave-account-page mave-profile-page">
+      <section className="mave-account-layout" aria-label="Profile settings">
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.png" alt="" /></div>
+
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@gmail.com</p>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action]) => (
+              <button key={label} type="button" onClick={action}>
+                <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout">
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+
+        <div className="mave-account-main mave-profile-main">
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,3.45vw,58px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 20 }}>Profile settings.</h1>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)' }}>Manage your personal information and account preferences.</p>
+
+          <div className="mave-profile-grid">
+            <section className="mave-profile-card" aria-label="Personal information">
+              <span style={{ ...tiny, display: 'block', marginBottom: 24 }}>Personal information</span>
+              <div className="mave-profile-fields">
+                <label className="mave-profile-field">
+                  <span className="mave-profile-label">First name</span>
+                  <input className="mave-profile-input" defaultValue="Alessandra" />
+                </label>
+                <label className="mave-profile-field">
+                  <span className="mave-profile-label">Last name</span>
+                  <input className="mave-profile-input" defaultValue="Rossi" />
+                </label>
+                <label className="mave-profile-field is-wide">
+                  <span className="mave-profile-label">Email address</span>
+                  <input className="mave-profile-input" defaultValue="alessandra@gmail.com" />
+                </label>
+                <label className="mave-profile-field is-wide">
+                  <span className="mave-profile-label">Phone number</span>
+                  <span className="mave-profile-phone">
+                    <span className="mave-profile-flag"><span /><b style={{ color: 'rgba(26,20,16,0.56)', fontSize: 10, fontWeight: 300 }}>⌄</b></span>
+                    <input className="mave-profile-input" defaultValue="+371 20 123 456" />
+                  </span>
+                </label>
+                <label className="mave-profile-field is-wide">
+                  <span className="mave-profile-label">Date of birth</span>
+                  <span style={{ position: 'relative', display: 'block' }}>
+                    <input className="mave-profile-input" defaultValue="May 15, 1990" style={{ paddingRight: 42 }} />
+                    <span style={{ position: 'absolute', right: 14, top: 12, color: 'rgba(26,20,16,0.44)' }}><AccountLineIcon type="orders" size={15} /></span>
+                  </span>
+                </label>
+              </div>
+              <label className="mave-profile-check-row">
+                <span className="mave-profile-checkbox is-checked">✓</span>
+                <span style={checkText}>Subscribe to our newsletter and updates</span>
+              </label>
+              <div className="mave-profile-card-actions">
+                <button type="button" className="mave-profile-button">Save changes</button>
+              </div>
+            </section>
+
+            <div className="mave-profile-side">
+              <section className="mave-profile-card" aria-label="Password">
+                <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Password</span>
+                <div className="mave-profile-password-list">
+                  {['Current password', 'New password', 'Confirm new password'].map(label => (
+                    <label className="mave-profile-password-field" key={label}>
+                      <input type="password" aria-label={label} defaultValue="mavepass" />
+                      <span><EyeIcon /></span>
+                    </label>
+                  ))}
+                </div>
+                <div className="mave-profile-card-actions" style={{ marginTop: 16 }}>
+                  <button type="button" className="mave-profile-button">Update password</button>
+                </div>
+              </section>
+
+              <section className="mave-profile-card" aria-label="Preferences">
+                <span style={{ ...tiny, display: 'block' }}>Preferences</span>
+                <div className="mave-profile-pref-list">
+                  <label className="mave-profile-check-row" style={{ marginTop: 0 }}>
+                    <span className="mave-profile-checkbox is-checked">✓</span>
+                    <span style={checkText}>Email me about new products, offers and updates</span>
+                  </label>
+                  <label className="mave-profile-check-row" style={{ marginTop: 0 }}>
+                    <span className="mave-profile-checkbox"></span>
+                    <span style={checkText}>SMS me about order updates and offers</span>
+                  </label>
+                </div>
+                <div className="mave-profile-card-actions" style={{ marginTop: 30 }}>
+                  <button type="button" className="mave-profile-button">Save preferences</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
 /* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const Footer = () => {
   const cols = [
@@ -3905,6 +4204,12 @@ const App = () => {
     setView('account');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openProfile = () => {
+    setViewUrl('profile');
+    setProductPage(null);
+    setView('profile');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openOrders = () => {
     setViewUrl('orders');
     setProductPage(null);
@@ -3963,17 +4268,19 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'orders' || view === 'orderDetail' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
         <ProductPage product={productPage} onBack={closeProduct} onAdd={addToCart} onSelect={openProduct} />
       ) : view === 'account' ? (
-        <AccountDashboardPage onBack={openLanding} onOrders={openOrders} />
+        <AccountDashboardPage onBack={openLanding} onOrders={openOrders} onProfile={openProfile} />
+      ) : view === 'profile' ? (
+        <ProfileSettingsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
       ) : view === 'orders' ? (
-        <OrdersPage onDashboard={openAccount} onOrderDetail={openOrderDetail} />
+        <OrdersPage onDashboard={openAccount} onOrderDetail={openOrderDetail} onProfile={openProfile} />
       ) : view === 'orderDetail' ? (
-        <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} />
+        <OrderDetailPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
