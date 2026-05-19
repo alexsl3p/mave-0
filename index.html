@@ -1211,6 +1211,7 @@
   .mave-checkout-page {
     min-height: 100dvh;
     padding-top: 72px;
+    --checkout-safe-left: clamp(220px, 14.5vw, 300px);
     background:
       linear-gradient(90deg, rgba(245,240,232,0.18), rgba(245,240,232,0.92) 13%, #F7F3EC 100%),
       url('/assets/addresses-bg.png') left top / 180px 100% no-repeat,
@@ -1218,8 +1219,9 @@
     color: #1A1410;
   }
   .mave-checkout-shell {
-    width: min(1380px, calc(100vw - 160px));
-    margin: 0 auto;
+    width: min(1380px, calc(100vw - var(--checkout-safe-left) - 80px));
+    margin-left: var(--checkout-safe-left);
+    margin-right: 80px;
     padding: 48px 0 0;
   }
   .mave-checkout-steps {
@@ -1547,7 +1549,7 @@
   }
   @media (max-width: 1180px) {
     .mave-checkout-page { padding-top: 96px; }
-    .mave-checkout-shell { padding: 0 42px 42px; }
+    .mave-checkout-shell { width: auto; margin: 0; padding: 0 42px 42px; }
     .mave-checkout-content { grid-template-columns: 1fr; gap: 42px; }
     .mave-checkout-form { max-width: none; }
     .mave-checkout-summary { max-width: none; }
