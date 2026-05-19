@@ -933,6 +933,10 @@
     border-color: rgba(184,141,77,0.58);
     box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
   }
+  .mave-profile-input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    pointer-events: none;
+  }
   .mave-profile-phone {
     display: grid;
     grid-template-columns: 58px 1fr;
@@ -1026,6 +1030,10 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     letter-spacing: .18em;
+  }
+  .mave-profile-password-field input::placeholder {
+    letter-spacing: 0;
+    color: rgba(26,20,16,0.5);
   }
   .mave-profile-password-field span {
     color: rgba(26,20,16,0.46);
@@ -3989,6 +3997,7 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
   ];
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
   const checkText = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.72)' };
+  const birthDateRef = React.useRef(null);
   const EyeIcon = () => (
     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M3 12s3.4-5 9-5 9 5 9 5-3.4 5-9 5-9-5-9-5z" />
@@ -4054,8 +4063,8 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
                 <label className="mave-profile-field is-wide">
                   <span className="mave-profile-label">Date of birth</span>
                   <span style={{ position: 'relative', display: 'block' }}>
-                    <input className="mave-profile-input" defaultValue="May 15, 1990" style={{ paddingRight: 42 }} />
-                    <span style={{ position: 'absolute', right: 14, top: 12, color: 'rgba(26,20,16,0.44)' }}><AccountLineIcon type="orders" size={15} /></span>
+                    <input ref={birthDateRef} className="mave-profile-input" type="date" defaultValue="1990-05-15" style={{ paddingRight: 42 }} />
+                    <button type="button" aria-label="Choose date of birth" onClick={() => birthDateRef.current?.showPicker ? birthDateRef.current.showPicker() : birthDateRef.current?.focus()} style={{ position: 'absolute', right: 10, top: 9, width: 24, height: 24, display: 'grid', placeItems: 'center', border: 0, background: 'transparent', color: 'rgba(26,20,16,0.44)', cursor: 'pointer', padding: 0 }}><AccountLineIcon type="orders" size={15} /></button>
                   </span>
                 </label>
               </div>
@@ -4072,9 +4081,9 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile }) => {
               <section className="mave-profile-card" aria-label="Password">
                 <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Password</span>
                 <div className="mave-profile-password-list">
-                  {['Current password', 'New password', 'Confirm new password'].map(label => (
+                  {['Old password', 'New password'].map(label => (
                     <label className="mave-profile-password-field" key={label}>
-                      <input type="password" aria-label={label} defaultValue="mavepass" />
+                      <input type="password" aria-label={label} placeholder={label} defaultValue="" />
                       <span><EyeIcon /></span>
                     </label>
                   ))}
