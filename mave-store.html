@@ -1212,7 +1212,7 @@
     position: relative;
     min-height: 0;
     padding-top: 72px;
-    --checkout-safe-left: clamp(240px, 13vw, 300px);
+    --checkout-shell-left: clamp(300px, 17.7vw, 340px);
     background: #F7F3EC;
     color: #1A1410;
     overflow: hidden;
@@ -1228,8 +1228,8 @@
     top: 72px;
     left: 0;
     bottom: 0;
-    width: clamp(220px, 14vw, 280px);
-    background: url('/assets/addresses-bg.png') 30% top / cover no-repeat;
+    width: clamp(175px, 10.5vw, 205px);
+    background: url('/assets/addresses-bg.png') 34% top / cover no-repeat;
     filter: saturate(0.72) contrast(0.9) brightness(1.08);
     z-index: 0;
   }
@@ -1239,25 +1239,26 @@
     top: 72px;
     left: 0;
     bottom: 0;
-    width: clamp(420px, 34vw, 640px);
-    background: linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.2) 32%, rgba(247,243,236,0.82) 68%, #F7F3EC 100%);
+    width: clamp(360px, 25vw, 480px);
+    background: linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.38) 42%, rgba(247,243,236,0.88) 74%, #F7F3EC 100%);
     z-index: 0;
     pointer-events: none;
   }
   .mave-checkout-shell {
     position: relative;
     z-index: 1;
-    width: min(1280px, calc(100vw - var(--checkout-safe-left) - 48px));
-    margin-left: var(--checkout-safe-left);
-    margin-right: 48px;
-    padding: 48px 0 0;
+    width: min(1390px, calc(100vw - var(--checkout-shell-left) - 118px));
+    margin-left: var(--checkout-shell-left);
+    margin-right: 118px;
+    padding: 66px 0 0;
   }
   .mave-checkout-page .mave-site-footer {
     position: relative;
     z-index: 1;
+    margin-top: 72px;
   }
   .mave-checkout-steps {
-    width: min(860px, 100%);
+    width: min(1030px, 100%);
     margin: 0 auto 58px;
     display: grid;
     grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
@@ -1299,11 +1300,11 @@
   }
   .mave-checkout-content {
     display: grid;
-    grid-template-columns: minmax(0, 540px) minmax(390px, 430px);
-    gap: clamp(48px, 5vw, 96px);
+    grid-template-columns: minmax(0, 630px) 480px;
+    gap: clamp(120px, 8vw, 155px);
     align-items: start;
-    width: min(1280px, 100%);
-    margin: 0 auto;
+    width: min(1265px, 100%);
+    margin: 0;
   }
   .mave-checkout-form {
     min-width: 0;
@@ -1315,8 +1316,8 @@
   }
   .mave-checkout-logged-card {
     display: grid;
-    gap: 12px;
-    padding: 18px 24px 16px;
+    gap: 18px;
+    padding: 22px 26px 20px;
   }
   .mave-checkout-login-row {
     display: grid;
@@ -1445,7 +1446,7 @@
   }
   .mave-checkout-primary {
     width: 100%;
-    height: 52px;
+    height: 58px;
     border: 0;
     background: linear-gradient(180deg, #CFAE6D, #A87318);
     color: #fff;
@@ -1477,20 +1478,20 @@
   .mave-checkout-summary {
     border: 1px solid rgba(107,87,68,0.14);
     background: rgba(247,243,236,0.54);
-    padding: 30px 32px 24px;
+    padding: 38px 36px 32px;
   }
   .mave-checkout-summary-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .mave-checkout-summary-item {
     display: grid;
     grid-template-columns: 62px 1fr auto auto;
     gap: 18px;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 21px;
   }
   .mave-checkout-summary-thumb {
     width: 62px;
@@ -1500,10 +1501,10 @@
   }
   .mave-checkout-total-lines {
     border-top: 1px solid rgba(107,87,68,0.13);
-    margin-top: 18px;
-    padding-top: 22px;
+    margin-top: 21px;
+    padding-top: 25px;
     display: grid;
-    gap: 14px;
+    gap: 15px;
   }
   .mave-checkout-total-line {
     display: flex;
@@ -1514,8 +1515,8 @@
     color: rgba(26,20,16,0.8);
   }
   .mave-checkout-free {
-    margin-top: 28px;
-    min-height: 72px;
+    margin-top: 32px;
+    min-height: 78px;
     display: grid;
     grid-template-columns: 48px 1fr;
     gap: 16px;
@@ -1525,8 +1526,8 @@
     color: #2F6D3E;
   }
   .mave-checkout-benefits {
-    width: 100%;
-    margin: 24px 0 0;
+    width: min(1540px, calc(100vw - 360px));
+    margin: 54px 0 0 calc(-1 * clamp(120px, 8.3vw, 160px));
     border: 1px solid rgba(107,87,68,0.12);
     background: rgba(247,243,236,0.54);
   }
