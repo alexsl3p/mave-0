@@ -592,24 +592,16 @@
   }
   .mave-orders-top {
     display: grid;
-    grid-template-columns: 340px minmax(600px, 1fr);
-    gap: 110px;
+    grid-template-columns: minmax(300px, .78fr) minmax(520px, 1.22fr);
+    gap: clamp(42px, 5vw, 68px);
     align-items: start;
-    margin-bottom: 42px;
-  }
-  .mave-orders-layout {
-    grid-template-columns: 170px 295px minmax(0, 1fr);
-  }
-  .mave-orders-layout .mave-account-main {
-    width: 100%;
-    max-width: 1188px;
-    padding: 70px 0 64px 70px;
+    margin-bottom: 34px;
   }
   .mave-orders-help {
     display: grid;
-    grid-template-columns: 326px 1fr;
-    height: 202px;
-    min-height: 202px;
+    grid-template-columns: minmax(280px, 1fr) 320px;
+    height: 196px;
+    min-height: 196px;
     border: 1px solid rgba(107,87,68,0.13);
     background: rgba(245,240,232,0.54);
     overflow: hidden;
@@ -623,7 +615,7 @@
     filter: saturate(0.78) contrast(0.94) brightness(1.04);
   }
   .mave-orders-help-copy {
-    padding: 38px 48px 30px;
+    padding: 32px 38px 28px;
     background: rgba(245,240,232,0.62);
   }
   .mave-orders-controls {
@@ -631,7 +623,7 @@
     grid-template-columns: 1fr minmax(260px, 360px);
     gap: 24px;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
   .mave-orders-tabs {
     display: flex;
@@ -745,7 +737,6 @@
   }
   @media (max-width: 1180px) {
     .mave-account-layout { grid-template-columns: 1fr; }
-    .mave-orders-layout .mave-account-main { max-width: none; padding: 42px; }
     .mave-account-bg-strip { display: none; }
     .mave-account-sidebar { padding: 36px 42px; border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.14); }
     .mave-account-nav { grid-template-columns: repeat(4, minmax(150px, 1fr)); overflow-x: auto; }
@@ -3387,7 +3378,7 @@ const OrdersPage = ({ onDashboard }) => {
 
   return (
     <main className="mave-account-page">
-      <section className="mave-account-layout mave-orders-layout" aria-label="Orders">
+      <section className="mave-account-layout" aria-label="Orders">
         <div className="mave-account-bg-strip"><img src="assets/orders-vase-still-life.png" alt="" /></div>
 
         <aside className="mave-account-sidebar">
