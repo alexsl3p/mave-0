@@ -1446,10 +1446,24 @@
   .mave-checkout-delivery-page .mave-checkout-benefits {
     margin-top: 26px;
   }
+  .mave-checkout-payment-page .mave-checkout-shell {
+    padding-top: 54px;
+  }
+  .mave-checkout-payment-page .mave-checkout-steps {
+    margin-bottom: 46px;
+  }
+  .mave-checkout-payment-page .mave-checkout-benefits {
+    margin-top: 32px;
+  }
   .mave-checkout-content.is-delivery-logged {
     grid-template-columns: minmax(0, 820px) 480px;
     gap: 90px;
     width: min(1390px, 100%);
+  }
+  .mave-checkout-content.is-payment-logged {
+    grid-template-columns: minmax(0, 720px) 480px;
+    gap: 116px;
+    width: min(1316px, 100%);
   }
   .mave-checkout-steps {
     width: min(1030px, 100%);
@@ -1817,6 +1831,75 @@
   .mave-checkout-delivery-action-row .mave-checkout-primary {
     width: min(260px, 100%);
   }
+  .mave-checkout-payment-card {
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(247,243,236,0.5);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .mave-checkout-payment-method {
+    min-height: 82px;
+    border: 1px solid rgba(107,87,68,0.15);
+    background: rgba(247,243,236,0.44);
+    display: grid;
+    grid-template-columns: 20px 48px minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 18px;
+  }
+  .mave-checkout-payment-method.is-selected {
+    border-color: rgba(168,115,24,0.58);
+    background: rgba(255,251,244,0.52);
+  }
+  .mave-checkout-payment-method.is-selected .mave-checkout-radio-dot {
+    border-color: #A87318;
+    background: #A87318;
+  }
+  .mave-checkout-payment-method.is-selected .mave-checkout-radio-dot::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .mave-checkout-card-brand {
+    height: 30px;
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(255,251,244,0.64);
+    display: grid;
+    place-items: center;
+    color: #254AA5;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+  }
+  .mave-checkout-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .mave-checkout-card-grid .is-full {
+    grid-column: 1 / -1;
+  }
+  .mave-checkout-billing-box {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(232,221,208,0.28);
+    padding: 16px 18px;
+    margin-top: 16px;
+  }
+  .mave-checkout-payment-note {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    color: rgba(26,20,16,0.64);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 16px 0 22px;
+  }
   .mave-checkout-summary {
     border: 1px solid rgba(107,87,68,0.14);
     background: rgba(247,243,236,0.54);
@@ -2020,7 +2103,9 @@
     .mave-checkout-benefit-grid,
     .mave-checkout-support { grid-template-columns: 1fr; }
     .mave-checkout-address-grid,
+    .mave-checkout-card-grid,
     .mave-checkout-radio-row,
+    .mave-checkout-payment-method,
     .mave-checkout-address-card,
     .mave-checkout-delivery-action-row {
       grid-template-columns: 1fr;
@@ -2232,6 +2317,7 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/wishlist') return 'wishlist';
   if (window.location.pathname === '/checkout/contact') return 'checkoutContact';
   if (window.location.pathname === '/checkout/delivery') return 'checkoutDelivery';
+  if (window.location.pathname === '/checkout/payment') return 'checkoutPayment';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -2296,6 +2382,11 @@ const setViewUrl = view => {
   }
   if (view === 'checkoutDelivery') {
     url.pathname = '/checkout/delivery';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'checkoutPayment') {
+    url.pathname = '/checkout/payment';
     window.history.pushState({}, '', url);
     return;
   }
@@ -5559,11 +5650,157 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
             {loggedIn ? (
               <div className="mave-checkout-delivery-action-row">
                 <button type="button" className="mave-checkout-back" onClick={() => { window.location.href = '/checkout/contact?state=loggedin'; }} style={{ margin: 0, color: 'rgba(26,20,16,0.68)' }}>‹ Back to contact</button>
-                <button type="button" className="mave-checkout-primary">Continue to payment</button>
+                <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/payment?state=loggedin'; }}>Continue to payment</button>
               </div>
             ) : (
-              <button type="button" className="mave-checkout-primary" style={{ width: 288 }}>Continue to payment</button>
+              <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/payment'; }} style={{ width: 288 }}>Continue to payment</button>
             )}
+          </section>
+
+          <aside className="mave-checkout-summary" aria-label="Order summary">
+            <div className="mave-checkout-summary-head">
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
+            </div>
+            {items.map(([name, size, price, pos]) => (
+              <div className="mave-checkout-summary-item" key={name}>
+                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
+                <span>
+                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
+                  <span style={muted}>{size}</span>
+                </span>
+                <span style={muted}>Qty: 1</span>
+                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
+              </div>
+            ))}
+            <div className="mave-checkout-total-lines">
+              {[['Subtotal', '€89,00'], ['Shipping', 'Free'], ['Tax', '€0,00']].map(([label, value]) => (
+                <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>
+              ))}
+              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
+            </div>
+            <div className="mave-checkout-free">
+              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="truck" size={24} /></span>
+              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Free shipping</strong><span style={muted}>On all orders over €60</span></span>
+            </div>
+          </aside>
+        </div>
+
+        <section className="mave-checkout-benefits" aria-label="Checkout benefits">
+          <div className="mave-checkout-benefit-grid">
+            {benefits.map(([icon, title, copy]) => (
+              <div className="mave-checkout-benefit" key={title}>
+                <span style={{ color: C.goldD }}><AccountLineIcon type={icon} size={32} /></span>
+                <span><strong style={{ ...tiny, display: 'block', marginBottom: 8 }}>{title}</strong><span style={muted}>{copy}</span></span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+      <Footer />
+    </main>
+  );
+};
+
+const CheckoutPaymentPage = ({ mode = 'guest' }) => {
+  const loggedIn = mode === 'loggedin';
+  const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
+  const items = [
+    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
+    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
+  ];
+  const benefits = [
+    ['check', 'Secure checkout', 'Your information is always protected'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU'],
+    ['box', 'Sample gifts', 'On every order over €50'],
+    ['sparkle', '30-day returns', 'Easy returns guaranteed'],
+  ];
+
+  return (
+    <main className="mave-checkout-page mave-checkout-payment-page">
+      <div className="mave-checkout-shell">
+        <div className="mave-checkout-steps" aria-label="Checkout progress">
+          {[
+            ['1', 'Contact', false],
+            ['2', 'Shipping', false],
+            ['3', 'Payment', true],
+            ['4', 'Review', false],
+          ].map(([num, label, active], index, arr) => (
+            <React.Fragment key={label}>
+              <span className={`mave-checkout-step ${active ? 'is-active' : ''}`}><span>{num}</span>{label}</span>
+              {index < arr.length - 1 && <span className="mave-checkout-line" />}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <div className={`mave-checkout-content ${loggedIn ? 'is-payment-logged' : ''}`}>
+          <section className="mave-checkout-form" aria-label="Payment method">
+            <h1 className="mave-checkout-delivery-title">Payment<span style={{ color: C.gold }}>.</span></h1>
+            <p className="mave-checkout-delivery-note">{loggedIn ? 'Choose a saved payment method or add a new card.' : 'Enter your payment details securely.'}</p>
+
+            <span style={{ ...tiny, display: 'block', marginBottom: 12 }}>Payment method</span>
+
+            {loggedIn ? (
+              <>
+                <div className="mave-checkout-radio-list" style={{ marginBottom: 18 }}>
+                  <label className="mave-checkout-payment-method is-selected">
+                    <span className="mave-checkout-radio-dot" />
+                    <span className="mave-checkout-card-brand">VISA</span>
+                    <span>
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black, display: 'block', marginBottom: 6 }}>Visa ending in 4242</strong>
+                      <span style={muted}>Expires 05 / 28 · Default card</span>
+                    </span>
+                    <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase' }}>Edit</button>
+                  </label>
+                  <label className="mave-checkout-payment-method">
+                    <span className="mave-checkout-radio-dot" />
+                    <span className="mave-checkout-card-brand" style={{ color: C.black }}>MC</span>
+                    <span>
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black, display: 'block', marginBottom: 6 }}>Mastercard ending in 1188</strong>
+                      <span style={muted}>Expires 11 / 27</span>
+                    </span>
+                    <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase' }}>Edit</button>
+                  </label>
+                  <button type="button" className="mave-checkout-address-card is-add">
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', border: '1px solid rgba(168,115,24,0.48)', color: C.goldD, display: 'grid', placeItems: 'center', fontSize: 18, lineHeight: 1 }}>+</span>
+                    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, color: C.black }}>Add new payment method</span>
+                  </button>
+                </div>
+                <div className="mave-checkout-billing-box">
+                  <span style={{ ...tiny, display: 'block', marginBottom: 10 }}>Billing address</span>
+                  <p style={muted}>Same as delivery address<br />Brivibas iela 52, Riga, LV-1010, Latvia</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mave-checkout-payment-card">
+                  <div className="mave-checkout-card-grid">
+                    <input className="mave-checkout-control is-full" placeholder="Card number" inputMode="numeric" />
+                    <input className="mave-checkout-control" placeholder="Expiration date" inputMode="numeric" />
+                    <input className="mave-checkout-control" placeholder="Security code" inputMode="numeric" />
+                    <input className="mave-checkout-control is-full" placeholder="Name on card" />
+                  </div>
+                </div>
+                <span style={{ ...tiny, display: 'block', marginBottom: 12 }}>Billing address</span>
+                <div className="mave-checkout-payment-card">
+                  <label className="mave-checkout-check" style={{ margin: 0 }}>
+                    <span>✓</span>
+                    <span className="mave-checkout-check-text">Use same address as delivery</span>
+                  </label>
+                </div>
+              </>
+            )}
+
+            <p className="mave-checkout-payment-note">
+              <span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={26} /></span>
+              <span>Your payment is encrypted. MAVE never stores full card details on this device.</span>
+            </p>
+
+            <div className="mave-checkout-delivery-action-row">
+              <button type="button" className="mave-checkout-back" onClick={() => { window.location.href = loggedIn ? '/checkout/delivery?state=loggedin' : '/checkout/delivery'; }} style={{ margin: 0, color: 'rgba(26,20,16,0.68)' }}>‹ Back to delivery</button>
+              <button type="button" className="mave-checkout-primary">Continue to review</button>
+            </div>
           </section>
 
           <aside className="mave-checkout-summary" aria-label="Order summary">
@@ -5782,7 +6019,7 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -5803,6 +6040,8 @@ const App = () => {
         <CheckoutContactPage onLogin={openAccount} mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'checkoutDelivery' ? (
         <CheckoutDeliveryPage mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
+      ) : view === 'checkoutPayment' ? (
+        <CheckoutPaymentPage mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
