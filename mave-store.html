@@ -1410,7 +1410,8 @@
     filter: saturate(0.82) contrast(0.94) brightness(1.04);
   }
   .mave-payment-help-copy {
-    padding: 36px 40px 28px;
+    min-width: 0;
+    padding: 34px 34px 28px;
     background: rgba(245,240,232,0.62);
   }
   .mave-payment-toolbar {
@@ -1428,9 +1429,10 @@
     min-height: 300px;
     border: 1px solid rgba(107,87,68,0.16);
     background: rgba(245,240,232,0.52);
-    padding: 28px;
+    padding: 26px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
   .mave-payment-card.is-default {
     border-color: rgba(184,141,77,0.82);
@@ -1486,7 +1488,8 @@
     margin-top: auto;
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 16px;
+    flex-wrap: wrap;
   }
   .mave-payment-empty {
     border-style: dashed;
@@ -1517,6 +1520,30 @@
     align-items: center;
     padding: 0 32px;
     background: rgba(232,221,208,0.42);
+  }
+  @media (max-width: 1500px) {
+    .mave-payment-main {
+      padding-left: clamp(30px, 3.4vw, 46px);
+      padding-right: clamp(30px, 3.4vw, 46px);
+    }
+    .mave-payment-top {
+      grid-template-columns: minmax(280px, .7fr) minmax(460px, 1fr);
+      gap: 38px;
+    }
+    .mave-payment-help {
+      grid-template-columns: minmax(240px, 1fr) minmax(270px, .88fr);
+      height: 224px;
+    }
+    .mave-payment-help-copy {
+      padding: 32px 30px 26px;
+    }
+    .mave-payment-grid {
+      grid-template-columns: repeat(2, minmax(270px, 1fr));
+      gap: 22px;
+    }
+    .mave-payment-card {
+      min-height: 278px;
+    }
   }
   .mave-checkout-page {
     position: relative;
