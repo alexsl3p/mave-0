@@ -1598,6 +1598,15 @@
     z-index: 1;
     margin-top: 72px;
   }
+  .mave-checkout-contact-page .mave-checkout-shell {
+    padding-top: 54px;
+  }
+  .mave-checkout-contact-page .mave-checkout-steps {
+    margin-bottom: 46px;
+  }
+  .mave-checkout-contact-page .mave-checkout-benefits {
+    margin-top: 32px;
+  }
   .mave-checkout-delivery-page .mave-checkout-shell {
     padding-top: 54px;
   }
@@ -2293,6 +2302,61 @@
     height: auto;
     pointer-events: none;
   }
+  @media (max-width: 1400px) and (min-width: 1181px) {
+    .mave-checkout-page {
+      --checkout-shell-left: clamp(250px, 20vw, 300px);
+    }
+    .mave-checkout-shell {
+      width: min(1040px, calc(100vw - var(--checkout-shell-left) - 38px));
+      margin-right: 38px;
+    }
+    .mave-checkout-content {
+      grid-template-columns: minmax(0, 520px) 390px;
+      gap: 48px;
+      width: min(960px, 100%);
+    }
+    .mave-checkout-content.is-delivery-logged,
+    .mave-checkout-content.is-payment-logged,
+    .mave-checkout-content.is-review {
+      grid-template-columns: minmax(0, 540px) 390px;
+      gap: 48px;
+      width: min(978px, 100%);
+    }
+    .mave-checkout-steps {
+      width: min(960px, 100%);
+      gap: 14px;
+    }
+    .mave-checkout-summary {
+      padding: 32px 30px 28px;
+    }
+    .mave-checkout-summary-item {
+      grid-template-columns: 58px minmax(0, 1fr) auto auto;
+      gap: 14px;
+    }
+    .mave-checkout-summary-thumb {
+      width: 58px;
+      height: 58px;
+    }
+    .mave-checkout-benefits {
+      width: min(1060px, calc(100vw - var(--checkout-shell-left) - 38px));
+      margin-left: 0;
+    }
+    .mave-checkout-benefit {
+      padding: 22px 24px;
+      gap: 14px;
+    }
+    .mave-checkout-result-page .mave-checkout-shell {
+      width: min(1040px, calc(100vw - var(--checkout-shell-left) - 38px));
+      margin-right: 38px;
+    }
+    .mave-checkout-result {
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 44px;
+    }
+    .mave-checkout-result-hero {
+      padding: 48px 52px 44px;
+    }
+  }
   @media (max-width: 1180px) {
     .mave-account-layout { grid-template-columns: 1fr; }
     .mave-account-bg-strip { display: none; }
@@ -2351,7 +2415,7 @@
     .mave-profile-fields { grid-template-columns: 1fr; }
     .mave-order-summary div { border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.12); }
   }
-  @media (max-width: 1280px) {
+  @media (max-width: 1180px) {
     .mave-checkout-page { padding-top: 96px; }
     .mave-checkout-page::before { width: 220px; }
     .mave-checkout-page::after {
@@ -2364,7 +2428,14 @@
       margin-right: 20px;
       padding: 0 0 42px;
     }
-    .mave-checkout-content { grid-template-columns: 1fr; gap: 32px; }
+    .mave-checkout-content,
+    .mave-checkout-content.is-delivery-logged,
+    .mave-checkout-content.is-payment-logged,
+    .mave-checkout-content.is-review {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      width: 100%;
+    }
     .mave-checkout-result { grid-template-columns: 1fr; }
     .mave-checkout-form { max-width: none; }
     .mave-checkout-summary { max-width: none; }
@@ -2375,20 +2446,30 @@
   @media (max-width: 900px) {
     .mave-checkout-page::before,
     .mave-checkout-page::after { display: none; }
-    .mave-checkout-shell { width: auto; margin: 0; padding: 0 42px 42px; }
+    .mave-checkout-shell,
+    .mave-checkout-review-page .mave-checkout-shell,
+    .mave-checkout-result-page .mave-checkout-shell { width: auto; margin: 0; padding: 0 42px 42px; }
   }
   @media (max-width: 640px) {
-    .mave-checkout-shell {
-      width: 100vw;
-      max-width: 100vw;
-      padding: 0 24px 32px;
+    .mave-checkout-shell,
+    .mave-checkout-review-page .mave-checkout-shell,
+    .mave-checkout-result-page .mave-checkout-shell {
+      width: calc(100vw - 48px);
+      max-width: calc(100vw - 48px);
+      margin: 0 24px;
+      padding: 0 0 32px;
       overflow: hidden;
     }
     .mave-checkout-steps { align-items: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
     .mave-checkout-line { min-width: 44px; }
-    .mave-checkout-content {
-      width: calc(100vw - 48px);
-      max-width: calc(100vw - 48px);
+    .mave-checkout-content,
+    .mave-checkout-content.is-delivery-logged,
+    .mave-checkout-content.is-payment-logged,
+    .mave-checkout-content.is-review,
+    .mave-checkout-result {
+      grid-template-columns: 1fr;
+      width: 100%;
+      max-width: 100%;
       margin-top: 42px;
       overflow: hidden;
     }
@@ -2401,11 +2482,12 @@
     .mave-checkout-result-panel,
     .mave-checkout-benefits {
       width: 100%;
-      max-width: calc(100vw - 48px);
+      max-width: 100%;
       min-width: 0;
     }
     .mave-checkout-email-card { grid-template-columns: 28px minmax(0, 1fr); padding: 18px 20px; }
     .mave-checkout-check { align-items: flex-start; }
+    .mave-checkout-review-page .mave-checkout-check { font-size: 12px; }
     .mave-checkout-summary-item { grid-template-columns: 58px 1fr; }
     .mave-checkout-summary-item > *:nth-child(n+3) { justify-self: start; }
     .mave-checkout-socials,
@@ -2426,6 +2508,35 @@
     }
     .mave-checkout-delivery-action-row .mave-checkout-primary {
       width: 100%;
+    }
+    .mave-checkout-result-hero,
+    .mave-checkout-result-panel {
+      padding: 32px 24px;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    .mave-checkout-result-page .mave-checkout-delivery-title {
+      font-size: 42px;
+      line-height: 0.98;
+    }
+    .mave-checkout-result-hero p {
+      max-width: none !important;
+      overflow-wrap: anywhere;
+    }
+    .mave-checkout-result-row {
+      display: grid;
+      gap: 6px;
+    }
+    .mave-checkout-result-row strong {
+      text-align: left !important;
+    }
+    .mave-checkout-result-actions {
+      display: grid;
+      width: 100%;
+    }
+    .mave-checkout-result-actions .mave-checkout-primary,
+    .mave-checkout-result-actions .mave-checkout-secondary {
+      width: 100% !important;
     }
   }
 </style>
@@ -5862,7 +5973,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
   ];
 
   return (
-    <main className="mave-checkout-page">
+    <main className="mave-checkout-page mave-checkout-contact-page">
       <div className="mave-checkout-shell">
         <div className="mave-checkout-steps" aria-label="Checkout progress">
           {[
