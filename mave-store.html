@@ -1627,6 +1627,82 @@
   .mave-checkout-review-page .mave-checkout-benefits {
     margin-top: 32px;
   }
+  .mave-checkout-result-page .mave-checkout-shell {
+    width: min(1040px, calc(100vw - var(--checkout-shell-left) - 72px));
+    margin-right: 72px;
+    padding-top: 76px;
+  }
+  .mave-checkout-result {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 58px;
+    align-items: start;
+  }
+  .mave-checkout-result-hero {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(247,243,236,0.54);
+    padding: 54px 56px 48px;
+  }
+  .mave-checkout-result-mark {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 30px;
+    color: #fff;
+    background: linear-gradient(180deg, #CFAE6D, #A87318);
+  }
+  .mave-checkout-result-mark.is-failed {
+    background: linear-gradient(180deg, #CFAE6D, #8E3E31);
+  }
+  .mave-checkout-result-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 34px;
+  }
+  .mave-checkout-secondary {
+    min-width: 210px;
+    height: 54px;
+    border: 1px solid rgba(168,115,24,0.42);
+    background: rgba(247,243,236,0.44);
+    color: #9A6A18;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .mave-checkout-result-panel {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(247,243,236,0.54);
+    padding: 34px 32px 30px;
+  }
+  .mave-checkout-result-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .mave-checkout-result-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid rgba(107,87,68,0.12);
+    padding-bottom: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: rgba(26,20,16,0.72);
+  }
+  .mave-checkout-result-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
   .mave-checkout-content.is-delivery-logged {
     grid-template-columns: minmax(0, 820px) 480px;
     gap: 90px;
@@ -2289,6 +2365,7 @@
       padding: 0 0 42px;
     }
     .mave-checkout-content { grid-template-columns: 1fr; gap: 32px; }
+    .mave-checkout-result { grid-template-columns: 1fr; }
     .mave-checkout-form { max-width: none; }
     .mave-checkout-summary { max-width: none; }
     .mave-checkout-steps { max-width: none; }
@@ -2320,6 +2397,8 @@
     .mave-checkout-email-card,
     .mave-checkout-social,
     .mave-checkout-summary,
+    .mave-checkout-result-hero,
+    .mave-checkout-result-panel,
     .mave-checkout-benefits {
       width: 100%;
       max-width: calc(100vw - 48px);
@@ -2552,6 +2631,8 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/checkout/delivery') return 'checkoutDelivery';
   if (window.location.pathname === '/checkout/payment') return 'checkoutPayment';
   if (window.location.pathname === '/checkout/review') return 'checkoutReview';
+  if (window.location.pathname === '/checkout/success') return 'checkoutSuccess';
+  if (window.location.pathname === '/checkout/failed') return 'checkoutFailed';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -2631,6 +2712,16 @@ const setViewUrl = view => {
   }
   if (view === 'checkoutReview') {
     url.pathname = '/checkout/review';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'checkoutSuccess') {
+    url.pathname = '/checkout/success';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'checkoutFailed') {
+    url.pathname = '/checkout/failed';
     window.history.pushState({}, '', url);
     return;
   }
@@ -6292,7 +6383,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
 
             <div className="mave-checkout-delivery-action-row">
               <button type="button" className="mave-checkout-back" onClick={() => { window.location.href = loggedIn ? '/checkout/payment?state=loggedin' : '/checkout/payment'; }} style={{ margin: 0, color: 'rgba(26,20,16,0.68)' }}>‹ Back to payment</button>
-              <button type="button" className="mave-checkout-primary">Place order</button>
+              <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/success'; }}>Place order</button>
             </div>
           </section>
 
@@ -6334,6 +6425,80 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
               </div>
             ))}
           </div>
+        </section>
+      </div>
+      <Footer />
+    </main>
+  );
+};
+
+const CheckoutResultPage = ({ status = 'success' }) => {
+  const success = status === 'success';
+  const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
+  const rows = success
+    ? [
+        ['Order number', '#1045'],
+        ['Confirmation', 'Sent to anna.muller@example.com'],
+        ['Delivery', '2-4 business days'],
+        ['Total paid', '€89,00'],
+      ]
+    : [
+        ['Attempt', '#1045'],
+        ['Reason', 'Payment authorization was declined'],
+        ['Cart status', 'Reserved for 15 minutes'],
+        ['Total due', '€89,00'],
+      ];
+
+  return (
+    <main className="mave-checkout-page mave-checkout-result-page">
+      <div className="mave-checkout-shell">
+        <section className="mave-checkout-result" aria-label={success ? 'Payment success' : 'Payment failed'}>
+          <div className="mave-checkout-result-hero">
+            <span className={`mave-checkout-result-mark ${success ? '' : 'is-failed'}`}>
+              <AccountLineIcon type={success ? 'check' : 'lock'} size={30} />
+            </span>
+            <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>{success ? 'Payment confirmed' : 'Payment not completed'}</span>
+            <h1 className="mave-checkout-delivery-title" style={{ marginBottom: 22 }}>
+              {success ? 'Order placed' : 'Payment failed'}<span style={{ color: C.gold }}>.</span>
+            </h1>
+            <p style={{ ...muted, fontSize: 15, maxWidth: 520 }}>
+              {success
+                ? 'Thank you. Your MAVE ritual is being prepared with measured care.'
+                : 'We could not complete the payment. Your cart is still saved, so you can try again or choose another method.'}
+            </p>
+            <div className="mave-checkout-result-actions">
+              <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = success ? '/orders/1045' : '/checkout/payment'; }} style={{ width: 250 }}>
+                {success ? 'View order' : 'Try payment again'}
+              </button>
+              <button type="button" className="mave-checkout-secondary" onClick={() => { window.location.href = success ? '/collections' : '/checkout/contact'; }}>
+                {success ? 'Continue shopping' : 'Review contact'}
+              </button>
+            </div>
+          </div>
+
+          <aside className="mave-checkout-result-panel">
+            <span style={tiny}>{success ? 'Order summary' : 'Payment summary'}</span>
+            <div className="mave-checkout-result-list">
+              {rows.map(([label, value]) => (
+                <div className="mave-checkout-result-row" key={label}>
+                  <span>{label}</span>
+                  <strong style={{ fontWeight: 500, color: C.black, textAlign: 'right' }}>{value}</strong>
+                </div>
+              ))}
+            </div>
+            <div className="mave-checkout-free" style={{ marginTop: 28 }}>
+              <span style={{ width: 44, height: 44, borderRadius: '50%', background: success ? 'rgba(151,204,151,0.24)' : 'rgba(207,174,109,0.22)', display: 'grid', placeItems: 'center' }}>
+                <AccountLineIcon type={success ? 'truck' : 'lock'} size={24} />
+              </span>
+              <span>
+                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5, color: success ? '#2F6D3E' : '#9A6A18' }}>
+                  {success ? 'Free shipping' : 'No charge made'}
+                </strong>
+                <span style={muted}>{success ? 'Tracking appears in your account soon.' : 'Please retry or use a different card.'}</span>
+              </span>
+            </div>
+          </aside>
         </section>
       </div>
       <Footer />
@@ -6518,7 +6683,7 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -6545,6 +6710,10 @@ const App = () => {
         <CheckoutPaymentPage mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'checkoutReview' ? (
         <CheckoutReviewPage mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
+      ) : view === 'checkoutSuccess' ? (
+        <CheckoutResultPage status="success" />
+      ) : view === 'checkoutFailed' ? (
+        <CheckoutResultPage status="failed" />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
