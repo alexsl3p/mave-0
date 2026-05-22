@@ -1627,8 +1627,6 @@
   }
   .mave-checkout-review-page .mave-checkout-shell {
     padding-top: 54px;
-    width: min(1180px, calc(100vw - var(--checkout-shell-left) - 48px));
-    margin-right: 48px;
   }
   .mave-checkout-review-page .mave-checkout-steps {
     margin-bottom: 46px;
@@ -1723,9 +1721,9 @@
     width: min(1316px, 100%);
   }
   .mave-checkout-content.is-review {
-    grid-template-columns: minmax(0, 560px) 430px;
-    gap: 52px;
-    width: min(1042px, 100%);
+    grid-template-columns: minmax(0, 630px) 480px;
+    gap: clamp(120px, 8vw, 155px);
+    width: 100%;
   }
   .mave-checkout-steps {
     width: min(1030px, 100%);
@@ -2315,9 +2313,13 @@
       gap: 48px;
       width: min(960px, 100%);
     }
-    .mave-checkout-content.is-delivery-logged,
-    .mave-checkout-content.is-payment-logged,
     .mave-checkout-content.is-review {
+      grid-template-columns: minmax(0, 520px) 390px;
+      gap: 48px;
+      width: min(960px, 100%);
+    }
+    .mave-checkout-content.is-delivery-logged,
+    .mave-checkout-content.is-payment-logged {
       grid-template-columns: minmax(0, 540px) 390px;
       gap: 48px;
       width: min(978px, 100%);
