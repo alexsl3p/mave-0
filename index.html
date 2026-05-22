@@ -1554,6 +1554,127 @@
     color: #1A1410;
     overflow: hidden;
   }
+  .mave-service-page {
+    min-height: 100dvh;
+    padding-top: 90px;
+    background: #F7F3EC;
+    color: #1A1410;
+    position: relative;
+    overflow: hidden;
+  }
+  .mave-service-page *,
+  .mave-service-page *::before,
+  .mave-service-page *::after {
+    box-sizing: border-box;
+  }
+  .mave-service-page::before {
+    content: '';
+    position: absolute;
+    inset: 90px auto 0 0;
+    width: min(360px, 28vw);
+    background:
+      linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.28) 62%, #F7F3EC 100%),
+      url('/assets/account-bg.jpg') center/cover no-repeat;
+    filter: saturate(0.84) contrast(0.92);
+    opacity: 0.66;
+    pointer-events: none;
+  }
+  .mave-service-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, calc(100vw - 360px));
+    margin-left: clamp(260px, 22vw, 340px);
+    margin-right: 80px;
+    padding: 76px 0 84px;
+  }
+  .mave-service-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 430px;
+    gap: 96px;
+    align-items: stretch;
+    margin-bottom: 62px;
+  }
+  .mave-service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(68px, 6vw, 106px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 0.96;
+    margin: 0 0 28px;
+    color: #1A1410;
+  }
+  .mave-service-lede {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(26,20,16,0.68);
+    max-width: 460px;
+    margin: 0;
+  }
+  .mave-service-card {
+    border: 1px solid rgba(107,87,68,0.14);
+    background: rgba(247,243,236,0.56);
+    padding: 34px 36px;
+  }
+  .mave-service-card-kicker,
+  .mave-service-kicker {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #A87318;
+    margin-bottom: 18px;
+  }
+  .mave-service-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.04;
+    margin: 0 0 20px;
+    color: #1A1410;
+  }
+  .mave-service-card p,
+  .mave-service-section p,
+  .mave-service-section li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(26,20,16,0.68);
+    overflow-wrap: anywhere;
+  }
+  .mave-service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .mave-service-section {
+    border: 1px solid rgba(107,87,68,0.13);
+    background: rgba(247,243,236,0.46);
+    padding: 30px 32px;
+    min-height: 214px;
+  }
+  .mave-service-section h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #1A1410;
+    margin: 0 0 16px;
+  }
+  .mave-service-section ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .mave-service-page .mave-site-footer {
+    position: relative;
+    z-index: 1;
+  }
   .mave-checkout-page *,
   .mave-checkout-page *::before,
   .mave-checkout-page *::after {
@@ -2361,6 +2482,17 @@
   }
   @media (max-width: 1180px) {
     .mave-account-layout { grid-template-columns: 1fr; }
+    .mave-service-page::before { display: none; }
+    .mave-service-shell {
+      width: auto;
+      margin: 0;
+      padding: 58px 42px 68px;
+    }
+    .mave-service-hero,
+    .mave-service-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
     .mave-account-bg-strip { display: none; }
     .mave-account-sidebar { padding: 36px 42px; border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.14); }
     .mave-account-nav { grid-template-columns: repeat(4, minmax(150px, 1fr)); overflow-x: auto; }
@@ -2393,6 +2525,40 @@
     .mave-wishlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
+    .mave-service-page { overflow-x: hidden; }
+    .mave-service-shell {
+      width: calc(100vw - 48px);
+      max-width: calc(100vw - 48px);
+      margin: 0 24px;
+      padding: 42px 0 54px;
+    }
+    .mave-service-hero,
+    .mave-service-grid {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .mave-service-title { font-size: 58px; }
+    .mave-service-lede,
+    .mave-service-card h2 {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+    .mave-service-lede,
+    .mave-service-card p,
+    .mave-service-section li {
+      max-width: 270px;
+    }
+    .mave-service-card h2 { font-size: 30px; }
+    .mave-service-card,
+    .mave-service-section {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      padding: 24px 22px;
+      margin-bottom: 18px;
+    }
     .mave-account-sidebar,
     .mave-account-main { padding: 30px 24px; }
     .mave-account-nav,
@@ -2746,6 +2912,10 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/checkout/review') return 'checkoutReview';
   if (window.location.pathname === '/checkout/success') return 'checkoutSuccess';
   if (window.location.pathname === '/checkout/failed') return 'checkoutFailed';
+  if (window.location.pathname === '/shipping') return 'shipping';
+  if (window.location.pathname === '/returns') return 'returns';
+  if (window.location.pathname === '/contact') return 'contact';
+  if (window.location.pathname === '/privacy') return 'privacy';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -2835,6 +3005,26 @@ const setViewUrl = view => {
   }
   if (view === 'checkoutFailed') {
     url.pathname = '/checkout/failed';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'shipping') {
+    url.pathname = '/shipping';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'returns') {
+    url.pathname = '/returns';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'contact') {
+    url.pathname = '/contact';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'privacy') {
+    url.pathname = '/privacy';
     window.history.pushState({}, '', url);
     return;
   }
@@ -6619,6 +6809,94 @@ const CheckoutResultPage = ({ status = 'success' }) => {
   );
 };
 
+const SERVICE_PAGES = {
+  shipping: {
+    kicker: 'Service',
+    title: 'Shipping',
+    lede: 'Measured delivery for formulas that should arrive calm, protected, and ready for your routine.',
+    cardTitle: 'Clear timing before checkout.',
+    cardBody: 'Shipping methods and estimated windows are shown during checkout before payment. Your order confirmation includes the selected method and delivery address.',
+    sections: [
+      ['Delivery windows', ['Standard delivery usually arrives in 2-4 business days within supported EU regions.', 'Express delivery is available for selected addresses and appears at checkout when eligible.', 'Orders placed after the daily processing window begin preparation the next business day.']],
+      ['Order preparation', ['Each order is packed with protective materials suited for skincare vessels.', 'You will receive confirmation after checkout and another note when the parcel leaves our studio.', 'During high-volume launches, preparation can take one extra business day.']],
+      ['Shipping costs', ['Free shipping is available on qualifying orders shown in checkout.', 'Shipping cost is calculated after the delivery address is entered.', 'Taxes, duties, or local carrier fees may depend on destination rules.']],
+      ['Tracking', ['Tracking becomes available after the carrier scans the parcel.', 'Logged-in members can review order status from the account dashboard.', 'If tracking stalls, contact support with your order number.']],
+    ],
+  },
+  returns: {
+    kicker: 'Policy',
+    title: 'Returns',
+    lede: 'A careful return process for unopened products, delivery issues, and orders that need support.',
+    cardTitle: 'Start with your order number.',
+    cardBody: 'Returns are reviewed by support so the product state, delivery route, and timing are clear before a resolution is confirmed.',
+    sections: [
+      ['Return window', ['Eligible returns can be requested within 30 days of delivery.', 'Products should be unused, unopened, and in original packaging.', 'Gift and promotional items may follow the same eligibility checks as the main order.']],
+      ['How to request', ['Contact support with your order number, email, and reason for return.', 'We will confirm the next step before you send anything back.', 'Do not discard packaging until the support review is complete.']],
+      ['Refunds', ['Approved refunds are issued to the original payment method.', 'Bank processing time depends on the card provider or payment wallet.', 'Original shipping fees may be excluded unless the issue was caused by fulfillment or carrier damage.']],
+      ['Damaged parcels', ['Photograph the outer box, inner packaging, and affected product.', 'Report visible damage as soon as possible after delivery.', 'Support will review replacement or refund options based on the evidence.']],
+    ],
+  },
+  contact: {
+    kicker: 'Service',
+    title: 'Contact',
+    lede: 'For order questions, account support, and product guidance, send a focused note and we will route it to the right specialist.',
+    cardTitle: 'Support that keeps context.',
+    cardBody: 'Include your order number when available. For routine questions, mention your current product sequence so recommendations stay measured.',
+    sections: [
+      ['Order support', ['Use order number, checkout email, and delivery postcode in your message.', 'For active parcels, include the tracking number if available.', 'We can help with delivery changes when the carrier still allows updates.']],
+      ['Product guidance', ['Share the products you use now and the role you want MAVE to play.', 'Avoid sending medical details; we can provide routine guidance, not medical diagnosis.', 'For sensitivity questions, patch testing and professional advice may be recommended.']],
+      ['Account help', ['We can help with saved products, address updates, payment methods, and login access.', 'For privacy requests, use the Privacy page guidance below.', 'Do not send full card numbers or passwords in support messages.']],
+      ['Contact channels', ['Email: support@mavecare.com', 'Hours: Monday-Friday, 10:00-18:00 CET', 'Typical first response: within 1-2 business days.']],
+    ],
+  },
+  privacy: {
+    kicker: 'Policy',
+    title: 'Privacy',
+    lede: 'A plain-language overview of how account, checkout, and support information is handled inside the MAVE experience.',
+    cardTitle: 'Details only where needed.',
+    cardBody: 'We collect the information required to operate the store, prepare orders, support accounts, and improve the shopping experience.',
+    sections: [
+      ['Information we use', ['Contact details entered at checkout or account creation.', 'Delivery and billing information needed to complete orders.', 'Saved preferences such as wishlist items and selected communication settings.']],
+      ['Payments', ['Payment details are processed through secure payment services.', 'MAVE does not need full card details to provide order support.', 'Saved payment methods are represented by limited references such as card brand and last digits.']],
+      ['Communication', ['Transactional emails are used for order confirmation, delivery updates, and account security.', 'Marketing messages are sent only when the user opts in where required.', 'You can request changes to communication preferences through account support.']],
+      ['Your choices', ['You can request access, correction, or deletion of account information.', 'Some order records may be retained where required for accounting or fraud prevention.', 'For privacy requests, contact support@mavecare.com with the subject “Privacy request”.']],
+    ],
+  },
+};
+
+const ServicePolicyPage = ({ type = 'shipping' }) => {
+  const page = SERVICE_PAGES[type] || SERVICE_PAGES.shipping;
+  return (
+    <main className="mave-service-page">
+      <section className="mave-service-shell">
+        <div className="mave-service-hero">
+          <div>
+            <span className="mave-service-kicker">{page.kicker}</span>
+            <h1 className="mave-service-title">{page.title}<span style={{ color: C.gold }}>.</span></h1>
+            <p className="mave-service-lede">{page.lede}</p>
+          </div>
+          <aside className="mave-service-card">
+            <span className="mave-service-card-kicker">MAVE care</span>
+            <h2>{page.cardTitle}</h2>
+            <p>{page.cardBody}</p>
+          </aside>
+        </div>
+        <div className="mave-service-grid">
+          {page.sections.map(([title, items]) => (
+            <section className="mave-service-section" key={title}>
+              <h3>{title}</h3>
+              <ul>
+                {items.map(item => <li key={item}>{item}</li>)}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
 /* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const Footer = () => {
   const cols = [
@@ -6627,6 +6905,7 @@ const Footer = () => {
     { head:'Service',      links:['Shipping','Returns','Contact','Privacy'] },
   ];
   const lnk = { fontFamily:"'Montserrat',sans-serif", fontSize:11, fontWeight:300, letterSpacing:'0.06em', color:'rgba(245,240,232,0.44)', display:'block', marginBottom:11 };
+  const serviceRoutes = { Shipping: '/shipping', Returns: '/returns', Contact: '/contact', Privacy: '/privacy' };
   return (
     <footer className="mave-site-footer" style={{ background: C.black, padding: '78px 80px 42px', borderTop: '1px solid rgba(200,169,110,0.12)' }}>
       <div className="mave-grid-footer mave-site-footer-grid" style={{ display: 'grid', gridTemplateColumns: '2.2fr 1fr 1fr 1fr', gap: 62, marginBottom: 58 }}>
@@ -6638,7 +6917,16 @@ const Footer = () => {
         {cols.map(col => (
           <div key={col.head}>
             <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 20 }}>{col.head}</span>
-            {col.links.map(l => <span key={l} style={lnk}>{l}</span>)}
+            {col.links.map(l => serviceRoutes[l] ? (
+              <button
+                key={l}
+                type="button"
+                onClick={() => { window.location.href = serviceRoutes[l]; }}
+                style={{ ...lnk, border: 0, background: 'transparent', padding: 0, textAlign: 'left', cursor: 'pointer' }}
+              >
+                {l}
+              </button>
+            ) : <span key={l} style={lnk}>{l}</span>)}
           </div>
         ))}
       </div>
@@ -6796,7 +7084,7 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -6827,6 +7115,14 @@ const App = () => {
         <CheckoutResultPage status="success" />
       ) : view === 'checkoutFailed' ? (
         <CheckoutResultPage status="failed" />
+      ) : view === 'shipping' ? (
+        <ServicePolicyPage type="shipping" />
+      ) : view === 'returns' ? (
+        <ServicePolicyPage type="returns" />
+      ) : view === 'contact' ? (
+        <ServicePolicyPage type="contact" />
+      ) : view === 'privacy' ? (
+        <ServicePolicyPage type="privacy" />
       ) : view === 'register' ? (
         <RegisterPage onBack={openLanding} onLogin={openAccount} />
       ) : view === 'forgot' ? (
