@@ -574,19 +574,6 @@
     background: rgba(245,240,232,0.54);
     padding: 18px 18px 20px;
   }
-  .mave-cart-sample-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .mave-cart-sample {
-    border: 1px solid rgba(107,87,68,0.16);
-    background: rgba(232,221,208,0.36);
-    padding: 12px;
-    text-align: left;
-    cursor: pointer;
-  }
-
   /* Focus states for keyboard navigation */
   button:focus-visible, a:focus-visible {
     outline: 2px solid #C8A96E;
@@ -702,8 +689,7 @@
     .mave-mega-menu { display: none !important; }
     .mave-search-drawer-grid,
     .mave-pdp-commerce-strip,
-    .mave-pdp-results-grid,
-    .mave-cart-sample-grid {
+    .mave-pdp-results-grid {
       grid-template-columns: 1fr !important;
     }
     .mave-catalog-controls { align-items: flex-start !important; }
@@ -5381,7 +5367,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
 
           <div style={{ display: 'grid', gap: 10, marginBottom: 22 }}>
             {[
-              ['once', 'Purchase once', product.price, 'Standard delivery and member samples.'],
+              ['once', 'Purchase once', product.price, 'Standard delivery and member access.'],
               ['replenish', 'Auto-replenish', 'Save 15%', 'Delivered every 6 weeks. Cancel anytime.'],
             ].map(([id, title, value, note]) => (
               <button key={id} type="button" onClick={() => setPurchaseMode(id)}
@@ -5400,9 +5386,9 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
 
           <div className="mave-pdp-commerce-strip" style={{ marginBottom: 24 }}>
             {[
-              ['Samples', '2 with every order'],
               ['Delivery', 'Free over €60'],
               ['Returns', '30 days'],
+              ['Member care', 'Private offers'],
             ].map(([title, text]) => (
               <div className="mave-pdp-commerce-tile" key={title}>
                 <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.goldD, marginBottom: 7 }}>{title}</strong>
@@ -5664,20 +5650,6 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
           </div>
           {cart.length > 0 && (
             <div style={{ padding: '26px 34px 30px', borderTop: `1px solid rgba(107,87,68,0.16)` }}>
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'center', marginBottom: 14 }}>
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Choose samples</span>
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: C.goldD }}>2 complimentary</span>
-                </div>
-                <div className="mave-cart-sample-grid">
-                  {['Renewal Serum', 'Barrier Cream', 'Cleansing Foam', 'Body Serum'].map((sample, index) => (
-                    <button className="mave-cart-sample" type="button" key={sample}>
-                      <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.goldD, marginBottom: 5 }}>Sample {index + 1}</span>
-                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: C.black }}>{sample}</strong>
-                    </button>
-                  ))}
-                </div>
-              </div>
               <div style={{ border: `1px solid rgba(200,169,110,0.22)`, background: 'rgba(200,169,110,0.08)', padding: '16px 18px', marginBottom: 22 }}>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, display: 'block', marginBottom: 7 }}>Member benefit</span>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.65, color: C.bark, margin: 0 }}>Sign in at checkout to save formulas, track orders, and unlock private offers.</p>
