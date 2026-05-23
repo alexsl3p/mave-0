@@ -1571,28 +1571,30 @@
     content: '';
     position: absolute;
     inset: 90px auto 0 0;
-    width: min(360px, 28vw);
+    width: min(560px, 44vw);
     background:
-      linear-gradient(90deg, rgba(247,243,236,0) 0%, rgba(247,243,236,0.28) 62%, #F7F3EC 100%),
+      linear-gradient(90deg, rgba(247,243,236,0.04) 0%, rgba(247,243,236,0.24) 58%, rgba(247,243,236,0.92) 100%),
       url('/assets/account-bg.jpg') center/cover no-repeat;
     filter: saturate(0.84) contrast(0.92);
-    opacity: 0.66;
+    opacity: 0.54;
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0,0,0,0) 100%);
     pointer-events: none;
   }
   .mave-service-shell {
     position: relative;
     z-index: 1;
-    width: min(1180px, calc(100vw - 360px));
-    margin-left: clamp(260px, 22vw, 340px);
-    margin-right: 80px;
-    padding: 76px 0 84px;
+    width: min(1080px, calc(100vw - 180px));
+    margin-left: auto;
+    margin-right: auto;
+    padding: 74px 0 84px;
   }
   .mave-service-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 430px;
-    gap: 96px;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+    gap: clamp(56px, 7vw, 96px);
     align-items: stretch;
-    margin-bottom: 62px;
+    margin-bottom: 56px;
   }
   .mave-service-title {
     font-family: 'Cormorant Garamond', serif;
@@ -1615,7 +1617,7 @@
   .mave-service-card {
     border: 1px solid rgba(107,87,68,0.14);
     background: rgba(247,243,236,0.56);
-    padding: 34px 36px;
+    padding: 32px 34px;
   }
   .mave-service-card-kicker,
   .mave-service-kicker {
@@ -1645,17 +1647,17 @@
     font-weight: 300;
     line-height: 1.85;
     color: rgba(26,20,16,0.68);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   .mave-service-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
   }
   .mave-service-section {
     border: 1px solid rgba(107,87,68,0.13);
     background: rgba(247,243,236,0.46);
-    padding: 30px 32px;
+    padding: 28px 30px;
     min-height: 214px;
   }
   .mave-service-section h3 {
@@ -2527,10 +2529,11 @@
   @media (max-width: 640px) {
     .mave-service-page { overflow-x: hidden; }
     .mave-service-shell {
-      width: calc(100vw - 48px);
-      max-width: calc(100vw - 48px);
+      width: min(327px, calc(100% - 48px));
+      max-width: min(327px, calc(100% - 48px));
       margin: 0 24px;
       padding: 42px 0 54px;
+      overflow: hidden;
     }
     .mave-service-hero,
     .mave-service-grid {
@@ -2547,8 +2550,12 @@
     }
     .mave-service-lede,
     .mave-service-card p,
+    .mave-service-section p,
     .mave-service-section li {
-      max-width: 270px;
+      width: 100%;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: normal;
     }
     .mave-service-card h2 { font-size: 30px; }
     .mave-service-card,
