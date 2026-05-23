@@ -101,6 +101,245 @@
   .mave-catalog-filter:hover::after {
     transform: scaleX(1);
   }
+  .mave-search-page {
+    min-height: 100dvh;
+    padding-top: 72px;
+    background: #F5F0E8;
+    color: #1A1410;
+    overflow-x: hidden;
+  }
+  .mave-search-hero {
+    position: relative;
+    min-height: 356px;
+    padding: 84px 80px 48px;
+    display: grid;
+    grid-template-columns: minmax(420px, 0.86fr) minmax(460px, 1fr);
+    gap: clamp(56px, 7vw, 112px);
+    align-items: end;
+    overflow: hidden;
+    background: #F5F0E8;
+  }
+  .mave-search-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.94) 36%, rgba(245,240,232,0.64) 62%, rgba(245,240,232,0.22) 100%),
+      linear-gradient(180deg, rgba(245,240,232,0) 54%, #F5F0E8 100%),
+      url('assets/collections-hero.png') right -150px center/880px auto no-repeat;
+    pointer-events: none;
+  }
+  .mave-search-copy,
+  .mave-search-panel {
+    position: relative;
+    z-index: 1;
+  }
+  .mave-search-kicker {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #A87318;
+    margin-bottom: 18px;
+  }
+  .mave-search-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(62px, 6vw, 104px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 0.96;
+    color: #1A1410;
+    margin: 0 0 22px;
+  }
+  .mave-search-lede {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    color: rgba(26,20,16,0.68);
+    max-width: 480px;
+  }
+  .mave-search-panel {
+    border: 1px solid rgba(107,87,68,0.18);
+    background: rgba(245,240,232,0.66);
+    backdrop-filter: blur(10px);
+    padding: 30px 34px 32px;
+  }
+  .mave-search-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: end;
+    border-bottom: 1px solid rgba(107,87,68,0.24);
+    padding-bottom: 17px;
+    margin-bottom: 22px;
+  }
+  .mave-search-field span,
+  .mave-search-suggestions span,
+  .mave-search-count {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.58);
+  }
+  .mave-search-field input {
+    width: 100%;
+    margin-top: 10px;
+    border: 0;
+    background: transparent;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: #1A1410;
+  }
+  .mave-search-submit,
+  .mave-search-collection-link {
+    border: 1px solid rgba(168,115,24,0.58);
+    background: #C8A96E;
+    color: #1A1410;
+    cursor: pointer;
+    height: 42px;
+    padding: 0 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: transform 420ms cubic-bezier(0.32,0.72,0,1), background 420ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-search-submit:hover,
+  .mave-search-collection-link:hover {
+    transform: translateY(-1px);
+    background: #D6B976;
+  }
+  .mave-search-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    align-items: center;
+  }
+  .mave-search-chip {
+    border: 1px solid rgba(107,87,68,0.16);
+    background: rgba(245,240,232,0.56);
+    color: rgba(26,20,16,0.76);
+    cursor: pointer;
+    padding: 10px 13px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .mave-search-results {
+    padding: 44px 80px 78px;
+  }
+  .mave-search-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 32px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(107,87,68,0.13);
+    margin-bottom: 22px;
+  }
+  .mave-search-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .mave-search-card {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: rgba(245,240,232,0.72);
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 8px 34px rgba(26,20,16,0.045);
+    transition: transform 520ms cubic-bezier(0.32,0.72,0,1), box-shadow 520ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .mave-search-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 70px rgba(26,20,16,0.12);
+  }
+  .mave-search-card-media {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #E8DDD0;
+  }
+  .mave-search-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.9);
+    transition: transform 900ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .mave-search-card:hover .mave-search-card-media img {
+    transform: scale(1.035);
+  }
+  .mave-search-card-body {
+    padding: 22px 8px 30px;
+  }
+  .mave-search-card-body span {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #7C7168;
+    margin-bottom: 10px;
+  }
+  .mave-search-card-body strong {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1A1410;
+    margin-bottom: 10px;
+  }
+  .mave-search-card-body em {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: #1A1410;
+  }
+  .mave-search-empty {
+    min-height: 420px;
+    padding: 72px 40px 76px;
+    border: 1px solid rgba(107,87,68,0.14);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(200,169,110,0.16), transparent 44%),
+      rgba(245,240,232,0.56);
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+  .mave-search-empty-inner {
+    max-width: 620px;
+  }
+  .mave-search-empty-icon {
+    width: 64px;
+    height: 64px;
+    border: 1px solid rgba(200,169,110,0.58);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #B88D4D;
+    margin: 0 auto 26px;
+  }
 
   /* Focus states for keyboard navigation */
   button:focus-visible, a:focus-visible {
@@ -176,6 +415,29 @@
     .mave-catalog-products {
       padding: 0 24px 72px !important;
     }
+    .mave-search-hero {
+      grid-template-columns: 1fr !important;
+      gap: 34px !important;
+      padding: 74px 24px 40px !important;
+    }
+    .mave-search-hero::before {
+      background:
+        linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.92) 66%, rgba(245,240,232,0.5) 100%),
+        linear-gradient(180deg, rgba(245,240,232,0) 54%, #F5F0E8 100%),
+        url('assets/collections-hero.png') right -240px top/760px auto no-repeat;
+    }
+    .mave-search-results { padding: 28px 24px 58px !important; }
+    .mave-search-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
+    .mave-search-toolbar { align-items: flex-start !important; flex-direction: column !important; }
+    .mave-search-copy,
+    .mave-search-panel,
+    .mave-search-lede {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+    .mave-search-form { grid-template-columns: 1fr !important; }
+    .mave-search-submit { width: 100% !important; }
     .mave-catalog-controls { align-items: flex-start !important; }
     .mave-pdp-gallery { min-height: 68vh !important; }
     .mave-pdp-thumbs { position: relative !important; left: auto !important; bottom: auto !important; padding: 2px !important; background: #1A1410 !important; }
@@ -184,6 +446,9 @@
   @media (max-width: 480px) {
     .mave-grid-4 { grid-template-columns: 1fr !important; }
     .mave-grid-3 { grid-template-columns: 1fr !important; }
+    .mave-search-grid { grid-template-columns: 1fr !important; }
+    .mave-search-title { font-size: 50px !important; }
+    .mave-search-panel { padding: 24px 22px 26px !important; }
     .mave-pdp-hero-image { height: 48vh !important; }
     .mave-pdp-thumb { height: 140px !important; }
   }
@@ -2919,6 +3184,8 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/checkout/review') return 'checkoutReview';
   if (window.location.pathname === '/checkout/success') return 'checkoutSuccess';
   if (window.location.pathname === '/checkout/failed') return 'checkoutFailed';
+  if (window.location.pathname === '/search/no-results') return 'searchNoResults';
+  if (window.location.pathname === '/search') return 'search';
   if (window.location.pathname === '/shipping') return 'shipping';
   if (window.location.pathname === '/returns') return 'returns';
   if (window.location.pathname === '/contact') return 'contact';
@@ -3015,6 +3282,16 @@ const setViewUrl = view => {
     window.history.pushState({}, '', url);
     return;
   }
+  if (view === 'search') {
+    url.pathname = '/search';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'searchNoResults') {
+    url.pathname = '/search/no-results';
+    window.history.pushState({}, '', url);
+    return;
+  }
   if (view === 'shipping') {
     url.pathname = '/shipping';
     window.history.pushState({}, '', url);
@@ -3097,7 +3374,7 @@ const Reveal = ({ children, delay = 0, y = 36, style = {}, ...rest }) => (
 );
 
 /* в”Ђв”Ђ HEADER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
-const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, onAccountOpen, surface = 'dark', activeView = '' }) => {
+const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, onAccountOpen, onSearchOpen, surface = 'dark', activeView = '' }) => {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -3220,9 +3497,9 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
             </>
           ) : (
             <>
-              <button className="mave-nav-links" onClick={onCatalogOpen} style={{ ...linkSt, color: actionText }}
+              <button className="mave-nav-links" onClick={onSearchOpen || onCatalogOpen} style={{ ...linkSt, color: activeView === 'search' || activeView === 'searchNoResults' ? C.gold : actionText }}
                 onMouseEnter={e => e.target.style.color = C.gold}
-                onMouseLeave={e => e.target.style.color = actionText}
+                onMouseLeave={e => e.target.style.color = activeView === 'search' || activeView === 'searchNoResults' ? C.gold : actionText}
               >Search</button>
               <button className="mave-nav-links" onClick={onAccountOpen} style={{ ...linkSt, color: actionText }}
                 onMouseEnter={e => e.target.style.color = C.gold}
@@ -4262,6 +4539,117 @@ const CatalogPage = ({ onBack, onSelect }) => {
         <Footer />
       </div>
     </motion.main>
+  );
+};
+
+const SearchPage = ({ empty = false, onSelect, onCatalogOpen }) => {
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = empty ? 'azelaic repair mist' : (params.get('q') || 'serum');
+  const [query, setQuery] = React.useState(initialQuery);
+  const suggestions = ['serum', 'cleanse', 'organic care', 'body care', 'wow skin'];
+  const normalized = query.trim().toLowerCase();
+  const results = empty ? [] : PRODUCTS.filter(product => {
+    const haystack = `${product.name} ${product.collection} ${product.desc} ${product.type}`.toLowerCase();
+    return !normalized || haystack.includes(normalized);
+  }).slice(0, 8);
+  const resultCopy = results.length === 1 ? '1 formula found' : `${results.length} formulas found`;
+
+  const submitSearch = event => {
+    event.preventDefault();
+    const value = query.trim();
+    const url = new URL(window.location.href);
+    url.pathname = value.toLowerCase().includes('azelaic') || value.toLowerCase().includes('noresult') ? '/search/no-results' : '/search';
+    if (value) url.searchParams.set('q', value);
+    else url.searchParams.delete('q');
+    window.history.pushState({}, '', url);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+  const setSuggestion = value => {
+    const url = new URL(window.location.href);
+    url.pathname = '/search';
+    url.searchParams.set('q', value);
+    window.history.pushState({}, '', url);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+  return (
+    <main className="mave-search-page">
+      <section className="mave-search-hero">
+        <div className="mave-search-copy">
+          <span className="mave-search-kicker">Search</span>
+          <h1 className="mave-search-title">{empty ? 'No results' : 'Search results'}<span style={{ color: C.gold }}>.</span></h1>
+          <p className="mave-search-lede">
+            {empty
+              ? 'No exact match found. Try a broader role, ingredient family, or collection name.'
+              : 'Find formulas by role, collection, texture, or product name.'}
+          </p>
+        </div>
+        <aside className="mave-search-panel">
+          <form className="mave-search-form" onSubmit={submitSearch}>
+            <label className="mave-search-field">
+              <span>Search the collection</span>
+              <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="serum, cleanse, body care" />
+            </label>
+            <button className="mave-search-submit" type="submit">Search</button>
+          </form>
+          <div className="mave-search-suggestions">
+            <span>Popular</span>
+            {suggestions.map(item => (
+              <button className="mave-search-chip" type="button" key={item} onClick={() => setSuggestion(item)}>{item}</button>
+            ))}
+          </div>
+        </aside>
+      </section>
+
+      <section className="mave-search-results">
+        <div className="mave-search-toolbar">
+          <div>
+            <span className="mave-search-count">{empty ? '0 formulas found' : resultCopy}</span>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.8, color: 'rgba(26,20,16,0.64)', marginTop: 9 }}>
+              {empty ? `Search term: "${query}"` : `Showing precise matches for "${query || 'all formulas'}".`}
+            </p>
+          </div>
+          <button type="button" className="mave-search-collection-link" onClick={onCatalogOpen}>View collection</button>
+        </div>
+
+        {empty || results.length === 0 ? (
+          <div className="mave-search-empty">
+            <div className="mave-search-empty-inner">
+              <span className="mave-search-empty-icon"><AccountLineIcon type="search" size={30} /></span>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,4.2vw,64px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: C.black, marginBottom: 18 }}>Nothing matched.</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.86, color: 'rgba(26,20,16,0.66)', maxWidth: 500, margin: '0 auto 28px' }}>
+                Search by product role instead of a full phrase. Good starting points are serum, cleanse, organic care, body care, or WOW.
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
+                {suggestions.slice(0, 4).map(item => (
+                  <button className="mave-search-chip" type="button" key={item} onClick={() => setSuggestion(item)}>{item}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="mave-search-grid">
+            {results.map(product => (
+              <button className="mave-search-card" type="button" key={product.id} onClick={() => onSelect(product)}>
+                <div className="mave-search-card-media">
+                  <img src={product.image} alt={product.name} loading="eager" />
+                  {product.badge && (
+                    <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>{product.badge}</span>
+                  )}
+                </div>
+                <div className="mave-search-card-body">
+                  <span>{product.collection}</span>
+                  <strong>{product.name}</strong>
+                  <em>{product.price}</em>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+      <Footer />
+    </main>
   );
 };
 
@@ -7009,6 +7397,12 @@ const App = () => {
     setView('account');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openSearch = () => {
+    setViewUrl('search');
+    setProductPage(null);
+    setView('search');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openProfile = () => {
     setViewUrl('profile');
     setProductPage(null);
@@ -7091,7 +7485,8 @@ const App = () => {
         onSectionOpen={openLandingSection}
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
-        surface={productPage || view === 'catalog' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        onSearchOpen={openSearch}
+        surface={productPage || view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -7122,6 +7517,10 @@ const App = () => {
         <CheckoutResultPage status="success" />
       ) : view === 'checkoutFailed' ? (
         <CheckoutResultPage status="failed" />
+      ) : view === 'search' ? (
+        <SearchPage onSelect={openProduct} onCatalogOpen={openCatalog} />
+      ) : view === 'searchNoResults' ? (
+        <SearchPage empty onSelect={openProduct} onCatalogOpen={openCatalog} />
       ) : view === 'shipping' ? (
         <ServicePolicyPage type="shipping" />
       ) : view === 'returns' ? (
