@@ -342,74 +342,77 @@
   }
   .mave-search-modal-backdrop {
     position: fixed;
-    inset: 0;
-    z-index: 760;
-    background: rgba(26,20,16,0.34);
-    backdrop-filter: blur(7px);
+    inset: 72px 0 0;
+    z-index: 520;
+    background: rgba(26,20,16,0.18);
+    backdrop-filter: blur(2px);
   }
   .mave-search-modal {
     position: fixed;
-    top: 88px;
-    left: 50%;
+    top: 72px;
+    left: 0;
+    right: 0;
     z-index: 761;
-    width: min(760px, calc(100vw - 48px));
-    transform: translateX(-50%);
-    border: 1px solid rgba(107,87,68,0.18);
-    background:
-      linear-gradient(90deg, rgba(245,240,232,0.94), rgba(245,240,232,0.72)),
-      url('assets/collections-hero.png') right -210px center/720px auto no-repeat;
-    box-shadow: 0 34px 110px rgba(26,20,16,0.22);
+    width: 100%;
+    border-top: 1px solid rgba(107,87,68,0.08);
+    border-bottom: 1px solid rgba(107,87,68,0.18);
+    background: rgba(245,240,232,0.985);
+    box-shadow: 0 28px 80px rgba(26,20,16,0.12);
     overflow: hidden;
   }
   .mave-search-modal::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.94) 54%, rgba(245,240,232,0.52) 100%);
+    background:
+      linear-gradient(90deg, rgba(245,240,232,1) 0%, rgba(245,240,232,0.94) 50%, rgba(245,240,232,1) 100%),
+      radial-gradient(circle at 18% 0%, rgba(200,169,110,0.08), transparent 36%);
     pointer-events: none;
   }
   .mave-search-modal-inner {
     position: relative;
     z-index: 1;
-    padding: 36px 42px 38px;
+    width: min(1180px, calc(100vw - 104px));
+    margin: 0 auto;
+    padding: 34px 0 30px;
   }
   .mave-search-modal-head {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: center;
     gap: 28px;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
   }
   .mave-search-modal-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
+    font-size: 34px;
     font-weight: 300;
     font-style: italic;
-    line-height: 0.98;
+    line-height: 1;
     color: #1A1410;
     margin: 0;
   }
   .mave-search-modal-close {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(107,87,68,0.18);
-    background: rgba(245,240,232,0.48);
-    color: rgba(26,20,16,0.62);
+    border: 0;
+    background: transparent;
+    color: rgba(26,20,16,0.68);
     cursor: pointer;
     font-size: 22px;
     line-height: 1;
   }
   .mave-search-modal-form {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 18px;
-    align-items: end;
+    grid-template-columns: 1fr 132px;
+    gap: 24px;
+    align-items: center;
     border-top: 1px solid rgba(107,87,68,0.16);
     border-bottom: 1px solid rgba(107,87,68,0.18);
-    padding: 24px 0 18px;
-    margin-bottom: 22px;
+    padding: 18px 0;
+    margin-bottom: 20px;
   }
   .mave-search-modal-field span {
     display: block;
@@ -419,7 +422,7 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(26,20,16,0.58);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .mave-search-modal-field input {
     width: 100%;
@@ -427,7 +430,7 @@
     background: transparent;
     outline: none;
     font-family: 'Montserrat', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 300;
     color: #1A1410;
   }
@@ -439,6 +442,7 @@
     flex-wrap: wrap;
     gap: 10px 12px;
     align-items: center;
+    justify-content: flex-start;
   }
   .mave-search-modal-foot span {
     font-family: 'Montserrat', sans-serif;
@@ -552,14 +556,17 @@
     .mave-search-form { grid-template-columns: 1fr !important; }
     .mave-search-submit { width: 100% !important; }
     .mave-search-modal {
-      top: 84px !important;
-      width: calc(100vw - 32px) !important;
-      background:
-        linear-gradient(90deg, rgba(245,240,232,0.96), rgba(245,240,232,0.9)),
-        url('assets/collections-hero.png') right -340px center/760px auto no-repeat !important;
+      top: 72px !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      background: rgba(245,240,232,0.985) !important;
     }
-    .mave-search-modal-inner { padding: 28px 24px 30px !important; }
-    .mave-search-modal-title { font-size: 42px !important; }
+    .mave-search-modal-inner {
+      width: calc(100vw - 40px) !important;
+      padding: 26px 0 28px !important;
+    }
+    .mave-search-modal-title { font-size: 32px !important; }
     .mave-search-modal-form { grid-template-columns: 1fr !important; }
     .mave-search-modal-form .mave-search-submit { width: 100% !important; }
     .mave-catalog-controls { align-items: flex-start !important; }
@@ -5427,15 +5434,15 @@ const SearchOverlay = ({ isOpen, onClose }) => {
             role="dialog"
             aria-modal="true"
             aria-label="Search MAVE"
-            initial={{ opacity: 0, y: -18, x: '-50%' }}
-            animate={{ opacity: 1, y: 0, x: '-50%' }}
-            exit={{ opacity: 0, y: -12, x: '-50%' }}
-            transition={{ duration: 0.42, ease: [0.16,1,0.3,1] }}
+            initial={{ opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.34, ease: [0.16,1,0.3,1] }}
           >
             <div className="mave-search-modal-inner">
               <div className="mave-search-modal-head">
                 <div>
-                  <span className="mave-search-kicker" style={{ marginBottom: 14 }}>Search</span>
+                  <span className="mave-search-kicker" style={{ marginBottom: 10 }}>Search</span>
                   <h2 className="mave-search-modal-title">Find your formula<span style={{ color: C.gold }}>.</span></h2>
                 </div>
                 <button className="mave-search-modal-close" type="button" onClick={onClose} aria-label="Close search">×</button>
