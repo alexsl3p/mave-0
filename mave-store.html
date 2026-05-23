@@ -340,6 +340,118 @@
     color: #B88D4D;
     margin: 0 auto 26px;
   }
+  .mave-search-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 760;
+    background: rgba(26,20,16,0.34);
+    backdrop-filter: blur(7px);
+  }
+  .mave-search-modal {
+    position: fixed;
+    top: 88px;
+    left: 50%;
+    z-index: 761;
+    width: min(760px, calc(100vw - 48px));
+    transform: translateX(-50%);
+    border: 1px solid rgba(107,87,68,0.18);
+    background:
+      linear-gradient(90deg, rgba(245,240,232,0.94), rgba(245,240,232,0.72)),
+      url('assets/collections-hero.png') right -210px center/720px auto no-repeat;
+    box-shadow: 0 34px 110px rgba(26,20,16,0.22);
+    overflow: hidden;
+  }
+  .mave-search-modal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.94) 54%, rgba(245,240,232,0.52) 100%);
+    pointer-events: none;
+  }
+  .mave-search-modal-inner {
+    position: relative;
+    z-index: 1;
+    padding: 36px 42px 38px;
+  }
+  .mave-search-modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 28px;
+    margin-bottom: 30px;
+  }
+  .mave-search-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 0.98;
+    color: #1A1410;
+    margin: 0;
+  }
+  .mave-search-modal-close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(107,87,68,0.18);
+    background: rgba(245,240,232,0.48);
+    color: rgba(26,20,16,0.62);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .mave-search-modal-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: end;
+    border-top: 1px solid rgba(107,87,68,0.16);
+    border-bottom: 1px solid rgba(107,87,68,0.18);
+    padding: 24px 0 18px;
+    margin-bottom: 22px;
+  }
+  .mave-search-modal-field span {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.58);
+    margin-bottom: 10px;
+  }
+  .mave-search-modal-field input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: #1A1410;
+  }
+  .mave-search-modal-field input::placeholder {
+    color: rgba(26,20,16,0.34);
+  }
+  .mave-search-modal-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    align-items: center;
+  }
+  .mave-search-modal-foot span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.58);
+    margin-right: 2px;
+  }
+  .mave-mobile-search-action {
+    display: none !important;
+  }
 
   /* Focus states for keyboard navigation */
   button:focus-visible, a:focus-visible {
@@ -362,6 +474,7 @@
     .mave-nav-links { display: none !important; }
     .mave-nav { padding: 0 20px !important; }
     .mave-hamburger { display: flex !important; }
+    .mave-mobile-search-action { display: grid !important; }
     .mave-cart-action { display: none !important; }
 
     /* Hero */
@@ -438,6 +551,17 @@
     }
     .mave-search-form { grid-template-columns: 1fr !important; }
     .mave-search-submit { width: 100% !important; }
+    .mave-search-modal {
+      top: 84px !important;
+      width: calc(100vw - 32px) !important;
+      background:
+        linear-gradient(90deg, rgba(245,240,232,0.96), rgba(245,240,232,0.9)),
+        url('assets/collections-hero.png') right -340px center/760px auto no-repeat !important;
+    }
+    .mave-search-modal-inner { padding: 28px 24px 30px !important; }
+    .mave-search-modal-title { font-size: 42px !important; }
+    .mave-search-modal-form { grid-template-columns: 1fr !important; }
+    .mave-search-modal-form .mave-search-submit { width: 100% !important; }
     .mave-catalog-controls { align-items: flex-start !important; }
     .mave-pdp-gallery { min-height: 68vh !important; }
     .mave-pdp-thumbs { position: relative !important; left: auto !important; bottom: auto !important; padding: 2px !important; background: #1A1410 !important; }
@@ -3484,6 +3608,10 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
 
         {/* Actions + Hamburger */}
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+          <button className="mave-mobile-search-action" aria-label="Search" onClick={onSearchOpen || onCatalogOpen} style={iconButtonStyle}
+            onMouseEnter={e => e.currentTarget.style.color = C.gold}
+            onMouseLeave={e => e.currentTarget.style.color = actionText}
+          ><HeaderMiniIcon type="search" /></button>
           {(activeView === 'account' || activeView === 'profile' || activeView === 'orders' || activeView === 'orderDetail' || activeView === 'addresses' || activeView === 'checkoutContact') ? (
             <>
               <button className="mave-nav-links" aria-label="Account" onClick={onAccountOpen} style={iconButtonStyle}
@@ -3555,7 +3683,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
               padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', gap: 0,
             }}
           >
-            {navLinks.map(([l, action], i) => (
+            {navLinks.map(([l, id, action], i) => (
               <motion.button
                 key={l}
                 initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
@@ -3566,6 +3694,13 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
                 onMouseLeave={e => e.target.style.color = 'rgba(245,240,232,0.68)'}
               >{l}</motion.button>
             ))}
+            <motion.button
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.24 }}
+              onClick={() => { onSearchOpen && onSearchOpen(); setMenuOpen(false); }}
+              style={{ ...linkSt, fontSize: 13, letterSpacing: '0.28em', padding: '16px 0', borderBottom: '1px solid rgba(200,169,110,0.1)', textAlign: 'left' }}
+              onMouseEnter={e => e.target.style.color = C.gold}
+              onMouseLeave={e => e.target.style.color = 'rgba(245,240,232,0.68)'}
+            >Search</motion.button>
             <motion.button
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.28 }}
               onClick={() => { onAccountOpen && onAccountOpen(); setMenuOpen(false); }}
@@ -5238,6 +5373,93 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
     )}
   </AnimatePresence>
 );
+
+const SearchOverlay = ({ isOpen, onClose }) => {
+  const [query, setQuery] = React.useState('');
+  const inputRef = React.useRef(null);
+  const suggestions = ['serum', 'cleanse', 'organic care', 'body care', 'wow skin'];
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const focusTimer = setTimeout(() => inputRef.current?.focus(), 120);
+    const onKey = event => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen, onClose]);
+
+  const goSearch = value => {
+    const term = String(value || query).trim();
+    const url = new URL(window.location.href);
+    const misses = term.toLowerCase().includes('azelaic') || term.toLowerCase().includes('noresult') || term.toLowerCase().includes('no result');
+    url.pathname = misses ? '/search/no-results' : '/search';
+    if (term) url.searchParams.set('q', term);
+    else url.searchParams.delete('q');
+    window.history.pushState({}, '', url);
+    onClose();
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const submit = event => {
+    event.preventDefault();
+    goSearch(query);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            className="mave-search-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.32,0.72,0,1] }}
+            onClick={onClose}
+          />
+          <motion.div
+            className="mave-search-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search MAVE"
+            initial={{ opacity: 0, y: -18, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -12, x: '-50%' }}
+            transition={{ duration: 0.42, ease: [0.16,1,0.3,1] }}
+          >
+            <div className="mave-search-modal-inner">
+              <div className="mave-search-modal-head">
+                <div>
+                  <span className="mave-search-kicker" style={{ marginBottom: 14 }}>Search</span>
+                  <h2 className="mave-search-modal-title">Find your formula<span style={{ color: C.gold }}>.</span></h2>
+                </div>
+                <button className="mave-search-modal-close" type="button" onClick={onClose} aria-label="Close search">×</button>
+              </div>
+              <form className="mave-search-modal-form" onSubmit={submit}>
+                <label className="mave-search-modal-field">
+                  <span>Search the collection</span>
+                  <input ref={inputRef} type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="serum, cleanse, body care" />
+                </label>
+                <button className="mave-search-submit" type="submit">Search</button>
+              </form>
+              <div className="mave-search-modal-foot">
+                <span>Popular</span>
+                {suggestions.map(item => (
+                  <button className="mave-search-chip" type="button" key={item} onClick={() => goSearch(item)}>{item}</button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
 
 /* ACCOUNT LOGIN */
 const LoginIcon = ({ type }) => {
@@ -7339,6 +7561,7 @@ const App = () => {
   const [productPage, setProductPage] = React.useState(() => productFromUrl());
   const [view, setView] = React.useState(() => viewFromUrl());
   const [cartOpen, setCartOpen] = React.useState(false);
+  const [searchOpen, setSearchOpen] = React.useState(false);
   const [cart, setCart]         = React.useState([]);
 
   const addToCart = (product, qty) => {
@@ -7398,10 +7621,7 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const openSearch = () => {
-    setViewUrl('search');
-    setProductPage(null);
-    setView('search');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setSearchOpen(true);
   };
   const openProfile = () => {
     setViewUrl('profile');
@@ -7555,6 +7775,7 @@ const App = () => {
         </>
       )}
       <CartSidebar cart={cart} isOpen={cartOpen} onClose={() => setCartOpen(false)} onRemove={removeFromCart} onQtyChange={changeCartQty} />
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </motion.div>
   );
 };
