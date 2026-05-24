@@ -3977,7 +3977,7 @@ const Hero = ({ onCatalogOpen }) => {
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.4em', textTransform: 'uppercase', color: C.gold }}>Molecular Care</span>
         </motion.div>
 
-        <h1 className="mave-hero-title" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,6.4vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.08, color: C.cream, marginBottom: 18, maxWidth: 760 }}>
+        <h1 aria-label="The art of molecular care." className="mave-hero-title" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,6.4vw,78px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.08, color: C.cream, marginBottom: 18, maxWidth: 760 }}>
           <motion.span initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.8, ease: [0.4, 0, 0.2, 1] }} style={{ display: 'block' }}>
             The art of
           </motion.span>
@@ -5916,7 +5916,7 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
             >
               <div>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 24 }}>Account</span>
-                <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.4vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>Welcome<br />back.</h1>
+                <h1 aria-label="Welcome back." style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.4vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>Welcome<br />back.</h1>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.68, letterSpacing: '0.01em', color: 'rgba(26,20,16,0.68)', maxWidth: 330 }}>Sign in to access your orders, saved products, and personalized skincare recommendations.</p>
                 <div style={{ height: 1, background: 'rgba(200,169,110,0.72)', margin: '30px 0 38px', width: '100%' }} />
                 <div style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: 22, alignItems: 'center' }}>
@@ -6011,14 +6011,14 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
   );
 };
 
-const AuthVisualPanel = ({ eyebrow, title, copy }) => (
+const AuthVisualPanel = ({ eyebrow, title, copy, titleLabel }) => (
   <motion.div className="mave-login-visual" initial={false} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0 }}>
     <img src="assets/login-shampoo.png" alt="MAVE Expert Molecular Shampoo" />
     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.10) 36%, rgba(245,240,232,0.48) 72%, rgba(245,240,232,0.94) 100%)' }} />
     <div className="mave-login-visual-copy">
       <div>
         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 24 }}>{eyebrow}</span>
-        <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.4vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>{title}</h1>
+        <h1 aria-label={titleLabel} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.4vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>{title}</h1>
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.68, letterSpacing: '0.01em', color: 'rgba(26,20,16,0.68)', maxWidth: 330 }}>{copy}</p>
         <div style={{ height: 1, background: 'rgba(200,169,110,0.72)', margin: '30px 0 38px', width: '100%' }} />
         <div style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: 22, alignItems: 'center' }}>
@@ -6071,7 +6071,7 @@ const RegisterPage = ({ onBack, onLogin }) => {
     <main className="mave-login-page">
       <div className="mave-login-scale">
         <section className="mave-login-shell">
-          <AuthVisualPanel eyebrow="Account" title={<>Begin<br />within.</>} copy="Create a quiet place for your orders, saved products, and formulas worth returning to." />
+          <AuthVisualPanel eyebrow="Account" title={<>Begin<br />within.</>} titleLabel="Begin within." copy="Create a quiet place for your orders, saved products, and formulas worth returning to." />
           <div className="mave-login-main">
             <div className="mave-login-form-panel">
               <motion.button whileHover={textHover} transition={hoverTransition} onClick={onBack} style={{ background: 'none', border: 'none', color: 'rgba(154,122,66,0.92)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 30, padding: 0 }}>← Back to MAVE</motion.button>
@@ -6100,7 +6100,7 @@ const RegisterPage = ({ onBack, onLogin }) => {
                 </label>
                 <label style={{ display: 'flex', alignItems: 'flex-start', gap: 14, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.55, color: 'rgba(26,20,16,0.68)', marginBottom: 24 }}>
                   <input type="checkbox" defaultChecked style={{ accentColor: C.gold, width: 16, height: 16, marginTop: 2 }} />
-                  Receive measured recommendations and private MAVE notes.
+                  Receive tailored recommendations and private MAVE notes.
                 </label>
                 <motion.button type="submit" whileHover={darkButtonHover} whileTap={reduceMotion ? {} : { scale: 0.995 }} transition={hoverTransition} style={{ width: '100%', height: 56, background: C.black, color: C.gold, border: 'none', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.38em', textTransform: 'uppercase', marginBottom: 24 }}>Create account</motion.button>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 18, marginBottom: 20 }}>
@@ -6131,7 +6131,7 @@ const ForgotPasswordPage = ({ onBack, onLogin, onRegister }) => {
     <main className="mave-login-page">
       <div className="mave-login-scale">
         <section className="mave-login-shell">
-          <AuthVisualPanel eyebrow="Account" title={<>Return<br />softly.</>} copy="Restore access without noise. Your orders and saved formulas will remain where you left them." />
+          <AuthVisualPanel eyebrow="Account" title={<>Return<br />softly.</>} titleLabel="Return softly." copy="Restore access without noise. Your orders and saved formulas will remain where you left them." />
           <div className="mave-login-main">
             <div className="mave-login-form-panel">
               <motion.button whileHover={textHover} transition={hoverTransition} onClick={onBack} style={{ background: 'none', border: 'none', color: 'rgba(154,122,66,0.92)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.26em', textTransform: 'uppercase', marginBottom: 38, padding: 0 }}>← Back to MAVE</motion.button>
@@ -6314,7 +6314,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
         <div className="mave-account-main">
           <div className="mave-account-top">
             <motion.div initial={reveal} animate={showReveal} transition={revealTransition(0)}>
-              <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.1vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Welcome back,<br />Alessandra <span style={{ color: C.gold, fontSize: '0.8em' }}>♡</span></h1>
+              <h1 aria-label="Welcome back, Alessandra." style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,4.1vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Welcome back,<br />Alessandra <span style={{ color: C.gold, fontSize: '0.8em' }}>♡</span></h1>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)', maxWidth: 310 }}>Here's what's happening with your account and your skin journey.</p>
             </motion.div>
             <motion.div className="mave-account-quiz" initial={reveal} animate={showReveal} transition={revealTransition(0.06)}>
@@ -7088,7 +7088,7 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
               <div className="mave-payment-help-copy">
                 <span style={{ ...tiny, display: 'block', marginBottom: 15 }}>Secure by default</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 27, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 18 }}>Details ready only when needed.</h2>
-                <p style={{ ...body, fontSize: 12, marginBottom: 22 }}>Encrypted payment details help keep checkout measured and simple.</p>
+                <p style={{ ...body, fontSize: 12, marginBottom: 22 }}>Encrypted payment details help keep checkout quiet and simple.</p>
                 <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Security details →</button>
               </div>
             </div>
@@ -7221,7 +7221,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
 
             <label className="mave-checkout-check">
               <span>✓</span>
-              <span className="mave-checkout-check-text">{loggedIn ? 'Send measured order updates and private MAVE notes' : 'Receive measured product notes and private MAVE updates'}</span>
+              <span className="mave-checkout-check-text">{loggedIn ? 'Send order updates and private MAVE notes' : 'Receive product notes and private MAVE updates'}</span>
             </label>
 
             {!loggedIn && (
@@ -7241,8 +7241,8 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
 
           <aside className="mave-checkout-summary" aria-label="Order summary">
             <div className="mave-checkout-summary-head">
-              <span style={tiny}>Ritual summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit bag</button>
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
             </div>
             {items.map(([name, size, price, pos]) => (
               <div className="mave-checkout-summary-item" key={name}>
@@ -7382,11 +7382,11 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
             <div className="mave-checkout-radio-list">
               {(loggedIn
                 ? [
-                    ['Standard delivery', 'Measured arrival in 2-4 business days', 'Free', true, 'truck'],
+                    ['Standard delivery', 'Arrives in 2-4 business days', 'Free', true, 'truck'],
                     ['Express delivery', 'Faster arrival in 1-2 business days', '€6,00', false, 'orders'],
                   ]
                 : [
-                    ['Standard delivery', 'Measured arrival in 2-4 business days', 'Free', true, null],
+                    ['Standard delivery', 'Arrives in 2-4 business days', 'Free', true, null],
                     ['Express delivery', 'Faster arrival in 1-2 business days', '€6,00', false, null],
                     ['Priority courier', 'Next business day care', '€12,00', false, null],
                   ]).map(([name, time, price, selected, icon]) => (
@@ -7417,8 +7417,8 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
 
           <aside className="mave-checkout-summary" aria-label="Order summary">
             <div className="mave-checkout-summary-head">
-              <span style={tiny}>Ritual summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit bag</button>
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
             </div>
             {items.map(([name, size, price, pos]) => (
               <div className="mave-checkout-summary-item" key={name}>
@@ -7563,8 +7563,8 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
 
           <aside className="mave-checkout-summary" aria-label="Order summary">
             <div className="mave-checkout-summary-head">
-              <span style={tiny}>Ritual summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit bag</button>
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
             </div>
             {items.map(([name, size, price, pos]) => (
               <div className="mave-checkout-summary-item" key={name}>
@@ -7642,7 +7642,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
         <div className="mave-checkout-content is-review">
           <section className="mave-checkout-form" aria-label="Review order">
             <h1 className="mave-checkout-delivery-title">Review<span style={{ color: C.gold }}>.</span></h1>
-            <p className="mave-checkout-delivery-note">Check the measured details before placing the order.</p>
+            <p className="mave-checkout-delivery-note">Check the details before placing the order.</p>
 
             <div className="mave-checkout-review-grid">
               <article className="mave-checkout-review-card">
@@ -7693,8 +7693,8 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
 
           <aside className="mave-checkout-summary" aria-label="Order summary">
             <div className="mave-checkout-summary-head">
-              <span style={tiny}>Ritual summary</span>
-              <button type="button" style={editLink}>Edit bag</button>
+              <span style={tiny}>Order summary</span>
+              <button type="button" style={editLink}>Edit cart</button>
             </div>
             {items.map(([name, size, price, pos]) => (
               <div className="mave-checkout-summary-item" key={name}>
@@ -7768,7 +7768,7 @@ const CheckoutResultPage = ({ status = 'success' }) => {
             </h1>
             <p style={{ ...muted, fontSize: 15, maxWidth: 520 }}>
               {success
-                ? 'Your MAVE order is now being prepared with measured care. A confirmation note has been sent to your inbox.'
+                ? 'Your MAVE order is now being prepared with care. A confirmation note has been sent to your inbox.'
                 : 'The authorization did not complete. Your cart is still reserved, so you can retry with the same details or choose another method.'}
             </p>
             <div className="mave-checkout-result-actions">
@@ -7782,7 +7782,7 @@ const CheckoutResultPage = ({ status = 'success' }) => {
           </div>
 
           <aside className="mave-checkout-result-panel">
-            <span style={tiny}>{success ? 'Ritual summary' : 'Payment summary'}</span>
+            <span style={tiny}>{success ? 'Order summary' : 'Payment summary'}</span>
             <div className="mave-checkout-result-list">
               {rows.map(([label, value]) => (
                 <div className="mave-checkout-result-row" key={label}>
@@ -7902,7 +7902,7 @@ const ServicePolicyPage = ({ type = 'shipping' }) => {
 const Footer = () => {
   const cols = [
     { head:'Care', links:['Core Oils','WOW Serums','Cleanse','Limited Edition'] },
-    { head:'MAVE',         links:['Approach','Ingredients','Science','Stockists'] },
+    { head:'MAVE',         links:['Approach','Science','Stockists'] },
     { head:'Service',      links:['Shipping','Returns','Contact','Privacy'] },
   ];
   const lnk = { fontFamily:"'Montserrat',sans-serif", fontSize:11, fontWeight:300, letterSpacing:'0.06em', color:'rgba(245,240,232,0.44)', display:'block', marginBottom:11 };
