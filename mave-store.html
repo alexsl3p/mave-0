@@ -3191,8 +3191,29 @@
       padding: 0 0 32px;
       overflow: hidden;
     }
-    .mave-checkout-steps { align-items: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
-    .mave-checkout-line { min-width: 44px; }
+    .mave-checkout-steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: start;
+      gap: 8px;
+      overflow: visible;
+      padding-bottom: 0;
+    }
+    .mave-checkout-line { display: none; }
+    .mave-checkout-step {
+      min-width: 0;
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      font-size: 8px;
+      line-height: 1.2;
+      letter-spacing: 0.12em;
+      text-align: center;
+    }
+    .mave-checkout-step span:first-child {
+      width: 36px;
+      height: 36px;
+    }
     .mave-checkout-content,
     .mave-checkout-content.is-delivery-logged,
     .mave-checkout-content.is-payment-logged,
@@ -6266,9 +6287,9 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
     ['profile', 'Support'],
   ];
   const summary = [
-    ['box', 'Total orders', '12', 'View all orders'],
-    ['truck', 'Next order', 'In progress', 'Track your order'],
-    ['sparkle', 'Bonus points', '320', 'View rewards'],
+    ['box', 'Total orders', '12', 'View all orders', onOrders],
+    ['truck', 'Next order', 'In progress', 'Track your order', onOrders],
+    ['sparkle', 'Bonus points', '320', 'View rewards', onWishlist],
     ['heart', 'Wishlist items', '8', 'Go to wishlist', onWishlist],
   ];
   const orders = [
