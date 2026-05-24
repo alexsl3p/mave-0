@@ -7232,6 +7232,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
                   <button type="button" className="mave-checkout-social"><b style={{ fontSize: 18 }}>●</b>Continue with Apple</button>
                 </div>
                 <p className="mave-checkout-note"><span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={18} /></span><span className="mave-checkout-note-text">We use your email only for checkout updates and essential order care.</span></p>
+                <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/delivery'; }} style={{ marginTop: 24 }}>Continue as guest <span style={{ fontSize: 22, fontWeight: 200 }}>›</span></button>
               </>
             )}
 
