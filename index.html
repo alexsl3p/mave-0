@@ -3694,7 +3694,6 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   const navLinks = [
     ['Collections', 'catalog', () => onCatalogOpen && onCatalogOpen()],
     ['Science', 'science', () => onScienceOpen && onScienceOpen()],
-    ['Ingredients', 'ingredients', () => onSectionOpen && onSectionOpen('mave-ingredients')],
     ['About', 'about', () => onSectionOpen && onSectionOpen('mave-approach')],
   ];
   const closeMega = () => setMegaOpen(false);
@@ -3869,7 +3868,6 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
                 <div className="mave-mega-heading">Discover</div>
                 {[
                   ['Molecular science', onScienceOpen],
-                  ['Ingredients index', () => onSectionOpen && onSectionOpen('mave-ingredients')],
                   ['Skin diagnostic', onSearchOpen],
                   ['Member benefits', onAccountOpen],
                   ['Care services', () => onSectionOpen && onSectionOpen('mave-approach')],
