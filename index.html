@@ -3706,9 +3706,9 @@ const useCheckoutItems = () => {
   return items;
 };
 
-const getCheckoutTotals = items => {
+const getCheckoutTotals = (items, deliveryFee = null) => {
   const subtotal = items.reduce((sum, item) => sum + parseEuro(item.price) * item.qty, 0);
-  const shipping = subtotal >= 60 ? 0 : 6;
+  const shipping = deliveryFee === null ? (subtotal >= 60 ? 0 : 6) : parseEuro(deliveryFee);
   return {
     subtotal,
     shipping,
@@ -3716,6 +3716,33 @@ const getCheckoutTotals = items => {
     total: subtotal + shipping,
     shippingLabel: shipping === 0 ? 'Free' : formatEuro(shipping),
   };
+};
+
+const CHECKOUT_DELIVERY_METHODS = {
+  guest: [
+    { id: 'standard', name: 'Standard delivery', time: 'Arrives in 2-4 business days', price: 'Free', fee: 0 },
+    { id: 'express', name: 'Express delivery', time: 'Faster arrival in 1-2 business days', price: '€6,00', fee: 6 },
+    { id: 'priority', name: 'Priority courier', time: 'Next business day care', price: '€12,00', fee: 12 },
+  ],
+  loggedin: [
+    { id: 'standard', name: 'Standard delivery', time: 'Arrives in 2-4 business days', price: 'Free', fee: 0, icon: 'truck' },
+    { id: 'express', name: 'Express delivery', time: 'Faster arrival in 1-2 business days', price: '€6,00', fee: 6, icon: 'orders' },
+  ],
+};
+
+const readCheckoutDeliveryMethod = mode => {
+  try {
+    const raw = localStorage.getItem('mave-delivery-method');
+    if (!raw) return CHECKOUT_DELIVERY_METHODS[mode][0];
+    const saved = JSON.parse(raw);
+    return CHECKOUT_DELIVERY_METHODS[mode].find(method => method.id === saved.id) || CHECKOUT_DELIVERY_METHODS[mode][0];
+  } catch {
+    return CHECKOUT_DELIVERY_METHODS[mode][0];
+  }
+};
+
+const writeCheckoutDeliveryMethod = method => {
+  localStorage.setItem('mave-delivery-method', JSON.stringify({ id: method.id, fee: method.fee, name: method.name }));
 };
 
 /* в”Ђв”Ђ MAVE WORDMARK (inline SVG, just MAVE letters) в”Ђв”Ђ */
@@ -7229,8 +7256,8 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
   );
 };
 
-const CheckoutSummary = ({ items, cta = 'delivery', editStyle }) => {
-  const totals = getCheckoutTotals(items);
+const CheckoutSummary = ({ items, cta = 'delivery', editStyle, deliveryFee = null }) => {
+  const totals = getCheckoutTotals(items, deliveryFee);
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const isReview = cta === 'review';
@@ -7392,6 +7419,13 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
+  const methodMode = loggedIn ? 'loggedin' : 'guest';
+  const deliveryMethods = CHECKOUT_DELIVERY_METHODS[methodMode];
+  const [selectedMethod, setSelectedMethod] = React.useState(() => readCheckoutDeliveryMethod(methodMode));
+  const selectDeliveryMethod = method => {
+    setSelectedMethod(method);
+    writeCheckoutDeliveryMethod(method);
+  };
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7474,29 +7508,22 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
 
             <span style={{ ...tiny, display: 'block', marginBottom: 10 }}>Delivery method</span>
             <div className="mave-checkout-radio-list">
-              {(loggedIn
-                ? [
-                    ['Standard delivery', 'Arrives in 2-4 business days', 'Free', true, 'truck'],
-                    ['Express delivery', 'Faster arrival in 1-2 business days', '€6,00', false, 'orders'],
-                  ]
-                : [
-                    ['Standard delivery', 'Arrives in 2-4 business days', 'Free', true, null],
-                    ['Express delivery', 'Faster arrival in 1-2 business days', '€6,00', false, null],
-                    ['Priority courier', 'Next business day care', '€12,00', false, null],
-                  ]).map(([name, time, price, selected, icon]) => (
-                <label className={`mave-checkout-radio-row ${selected ? 'is-selected' : ''}`} key={name}>
+              {deliveryMethods.map(method => {
+                const selected = selectedMethod.id === method.id;
+                return (
+                <label className={`mave-checkout-radio-row ${selected ? 'is-selected' : ''}`} key={method.id} onClick={() => selectDeliveryMethod(method)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectDeliveryMethod(method); } }} tabIndex={0} role="radio" aria-checked={selected} style={{ cursor: 'pointer' }}>
                   <span className="mave-checkout-radio-dot" />
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 14 }}>
-                    {icon && <span style={{ color: 'rgba(26,20,16,0.72)' }}><AccountLineIcon type={icon} size={23} /></span>}
+                    {method.icon && <span style={{ color: 'rgba(26,20,16,0.72)' }}><AccountLineIcon type={method.icon} size={23} /></span>}
                     <span>
-                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black, display: 'block' }}>{name}</strong>
-                      {loggedIn && <span style={{ ...muted, fontSize: 11 }}>{time}</span>}
+                      <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black, display: 'block' }}>{method.name}</strong>
+                      {loggedIn && <span style={{ ...muted, fontSize: 11 }}>{method.time}</span>}
                     </span>
                   </span>
-                  {!loggedIn && <span style={muted}>{time}</span>}
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: price === 'Free' ? 400 : 500, color: C.black }}>{price}</span>
+                  {!loggedIn && <span style={muted}>{method.time}</span>}
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: method.price === 'Free' ? 400 : 500, color: C.black }}>{method.price}</span>
                 </label>
-              ))}
+              );})}
             </div>
 
             {loggedIn ? (
@@ -7509,7 +7536,7 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
             )}
           </section>
 
-          <CheckoutSummary items={items} />
+          <CheckoutSummary items={items} deliveryFee={selectedMethod.fee} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7533,6 +7560,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
+  const deliveryMethod = readCheckoutDeliveryMethod(loggedIn ? 'loggedin' : 'guest');
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7626,7 +7654,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
             </div>
           </section>
 
-          <CheckoutSummary items={items} />
+          <CheckoutSummary items={items} deliveryFee={deliveryMethod.fee} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7650,6 +7678,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
+  const deliveryMethod = readCheckoutDeliveryMethod(loggedIn ? 'loggedin' : 'guest');
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7699,7 +7728,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
                 </div>
                 <div className="mave-checkout-review-detail">
                   <span className="mave-checkout-review-icon"><AccountLineIcon type="truck" size={22} /></span>
-                  <p style={muted}>Brivibas iela 52, Riga, LV-1010, Latvia<br />Standard delivery · 2-4 business days<br />Shipping: Free</p>
+                  <p style={muted}>Brivibas iela 52, Riga, LV-1010, Latvia<br />{deliveryMethod.name} · {deliveryMethod.time.replace('Arrives in ', '').replace('Faster arrival in ', '')}<br />Shipping: {deliveryMethod.price}</p>
                 </div>
               </article>
 
@@ -7727,7 +7756,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
             </div>
           </section>
 
-          <CheckoutSummary items={items} cta="review" editStyle={editLink} />
+          <CheckoutSummary items={items} cta="review" editStyle={editLink} deliveryFee={deliveryMethod.fee} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7749,7 +7778,8 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
 const CheckoutResultPage = ({ status = 'success' }) => {
   const success = status === 'success';
   const items = useCheckoutItems();
-  const totals = getCheckoutTotals(items);
+  const deliveryMethod = readCheckoutDeliveryMethod('guest');
+  const totals = getCheckoutTotals(items, deliveryMethod.fee);
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const rows = success
