@@ -3639,13 +3639,12 @@ const setViewUrl = view => {
 };
 
 const syncCartForNextCheckout = cart => {
-  const toNumber = value => Number(String(value || '').replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
   const toPath = value => String(value || '').startsWith('/') ? value : `/${value}`;
   const items = cart.map(item => ({
     product: {
       id: item.slug || String(item.id),
       name: item.name,
-      price: toNumber(item.price),
+      price: parseEuro(item.price),
       shortDescription: item.desc || '',
       description: item.desc || '',
       step: item.collection || '',
@@ -3657,6 +3656,66 @@ const syncCartForNextCheckout = cart => {
     quantity: item.qty,
   }));
   localStorage.setItem('mave-cart', JSON.stringify({ state: { items }, version: 0 }));
+};
+
+const parseEuro = value => {
+  const raw = String(value ?? '0').replace(/[^\d.,-]/g, '').replace(',', '.');
+  return Number(raw) || 0;
+};
+
+const formatEuro = value => `€${Number(value || 0).toFixed(2).replace('.', ',')}`;
+
+const DEFAULT_CHECKOUT_ITEMS = [
+  { id: 'glow-renewal-serum', name: 'Glow Renewal Serum', price: 59, qty: 1, image: '/assets/orders-product-set.png', size: '30 ml', collection: 'Serum', summaryPosition: '24% 52%' },
+  { id: 'nourishing-face-cream', name: 'Nourishing Face Cream', price: 30, qty: 1, image: '/assets/orders-product-set.png', size: '50 ml', collection: 'Cream', summaryPosition: '76% 62%' },
+];
+
+const normalizeCheckoutItem = (entry, index = 0) => {
+  const product = entry?.product || entry || {};
+  return {
+    id: product.id || entry?.id || `checkout-item-${index}`,
+    name: product.name || entry?.name || 'MAVE formula',
+    price: parseEuro(product.price ?? entry?.price),
+    qty: Number(entry?.quantity ?? entry?.qty ?? 1) || 1,
+    image: product.image || entry?.image || '/assets/orders-product-set.png',
+    size: product.size || entry?.vol || entry?.size || '',
+    collection: product.step || entry?.collection || '',
+    summaryPosition: product.summaryPosition || entry?.summaryPosition || '',
+  };
+};
+
+const readStoredCheckoutItems = () => {
+  try {
+    const raw = localStorage.getItem('mave-cart');
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    const items = parsed?.state?.items;
+    if (!Array.isArray(items)) return [];
+    return items.map(normalizeCheckoutItem).filter(item => item.name && item.qty > 0);
+  } catch {
+    return [];
+  }
+};
+
+const useCheckoutItems = () => {
+  const [items, setItems] = React.useState(DEFAULT_CHECKOUT_ITEMS);
+  React.useEffect(() => {
+    const storedItems = readStoredCheckoutItems();
+    if (storedItems.length) setItems(storedItems);
+  }, []);
+  return items;
+};
+
+const getCheckoutTotals = items => {
+  const subtotal = items.reduce((sum, item) => sum + parseEuro(item.price) * item.qty, 0);
+  const shipping = subtotal >= 60 ? 0 : 6;
+  return {
+    subtotal,
+    shipping,
+    tax: 0,
+    total: subtotal + shipping,
+    shippingLabel: shipping === 0 ? 'Free' : formatEuro(shipping),
+  };
 };
 
 /* в”Ђв”Ђ MAVE WORDMARK (inline SVG, just MAVE letters) в”Ђв”Ђ */
@@ -5643,7 +5702,7 @@ const ProductDrawer = ({ product, onClose, onAdd }) => {
                   {added ? 'Added ✓' : 'Add to cart'}
                 </motion.button>
               </div>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.1em', color: C.gray, textAlign: 'center' }}>Free shipping on orders over €120 · 30-day returns</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.1em', color: C.gray, textAlign: 'center' }}>Free shipping on orders over €60 · 30-day returns</span>
             </div>
           </motion.div>
         </>
@@ -5712,11 +5771,11 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
               </div>
               <div style={{ padding: '0 0 22px', marginBottom: 24, borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.06em', color: C.bark, display: 'block', marginBottom: 6 }}>Shipping calculated at checkout</span>
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.06em', color: C.gray }}>Free shipping over €120</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.06em', color: C.gray }}>Free shipping over €60</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 24 }}>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.bark }}>Total</span>
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 24, fontWeight: 300, letterSpacing: '0.04em', color: C.black }}>€{cart.reduce((s,i) => s + parseFloat(i.price.replace('€','')) * i.qty, 0).toFixed(2)}</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 24, fontWeight: 300, letterSpacing: '0.04em', color: C.black }}>{formatEuro(cart.reduce((s,i) => s + parseEuro(i.price) * i.qty, 0))}</span>
               </div>
               <button onClick={() => { syncCartForNextCheckout(cart); window.location.href = '/checkout/contact'; }}
                 style={{ width: '100%', padding: 18, background: C.black, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'background 0.4s' }}
@@ -7170,14 +7229,59 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
   );
 };
 
+const CheckoutSummary = ({ items, cta = 'delivery', editStyle }) => {
+  const totals = getCheckoutTotals(items);
+  const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
+  const isReview = cta === 'review';
+  const thumbStyle = item => {
+    const image = String(item.image || '');
+    if (image.includes('orders-product-set.png') && item.summaryPosition) return { backgroundPosition: item.summaryPosition };
+    return {
+      backgroundImage: `url('${image}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    };
+  };
+
+  return (
+    <aside className="mave-checkout-summary" aria-label="Order summary">
+      <div className="mave-checkout-summary-head">
+        <span style={tiny}>Order summary</span>
+        <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('mave-open-cart'))} style={editStyle || { border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
+      </div>
+      {items.map(item => (
+        <div className="mave-checkout-summary-item" key={item.id}>
+          <span className="mave-checkout-summary-thumb" style={thumbStyle(item)} />
+          <span>
+            <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{item.name}</strong>
+            <span style={muted}>{item.size || item.collection || 'MAVE care'}</span>
+          </span>
+          <span style={muted}>Qty: {item.qty}</span>
+          <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{formatEuro(parseEuro(item.price) * item.qty)}</strong>
+        </div>
+      ))}
+      <div className="mave-checkout-total-lines">
+        {[
+          ['Subtotal', formatEuro(totals.subtotal)],
+          ['Shipping', totals.shippingLabel],
+          ['Tax', formatEuro(totals.tax)],
+        ].map(([label, value]) => <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>)}
+        <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>{formatEuro(totals.total)}</span></div>
+      </div>
+      <div className="mave-checkout-free">
+        <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type={isReview ? 'check' : 'truck'} size={24} /></span>
+        <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>{isReview ? 'Ready to place' : 'Complimentary delivery'}</strong><span style={muted}>{isReview ? 'Details checked securely' : 'On orders over €60'}</span></span>
+      </div>
+    </aside>
+  );
+};
+
 const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
   const loggedIn = mode === 'loggedin';
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
-  const items = [
-    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
-    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
-  ];
+  const items = useCheckoutItems();
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7260,35 +7364,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
             {loggedIn && <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/delivery?state=loggedin'; }}>Continue to delivery <span style={{ fontSize: 26, fontWeight: 200 }}>›</span></button>}
           </section>
 
-          <aside className="mave-checkout-summary" aria-label="Order summary">
-            <div className="mave-checkout-summary-head">
-              <span style={tiny}>Order summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
-            </div>
-            {items.map(([name, size, price, pos]) => (
-              <div className="mave-checkout-summary-item" key={name}>
-                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
-                <span>
-                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
-                  <span style={muted}>{size}</span>
-                </span>
-                <span style={muted}>Qty: 1</span>
-                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
-              </div>
-            ))}
-            <div className="mave-checkout-total-lines">
-              {[
-                ['Subtotal', '€89,00'],
-                ['Shipping', 'Free'],
-                ['Tax', '€0,00'],
-              ].map(([label, value]) => <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>)}
-              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
-            </div>
-            <div className="mave-checkout-free">
-              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="truck" size={24} /></span>
-              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Complimentary delivery</strong><span style={muted}>On orders over €60</span></span>
-            </div>
-          </aside>
+          <CheckoutSummary items={items} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7315,10 +7391,7 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
   const loggedIn = mode === 'loggedin';
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
-  const items = [
-    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
-    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
-  ];
+  const items = useCheckoutItems();
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7436,33 +7509,7 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
             )}
           </section>
 
-          <aside className="mave-checkout-summary" aria-label="Order summary">
-            <div className="mave-checkout-summary-head">
-              <span style={tiny}>Order summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
-            </div>
-            {items.map(([name, size, price, pos]) => (
-              <div className="mave-checkout-summary-item" key={name}>
-                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
-                <span>
-                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
-                  <span style={muted}>{size}</span>
-                </span>
-                <span style={muted}>Qty: 1</span>
-                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
-              </div>
-            ))}
-            <div className="mave-checkout-total-lines">
-              {[['Subtotal', '€89,00'], ['Shipping', 'Free'], ['Tax', '€0,00']].map(([label, value]) => (
-                <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>
-              ))}
-              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
-            </div>
-            <div className="mave-checkout-free">
-              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="truck" size={24} /></span>
-              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Complimentary delivery</strong><span style={muted}>On orders over €60</span></span>
-            </div>
-          </aside>
+          <CheckoutSummary items={items} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7485,10 +7532,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
   const loggedIn = mode === 'loggedin';
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
-  const items = [
-    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
-    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
-  ];
+  const items = useCheckoutItems();
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7582,33 +7626,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
             </div>
           </section>
 
-          <aside className="mave-checkout-summary" aria-label="Order summary">
-            <div className="mave-checkout-summary-head">
-              <span style={tiny}>Order summary</span>
-              <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Edit cart</button>
-            </div>
-            {items.map(([name, size, price, pos]) => (
-              <div className="mave-checkout-summary-item" key={name}>
-                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
-                <span>
-                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
-                  <span style={muted}>{size}</span>
-                </span>
-                <span style={muted}>Qty: 1</span>
-                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
-              </div>
-            ))}
-            <div className="mave-checkout-total-lines">
-              {[['Subtotal', '€89,00'], ['Shipping', 'Free'], ['Tax', '€0,00']].map(([label, value]) => (
-                <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>
-              ))}
-              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
-            </div>
-            <div className="mave-checkout-free">
-              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="truck" size={24} /></span>
-              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Complimentary delivery</strong><span style={muted}>On orders over €60</span></span>
-            </div>
-          </aside>
+          <CheckoutSummary items={items} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7631,10 +7649,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
   const loggedIn = mode === 'loggedin';
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
-  const items = [
-    ['Glow Renewal Serum', '30 ml', '€59,00', '24% 52%'],
-    ['Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
-  ];
+  const items = useCheckoutItems();
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7712,33 +7727,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
             </div>
           </section>
 
-          <aside className="mave-checkout-summary" aria-label="Order summary">
-            <div className="mave-checkout-summary-head">
-              <span style={tiny}>Order summary</span>
-              <button type="button" style={editLink}>Edit cart</button>
-            </div>
-            {items.map(([name, size, price, pos]) => (
-              <div className="mave-checkout-summary-item" key={name}>
-                <span className="mave-checkout-summary-thumb" style={{ backgroundPosition: pos }} />
-                <span>
-                  <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, display: 'block', marginBottom: 8 }}>{name}</strong>
-                  <span style={muted}>{size}</span>
-                </span>
-                <span style={muted}>Qty: 1</span>
-                <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 600, color: C.black }}>{price}</strong>
-              </div>
-            ))}
-            <div className="mave-checkout-total-lines">
-              {[['Subtotal', '€89,00'], ['Shipping', 'Free'], ['Tax', '€0,00']].map(([label, value]) => (
-                <div className="mave-checkout-total-line" key={label}><span>{label}</span><span>{value}</span></div>
-              ))}
-              <div className="mave-checkout-total-line" style={{ fontSize: 18, fontWeight: 600, color: C.black }}><span>Total</span><span>€89,00</span></div>
-            </div>
-            <div className="mave-checkout-free">
-              <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type="check" size={24} /></span>
-              <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>Ready to place</strong><span style={muted}>Details checked securely</span></span>
-            </div>
-          </aside>
+          <CheckoutSummary items={items} cta="review" editStyle={editLink} />
         </div>
 
         <section className="mave-checkout-benefits" aria-label="Checkout benefits">
@@ -7759,6 +7748,8 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
 
 const CheckoutResultPage = ({ status = 'success' }) => {
   const success = status === 'success';
+  const items = useCheckoutItems();
+  const totals = getCheckoutTotals(items);
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const rows = success
@@ -7766,13 +7757,13 @@ const CheckoutResultPage = ({ status = 'success' }) => {
         ['Order number', '#1045'],
         ['Confirmation', 'Sent to anna.muller@example.com'],
         ['Delivery', '2-4 business days'],
-        ['Total paid', '€89,00'],
+        ['Total paid', formatEuro(totals.total)],
       ]
     : [
         ['Attempt', '#1045'],
         ['Reason', 'Payment authorization was declined'],
         ['Cart status', 'Reserved for 15 minutes'],
-        ['Total due', '€89,00'],
+        ['Total due', formatEuro(totals.total)],
       ];
 
   return (
@@ -7968,7 +7959,15 @@ const App = () => {
   const [cartOpen, setCartOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [quickProduct, setQuickProduct] = React.useState(null);
-  const [cart, setCart]         = React.useState([]);
+  const [cart, setCart]         = React.useState(() => readStoredCheckoutItems().map(item => ({
+    id: item.id,
+    name: item.name,
+    price: formatEuro(item.price),
+    qty: item.qty,
+    image: item.image,
+    vol: item.size,
+    collection: item.collection,
+  })));
 
   const addToCart = (product, qty) => {
     setCart(prev => {
@@ -7996,6 +7995,11 @@ const App = () => {
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  React.useEffect(() => {
+    const onOpenCart = () => setCartOpen(true);
+    window.addEventListener('mave-open-cart', onOpenCart);
+    return () => window.removeEventListener('mave-open-cart', onOpenCart);
   }, []);
   const openProduct = product => {
     setProductUrl(product);
