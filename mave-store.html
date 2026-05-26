@@ -3745,6 +3745,66 @@ const writeCheckoutDeliveryMethod = method => {
   localStorage.setItem('mave-delivery-method', JSON.stringify({ id: method.id, fee: method.fee, name: method.name }));
 };
 
+const DEFAULT_CHECKOUT_CONTACT = {
+  guest: { name: 'Guest checkout', email: '', phone: '' },
+  loggedin: { name: 'Anna Müller', email: 'anna.muller@example.com', phone: '+49 171 1234567' },
+};
+
+const DEFAULT_CHECKOUT_ADDRESS = {
+  guest: { country: '', firstName: '', lastName: '', address: '', apartment: '', postalCode: '', city: '', phone: '' },
+  loggedin: { country: 'Latvia', firstName: 'Alessandra', lastName: 'Rossi', address: 'Brivibas iela 52', apartment: '', postalCode: 'LV-1010', city: 'Riga', phone: '+371 20 123 456' },
+};
+
+const DEFAULT_CHECKOUT_PAYMENT = {
+  guest: { cardNumber: '', expiry: '', security: '', name: '', sameBilling: true },
+  loggedin: { cardNumber: '4242', expiry: '05 / 28', security: '', name: 'Alessandra Rossi', sameBilling: true },
+};
+
+const readCheckoutObject = (key, defaults) => {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? { ...defaults, ...JSON.parse(raw) } : defaults;
+  } catch {
+    return defaults;
+  }
+};
+
+const writeCheckoutObject = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
+const getCheckoutContact = mode => readCheckoutObject('mave-checkout-contact', DEFAULT_CHECKOUT_CONTACT[mode]);
+const setCheckoutContact = value => writeCheckoutObject('mave-checkout-contact', value);
+const getCheckoutAddress = mode => readCheckoutObject('mave-checkout-address', DEFAULT_CHECKOUT_ADDRESS[mode]);
+const setCheckoutAddress = value => writeCheckoutObject('mave-checkout-address', value);
+const getCheckoutPayment = mode => readCheckoutObject('mave-checkout-payment', DEFAULT_CHECKOUT_PAYMENT[mode]);
+const setCheckoutPayment = value => writeCheckoutObject('mave-checkout-payment', value);
+
+const getDisplayContact = mode => {
+  const contact = getCheckoutContact(mode);
+  return {
+    name: contact.name || (mode === 'loggedin' ? DEFAULT_CHECKOUT_CONTACT.loggedin.name : 'Guest checkout'),
+    email: contact.email || 'Email not added yet',
+    phone: contact.phone || 'Phone not added yet',
+  };
+};
+
+const getDisplayAddress = mode => {
+  const address = getCheckoutAddress(mode);
+  const name = [address.firstName, address.lastName].filter(Boolean).join(' ') || (mode === 'loggedin' ? 'Alessandra Rossi' : 'Delivery name not added');
+  const line = [address.address, address.city, address.postalCode, address.country].filter(Boolean).join(', ') || 'Delivery address not added yet';
+  return { ...address, name, line, phone: address.phone || 'Phone not added yet' };
+};
+
+const getDisplayPayment = mode => {
+  const payment = getCheckoutPayment(mode);
+  const digits = String(payment.cardNumber || '').replace(/\D/g, '');
+  return {
+    ...payment,
+    ending: digits ? digits.slice(-4) : (mode === 'loggedin' ? '4242' : 'not added'),
+  };
+};
+
 /* в”Ђв”Ђ MAVE WORDMARK (inline SVG, just MAVE letters) в”Ђв”Ђ */
 const MaveLogo = ({ height = 44 }) => (
   <svg
@@ -7309,6 +7369,13 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
+  const contactMode = loggedIn ? 'loggedin' : 'guest';
+  const [contact, setContact] = React.useState(() => getCheckoutContact(contactMode));
+  const updateContact = patch => {
+    const next = { ...contact, ...patch };
+    setContact(next);
+    setCheckoutContact(next);
+  };
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7349,13 +7416,13 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
                   <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Use another account</button>
                 </div>
                 {[
-                  ['Full name', 'Anna Müller'],
-                  ['Email address', 'anna.muller@example.com'],
-                  ['Phone number (optional)', '+49 171 1234567'],
-                ].map(([label, value]) => (
+                  ['Full name', 'name'],
+                  ['Email address', 'email'],
+                  ['Phone number (optional)', 'phone'],
+                ].map(([label, key]) => (
                   <div className="mave-checkout-input-line" key={label}>
                     <label>{label}</label>
-                    <input defaultValue={value} />
+                    <input value={contact[key] || ''} onChange={event => updateContact({ [key]: event.target.value })} />
                   </div>
                 ))}
               </div>
@@ -7365,7 +7432,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
                   <span style={{ color: 'rgba(26,20,16,0.7)' }}><AccountLineIcon type="envelope" size={26} /></span>
                   <span className="mave-checkout-email-input">
                     <span>Email address</span>
-                    <input type="email" placeholder="Enter your email" required />
+                    <input type="email" placeholder="Enter your email" value={contact.email || ''} onChange={event => updateContact({ email: event.target.value })} required />
                   </span>
                 </label>
               </>
@@ -7384,11 +7451,11 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
                   <button type="button" className="mave-checkout-social"><b style={{ fontSize: 18 }}>●</b>Continue with Apple</button>
                 </div>
                 <p className="mave-checkout-note"><span style={{ color: 'rgba(26,20,16,0.56)' }}><AccountLineIcon type="lock" size={18} /></span><span className="mave-checkout-note-text">We use your email only for checkout updates and essential order care.</span></p>
-                <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/delivery'; }} style={{ marginTop: 24 }}>Continue as guest <span style={{ fontSize: 22, fontWeight: 200 }}>›</span></button>
+                <button type="button" className="mave-checkout-primary" onClick={() => { setCheckoutContact(contact); window.location.href = '/checkout/delivery'; }} style={{ marginTop: 24 }}>Continue as guest <span style={{ fontSize: 22, fontWeight: 200 }}>›</span></button>
               </>
             )}
 
-            {loggedIn && <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/delivery?state=loggedin'; }}>Continue to delivery <span style={{ fontSize: 26, fontWeight: 200 }}>›</span></button>}
+            {loggedIn && <button type="button" className="mave-checkout-primary" onClick={() => { setCheckoutContact(contact); window.location.href = '/checkout/delivery?state=loggedin'; }}>Continue to delivery <span style={{ fontSize: 26, fontWeight: 200 }}>›</span></button>}
           </section>
 
           <CheckoutSummary items={items} />
@@ -7421,8 +7488,16 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
   const items = useCheckoutItems();
   const methodMode = loggedIn ? 'loggedin' : 'guest';
   const deliveryMethods = CHECKOUT_DELIVERY_METHODS[methodMode];
+  const [address, setAddress] = React.useState(() => getCheckoutAddress(methodMode));
   const [selectedMethod, setSelectedMethod] = React.useState(() => readCheckoutDeliveryMethod(methodMode));
+  const selectedMethodRef = React.useRef(selectedMethod);
+  const updateAddress = patch => {
+    const next = { ...address, ...patch };
+    setAddress(next);
+    setCheckoutAddress(next);
+  };
   const selectDeliveryMethod = method => {
+    selectedMethodRef.current = method;
     setSelectedMethod(method);
     writeCheckoutDeliveryMethod(method);
   };
@@ -7490,19 +7565,19 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
               </div>
             ) : (
               <div className="mave-checkout-address-grid">
-                <select className="mave-checkout-control mave-checkout-select is-full" defaultValue="">
+                <select className="mave-checkout-control mave-checkout-select is-full" value={address.country || ''} onChange={event => updateAddress({ country: event.target.value })}>
                   <option value="" disabled>Country / Region</option>
                   <option>Latvia</option>
                   <option>Estonia</option>
                   <option>Lithuania</option>
                 </select>
-                <input className="mave-checkout-control" placeholder="First name" />
-                <input className="mave-checkout-control" placeholder="Last name" />
-                <input className="mave-checkout-control is-full" placeholder="Address" />
-                <input className="mave-checkout-control is-full" placeholder="Apartment / suite / etc. (optional)" />
-                <input className="mave-checkout-control" placeholder="Postal code" />
-                <input className="mave-checkout-control" placeholder="City" />
-                <input className="mave-checkout-control is-full" placeholder="Phone" />
+                <input className="mave-checkout-control" placeholder="First name" value={address.firstName || ''} onChange={event => updateAddress({ firstName: event.target.value })} />
+                <input className="mave-checkout-control" placeholder="Last name" value={address.lastName || ''} onChange={event => updateAddress({ lastName: event.target.value })} />
+                <input className="mave-checkout-control is-full" placeholder="Address" value={address.address || ''} onChange={event => updateAddress({ address: event.target.value })} />
+                <input className="mave-checkout-control is-full" placeholder="Apartment / suite / etc. (optional)" value={address.apartment || ''} onChange={event => updateAddress({ apartment: event.target.value })} />
+                <input className="mave-checkout-control" placeholder="Postal code" value={address.postalCode || ''} onChange={event => updateAddress({ postalCode: event.target.value })} />
+                <input className="mave-checkout-control" placeholder="City" value={address.city || ''} onChange={event => updateAddress({ city: event.target.value })} />
+                <input className="mave-checkout-control is-full" placeholder="Phone" value={address.phone || ''} onChange={event => updateAddress({ phone: event.target.value })} />
               </div>
             )}
 
@@ -7529,10 +7604,10 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
             {loggedIn ? (
               <div className="mave-checkout-delivery-action-row">
                 <button type="button" className="mave-checkout-back" onClick={() => { window.location.href = '/checkout/contact?state=loggedin'; }} style={{ margin: 0, color: 'rgba(26,20,16,0.68)' }}>‹ Back to contact</button>
-                <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/payment?state=loggedin'; }}>Continue to payment</button>
+                <button type="button" className="mave-checkout-primary" onClick={() => { setCheckoutAddress(address); writeCheckoutDeliveryMethod(selectedMethodRef.current); window.location.href = '/checkout/payment?state=loggedin'; }}>Continue to payment</button>
               </div>
             ) : (
-              <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = '/checkout/payment'; }} style={{ width: 288 }}>Continue to payment</button>
+              <button type="button" className="mave-checkout-primary" onClick={() => { setCheckoutAddress(address); writeCheckoutDeliveryMethod(selectedMethodRef.current); window.location.href = '/checkout/payment'; }} style={{ width: 288 }}>Continue to payment</button>
             )}
           </section>
 
@@ -7560,7 +7635,14 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
-  const deliveryMethod = readCheckoutDeliveryMethod(loggedIn ? 'loggedin' : 'guest');
+  const checkoutMode = loggedIn ? 'loggedin' : 'guest';
+  const deliveryMethod = readCheckoutDeliveryMethod(checkoutMode);
+  const [payment, setPayment] = React.useState(() => getCheckoutPayment(checkoutMode));
+  const updatePayment = patch => {
+    const next = { ...payment, ...patch };
+    setPayment(next);
+    setCheckoutPayment(next);
+  };
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7627,10 +7709,10 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
               <>
                 <div className="mave-checkout-payment-card">
                   <div className="mave-checkout-card-grid">
-                    <input className="mave-checkout-control is-full" placeholder="Card number" inputMode="numeric" />
-                    <input className="mave-checkout-control" placeholder="Expiration date" inputMode="numeric" />
-                    <input className="mave-checkout-control" placeholder="Security code" inputMode="numeric" />
-                    <input className="mave-checkout-control is-full" placeholder="Name on card" />
+                    <input className="mave-checkout-control is-full" placeholder="Card number" inputMode="numeric" value={payment.cardNumber || ''} onChange={event => updatePayment({ cardNumber: event.target.value })} />
+                    <input className="mave-checkout-control" placeholder="Expiration date" inputMode="numeric" value={payment.expiry || ''} onChange={event => updatePayment({ expiry: event.target.value })} />
+                    <input className="mave-checkout-control" placeholder="Security code" inputMode="numeric" value={payment.security || ''} onChange={event => updatePayment({ security: event.target.value })} />
+                    <input className="mave-checkout-control is-full" placeholder="Name on card" value={payment.name || ''} onChange={event => updatePayment({ name: event.target.value })} />
                   </div>
                 </div>
                 <span style={{ ...tiny, display: 'block', marginBottom: 12 }}>Billing address</span>
@@ -7650,7 +7732,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
 
             <div className="mave-checkout-delivery-action-row">
               <button type="button" className="mave-checkout-back" onClick={() => { window.location.href = loggedIn ? '/checkout/delivery?state=loggedin' : '/checkout/delivery'; }} style={{ margin: 0, color: 'rgba(26,20,16,0.68)' }}>‹ Back to delivery</button>
-              <button type="button" className="mave-checkout-primary" onClick={() => { window.location.href = loggedIn ? '/checkout/review?state=loggedin' : '/checkout/review'; }}>Continue to review</button>
+              <button type="button" className="mave-checkout-primary" onClick={() => { setCheckoutPayment(payment); window.location.href = loggedIn ? '/checkout/review?state=loggedin' : '/checkout/review'; }}>Continue to review</button>
             </div>
           </section>
 
@@ -7678,7 +7760,11 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const items = useCheckoutItems();
-  const deliveryMethod = readCheckoutDeliveryMethod(loggedIn ? 'loggedin' : 'guest');
+  const checkoutMode = loggedIn ? 'loggedin' : 'guest';
+  const deliveryMethod = readCheckoutDeliveryMethod(checkoutMode);
+  const contact = getDisplayContact(checkoutMode);
+  const address = getDisplayAddress(checkoutMode);
+  const payment = getDisplayPayment(checkoutMode);
   const benefits = [
     ['lock', 'Encrypted checkout', 'Payment details stay protected'],
     ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
@@ -7717,7 +7803,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
                 </div>
                 <div className="mave-checkout-review-detail">
                   <span className="mave-checkout-review-icon"><AccountLineIcon type="profile" size={21} /></span>
-                  <p style={muted}>{loggedIn ? 'Anna Müller' : 'Guest checkout'}<br />{loggedIn ? 'anna.muller@example.com' : 'email@example.com'}<br />+49 171 1234567</p>
+                  <p style={muted}>{contact.name}<br />{contact.email}<br />{contact.phone}</p>
                 </div>
               </article>
 
@@ -7728,7 +7814,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
                 </div>
                 <div className="mave-checkout-review-detail">
                   <span className="mave-checkout-review-icon"><AccountLineIcon type="truck" size={22} /></span>
-                  <p style={muted}>Brivibas iela 52, Riga, LV-1010, Latvia<br />{deliveryMethod.name} · {deliveryMethod.time.replace('Arrives in ', '').replace('Faster arrival in ', '')}<br />Shipping: {deliveryMethod.price}</p>
+                  <p style={muted}>{address.line}<br />{deliveryMethod.name} · {deliveryMethod.time.replace('Arrives in ', '').replace('Faster arrival in ', '')}<br />Shipping: {deliveryMethod.price}</p>
                 </div>
               </article>
 
@@ -7739,7 +7825,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
                 </div>
                 <div className="mave-checkout-review-detail">
                   <span className="mave-checkout-review-icon"><AccountLineIcon type="lock" size={21} /></span>
-                  <p style={muted}>{loggedIn ? 'Visa ending in 4242' : 'Card ending in 4242'}<br />Billing address same as delivery<br />Encrypted payment</p>
+                  <p style={muted}>{loggedIn ? 'Visa' : 'Card'} ending in {payment.ending}<br />Billing address same as delivery<br />Encrypted payment</p>
                 </div>
               </article>
 
@@ -7780,12 +7866,13 @@ const CheckoutResultPage = ({ status = 'success' }) => {
   const items = useCheckoutItems();
   const deliveryMethod = readCheckoutDeliveryMethod('guest');
   const totals = getCheckoutTotals(items, deliveryMethod.fee);
+  const contact = getDisplayContact('guest');
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const rows = success
     ? [
         ['Order number', '#1045'],
-        ['Confirmation', 'Sent to anna.muller@example.com'],
+        ['Confirmation', `Sent to ${contact.email}`],
         ['Delivery', '2-4 business days'],
         ['Total paid', formatEuro(totals.total)],
       ]
@@ -7998,6 +8085,7 @@ const App = () => {
     vol: item.size,
     collection: item.collection,
   })));
+  const cartHydrated = React.useRef(false);
 
   const addToCart = (product, qty) => {
     setCart(prev => {
@@ -8031,6 +8119,13 @@ const App = () => {
     window.addEventListener('mave-open-cart', onOpenCart);
     return () => window.removeEventListener('mave-open-cart', onOpenCart);
   }, []);
+  React.useEffect(() => {
+    if (!cartHydrated.current) {
+      cartHydrated.current = true;
+      return;
+    }
+    syncCartForNextCheckout(cart);
+  }, [cart]);
   const openProduct = product => {
     setProductUrl(product);
     setProductPage(product);
