@@ -473,8 +473,8 @@
     margin: 0 auto;
     padding: 34px 0 38px;
     display: grid;
-    grid-template-columns: 1.1fr 1fr 1fr 1.35fr;
-    gap: 44px;
+    grid-template-columns: 0.92fr 1fr 1fr 0.86fr 1.25fr;
+    gap: 34px;
   }
   .mave-mega-heading,
   .mave-search-drawer-heading {
@@ -3774,6 +3774,45 @@ const writeCheckoutObject = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
+const METHOD_CARDS = [
+  ['Cleanse', 'Removal without disruption.'],
+  ['Balance', 'A controlled skin environment.'],
+  ['Barrier', 'Structure, comfort, stability.'],
+  ['Renewal', 'Texture, rhythm, refinement.'],
+];
+
+const ROUTINE_PRODUCTS = [PRODUCTS[7], PRODUCTS[2], PRODUCTS[0]].filter(Boolean);
+const SYSTEM_RECOMMENDATIONS = [PRODUCTS[7], PRODUCTS[0]].filter(Boolean);
+const REPLENISHMENT_OPTIONS = [
+  ['once', 'One-time purchase'],
+  ['30', 'Remind me in 30 days'],
+  ['45', 'Remind me in 45 days'],
+  ['60', 'Remind me in 60 days'],
+];
+
+const assetPath = value => String(value || '').startsWith('/') ? value : `/${value}`;
+const getProductMechanisms = product => product.science?.mechanisms?.map(id => scienceMechanisms[id]).filter(Boolean) || [];
+const getProductRole = product => scienceMechanisms[product.science?.primaryMechanism]?.label || product.collection || 'Formula';
+const getProductPairs = product => PRODUCTS
+  .filter(item => item.id !== product.id && item.science?.mechanisms?.some(id => product.science?.mechanisms?.includes(id)))
+  .slice(0, 2);
+const readReplenishmentChoice = productId => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('mave-replenishment') || '{}');
+    return saved[productId] || 'once';
+  } catch {
+    return 'once';
+  }
+};
+const writeReplenishmentChoice = (productId, value) => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('mave-replenishment') || '{}');
+    localStorage.setItem('mave-replenishment', JSON.stringify({ ...saved, [productId]: value }));
+  } catch {
+    localStorage.setItem('mave-replenishment', JSON.stringify({ [productId]: value }));
+  }
+};
+
 const getCheckoutContact = mode => readCheckoutObject('mave-checkout-contact', DEFAULT_CHECKOUT_CONTACT[mode]);
 const setCheckoutContact = value => writeCheckoutObject('mave-checkout-contact', value);
 const getCheckoutAddress = mode => readCheckoutObject('mave-checkout-address', DEFAULT_CHECKOUT_ADDRESS[mode]);
@@ -4028,34 +4067,45 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
                   ['Bestsellers', onCatalogOpen],
                   ['New arrivals', onCatalogOpen],
                   ['Limited edition', onCatalogOpen],
-                  ['Saved products', onAccountOpen],
+                  ['Sets', onCatalogOpen],
                 ].map(([label, action]) => megaLink(label, action))}
               </div>
               <div>
-                <div className="mave-mega-heading">By role</div>
+                <div className="mave-mega-heading">Shop by role</div>
                 {[
-                  ['Barrier support', () => onSectionOpen && onSectionOpen('mave-routine')],
+                  ['Barrier support', () => onSectionOpen && onSectionOpen('mave-method')],
+                  ['Balance', () => onSectionOpen && onSectionOpen('mave-method')],
+                  ['Renewal', () => onSectionOpen && onSectionOpen('mave-method')],
                   ['Cleanse', onCatalogOpen],
-                  ['Targeted care', onCatalogOpen],
                   ['Hair integrity', onCatalogOpen],
-                  ['Body care', onCatalogOpen],
+                  ['Targeted care', onCatalogOpen],
                 ].map(([label, action]) => megaLink(label, action))}
               </div>
               <div>
-                <div className="mave-mega-heading">Discover</div>
+                <div className="mave-mega-heading">MAVE Method</div>
                 {[
-                  ['Molecular science', onScienceOpen],
-                  ['Skin diagnostic', onSearchOpen],
-                  ['Member benefits', onAccountOpen],
-                  ['Care services', () => onSectionOpen && onSectionOpen('mave-approach')],
+                  ['Molecular Method', onScienceOpen],
+                  ['Ingredients Library', onScienceOpen],
+                  ['Product Science', onScienceOpen],
+                  ['Routine Guide', () => onSectionOpen && onSectionOpen('mave-routine-guide')],
+                  ['Skin Diagnostic', onSearchOpen],
+                ].map(([label, action]) => megaLink(label, action))}
+              </div>
+              <div>
+                <div className="mave-mega-heading">Services</div>
+                {[
+                  ['Delivery & returns', () => { window.location.href = '/shipping'; }],
+                  ['Contact care', () => { window.location.href = '/contact'; }],
+                  ['Account', onAccountOpen],
+                  ['MAVE Circle', onAccountOpen],
                 ].map(([label, action]) => megaLink(label, action))}
               </div>
               <button type="button" onClick={() => { closeMega(); onScienceOpen && onScienceOpen(); }} className="mave-mega-promo" style={{ border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
                 <img src="assets/collections-hero.png" alt="" />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,20,16,0.48), rgba(26,20,16,0.06))' }} />
                 <div style={{ position: 'absolute', left: 24, bottom: 22, right: 24 }}>
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 8 }}>Skin diagnostic</span>
-                  <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 300, fontStyle: 'italic', color: C.cream }}>Build a measured ritual.</strong>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 8 }}>MAVE Method</span>
+                  <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 300, fontStyle: 'italic', color: C.cream }}>A system for balance, barrier and renewal.</strong>
                 </div>
               </button>
             </div>
@@ -4932,6 +4982,98 @@ const RoutineSection = ({ onSelect }) => {
   );
 };
 
+const MethodCardsSection = () => (
+  <section id="mave-method" className="mave-section" style={{ background: C.cream, padding: '96px 80px 88px', borderTop: `1px solid rgba(107,87,68,0.12)`, borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
+    <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.82fr 1.18fr', gap: 76, alignItems: 'start' }} className="mave-grid-2">
+      <Reveal>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>MAVE Method</span>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,4.7vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Skincare, structured by function.</h2>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: C.bark, maxWidth: 470 }}>
+          Each formula has a role: cleanse, balance, reinforce, renew. A precise system for daily use, and for moments when skin asks for more.
+        </p>
+      </Reveal>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 1, border: `1px solid rgba(107,87,68,0.14)`, background: 'rgba(107,87,68,0.14)' }}>
+        {METHOD_CARDS.map(([title, copy], index) => (
+          <motion.div key={title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.58, delay: index * 0.06, ease: [0.23,1,0.32,1] }}
+            style={{ minHeight: 184, background: 'rgba(245,240,232,0.92)', padding: '30px 30px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.goldD }}>{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 300, fontStyle: 'italic', color: C.black, marginBottom: 10 }}>{title}</h3>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.72, color: C.bark, margin: 0 }}>{copy}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const RoutineGuideTeaser = ({ onSelect }) => {
+  const [step, setStep] = React.useState(0);
+  const questions = [
+    ['Skin feels', ['balanced', 'dry', 'unstable', 'dull', 'sensitive']],
+    ['Main need', ['barrier', 'balance', 'renewal', 'cleanse']],
+    ['Routine level', ['minimal', 'complete', 'intensive']],
+    ['Texture preference', ['oil', 'cream', 'serum', 'mask']],
+  ];
+  return (
+    <section id="mave-routine-guide" className="mave-section" style={{ background: C.sand, padding: '96px 80px', borderTop: `1px solid rgba(107,87,68,0.12)` }}>
+      <div style={{ maxWidth: 1160, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 70, alignItems: 'center' }} className="mave-grid-2">
+        <Reveal>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Routine guide</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,4.8vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Find your MAVE system.</h2>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: C.bark, maxWidth: 460, marginBottom: 30 }}>Answer a few questions and build a routine by role, texture and intensity.</p>
+          <button type="button" onClick={() => setStep(s => (s + 1) % questions.length)}
+            style={{ background: C.black, border: `1px solid ${C.black}`, color: C.gold, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.3em', textTransform: 'uppercase', padding: '17px 38px' }}>
+            Start guide
+          </button>
+        </Reveal>
+        <div style={{ border: `1px solid rgba(107,87,68,0.18)`, background: 'rgba(245,240,232,0.58)', padding: 34 }}>
+          {questions.map(([label, options], index) => (
+            <div key={label} style={{ padding: '18px 0', borderTop: index ? `1px solid rgba(107,87,68,0.12)` : 0, opacity: index === step ? 1 : 0.62 }}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: index === step ? C.black : C.bark, display: 'block', marginBottom: 12 }}>{index + 1}. {label}</span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {options.map(option => <span key={option} style={{ border: `1px solid rgba(154,122,66,0.34)`, padding: '8px 11px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.08em', color: C.bark }}>{option}</span>)}
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop: 24, padding: 24, background: C.black, color: C.cream }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Your measured ritual</span>
+            <div style={{ display: 'grid', gap: 12 }}>
+              {ROUTINE_PRODUCTS.map(product => (
+                <button key={product.id} type="button" onClick={() => onSelect(product)} style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', gap: 14, alignItems: 'center', textAlign: 'left', background: 'transparent', border: 0, color: C.cream, cursor: 'pointer', padding: 0 }}>
+                  <img src={assetPath(product.image)} alt="" style={{ width: 44, height: 54, objectFit: 'cover', filter: 'saturate(0.82)' }} />
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.45 }}>{product.name}<br /><span style={{ color: 'rgba(245,240,232,0.5)' }}>{getProductRole(product)}</span></span>
+                  <span style={{ color: C.gold }}>›</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const MaveCircleTeaser = () => (
+  <section style={{ background: C.black, color: C.cream, padding: '86px 80px', borderTop: `1px solid rgba(200,169,110,0.12)`, borderBottom: `1px solid rgba(200,169,110,0.12)` }}>
+    <div style={{ maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.86fr 1.14fr', gap: 70, alignItems: 'center' }} className="mave-grid-2">
+      <div>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>MAVE Circle</span>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(36px,4.4vw,62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.cream, marginBottom: 20 }}>Private access for those who return to the system.</h2>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.62)', maxWidth: 500 }}>Early formulas, refill rewards and product notes designed around continuity.</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'rgba(200,169,110,0.18)', border: `1px solid rgba(200,169,110,0.18)` }}>
+        {['Early access', 'Refill rewards', 'Private product notes', 'Care guidance'].map(item => (
+          <div key={item} style={{ minHeight: 126, background: 'rgba(26,20,16,0.78)', padding: 24, display: 'flex', alignItems: 'flex-end' }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.78)', lineHeight: 1.6 }}>{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 /* в”Ђв”Ђ SPLIT FEATURE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 const SplitFeature = ({ onSelect, onCatalogOpen }) => {
   const featured = PRODUCTS[4];
@@ -5390,6 +5532,21 @@ const SciencePage = ({ onBack, onSelect }) => {
         </Reveal>
       </section>
 
+      <section style={{ padding: '82px 80px', background: C.black, borderBottom: `1px solid rgba(200,169,110,0.12)` }}>
+        <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'rgba(200,169,110,0.16)', border: `1px solid rgba(200,169,110,0.16)` }} className="mave-grid-3">
+          {[
+            ['Molecular Method', 'Formulas are mapped by function, not trend. Each role supports a clear part of the care sequence.'],
+            ['Ingredient library preview', 'A concise view of oils, humectants, cleansers and barrier-supporting logic used across MAVE.'],
+            ['Product science links', 'Move from mechanism to formula: balance, barrier, renewal and cleanse.'],
+          ].map(([title, copy]) => (
+            <div key={title} style={{ minHeight: 196, background: '#18110d', padding: '32px 30px' }}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>{title}</span>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.85, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.62)', margin: 0 }}>{copy}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {mechanismOrder.map((id, index) => (
         <ScienceSection
           key={id}
@@ -5462,7 +5619,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const [tab, setTab] = React.useState('daily');
   const [open, setOpen] = React.useState('ingredients');
   const [added, setAdded] = React.useState(false);
-  const [purchaseMode, setPurchaseMode] = React.useState('once');
+  const [replenish, setReplenish] = React.useState(() => readReplenishmentChoice(product.id));
   const [activeImage, setActiveImage] = React.useState(gallery[0]);
   const [lightbox, setLightbox] = React.useState(false);
   const volumeLabel = product.vol.replace(/(\d+)(ml|g)$/i, '$1 $2');
@@ -5495,15 +5652,10 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const accordions = [
     ['ingredients', 'Key ingredients', `${details.ingredients.join('. ')}.`],
     ['how-it-works', 'How it works', 'Works through a clear role. Used daily. Adjusted when required.'],
-    ['results', 'Measured results', '94% noticed a more comfortable finish. 91% said skin felt balanced after two weeks. 88% would keep it in their daily ritual.'],
+    ['results', 'Function note', 'Designed for measured daily use inside a clear routine sequence.'],
     ['inci', 'Full INCI', details.inci],
     ['use', 'How to use', details.use],
     ['care', 'Care note', 'For external use only. Use with care around sensitive areas. Store away from direct heat and light.'],
-  ];
-  const trialResults = [
-    ['94%', 'noticed a more comfortable finish'],
-    ['91%', 'said skin felt balanced after two weeks'],
-    ['88%', 'would keep it in their daily ritual'],
   ];
   const handleAdd = () => {
     onAdd(product, qty);
@@ -5515,7 +5667,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
     setTab('daily');
     setOpen('ingredients');
     setAdded(false);
-    setPurchaseMode('once');
+    setReplenish(readReplenishmentChoice(product.id));
     setActiveImage(gallery[0]);
     setLightbox(false);
   }, [product.id]);
@@ -5524,6 +5676,12 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
     setTimeout(() => document.getElementById('formula-notes')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
   };
   const related = PRODUCTS.filter(p => p.id !== product.id).slice(0, 3);
+  const pairedProducts = getProductPairs(product);
+  const roleItems = getProductMechanisms(product);
+  const updateReplenish = value => {
+    setReplenish(value);
+    writeReplenishmentChoice(product.id, value);
+  };
 
   return (
     <motion.main
@@ -5569,20 +5727,15 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.78, letterSpacing: '0.02em', color: C.earth, maxWidth: 520, marginBottom: 28 }}>{details.description}</p>
 
           <div style={{ display: 'grid', gap: 10, marginBottom: 22 }}>
-            {[
-              ['once', 'Purchase once', product.price, 'Standard delivery and member access.'],
-              ['replenish', 'Auto-replenish', 'Save 15%', 'Delivered every 6 weeks. Cancel anytime.'],
-            ].map(([id, title, value, note]) => (
-              <button key={id} type="button" onClick={() => setPurchaseMode(id)}
-                style={{ display: 'grid', gridTemplateColumns: '24px 1fr auto', gap: 14, alignItems: 'center', textAlign: 'left', border: `1px solid ${purchaseMode === id ? C.goldD : 'rgba(107,87,68,0.18)'}`, background: purchaseMode === id ? 'rgba(200,169,110,0.11)' : 'rgba(245,240,232,0.44)', padding: '15px 17px', cursor: 'pointer' }}>
-                <span style={{ width: 15, height: 15, borderRadius: '50%', border: `1px solid ${purchaseMode === id ? C.goldD : 'rgba(107,87,68,0.34)'}`, display: 'grid', placeItems: 'center' }}>
-                  {purchaseMode === id && <span style={{ width: 7, height: 7, borderRadius: '50%', background: C.goldD }} />}
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD }}>Replenish this product</span>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: C.bark, lineHeight: 1.65, margin: 0 }}>Set a quiet reminder before your formula runs low.</p>
+            {REPLENISHMENT_OPTIONS.map(([id, title]) => (
+              <button key={id} type="button" onClick={() => updateReplenish(id)}
+                style={{ display: 'grid', gridTemplateColumns: '22px 1fr', gap: 12, alignItems: 'center', textAlign: 'left', border: `1px solid ${replenish === id ? C.goldD : 'rgba(107,87,68,0.18)'}`, background: replenish === id ? 'rgba(200,169,110,0.11)' : 'rgba(245,240,232,0.44)', padding: '12px 15px', cursor: 'pointer' }}>
+                <span style={{ width: 14, height: 14, borderRadius: '50%', border: `1px solid ${replenish === id ? C.goldD : 'rgba(107,87,68,0.34)'}`, display: 'grid', placeItems: 'center' }}>
+                  {replenish === id && <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.goldD }} />}
                 </span>
-                <span>
-                  <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black, marginBottom: 5 }}>{title}</strong>
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: C.bark }}>{note}</span>
-                </span>
-                <em style={{ fontFamily: "'Montserrat',sans-serif", fontStyle: 'normal', fontSize: 12, fontWeight: 400, color: C.goldD }}>{value}</em>
+                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black }}>{title}</strong>
               </button>
             ))}
           </div>
@@ -5623,17 +5776,24 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
       </section>
 
       <section style={{ padding: '92px 80px', background: C.black, color: C.cream }}>
-        <div style={{ maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.85fr 1.15fr', gap: 72, alignItems: 'center' }}>
+        <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.82fr 1.18fr', gap: 72, alignItems: 'start' }} className="mave-grid-2">
           <Reveal>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>User trial</span>
-            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,4vw,62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: C.cream, marginBottom: 18 }}>Measured comfort. Visible control.</h2>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.62)' }}>A compact result layer inspired by clinical-commerce PDPs. It gives the formula a reason to be trusted before the ingredient accordions.</p>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Molecular role</span>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,4vw,62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: C.cream, marginBottom: 18 }}>{getProductRole(product)} support within the MAVE system.</h2>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.62)' }}>This formula is designed to support the visible condition of the skin surface and maintain a balanced care sequence.</p>
           </Reveal>
-          <div className="mave-pdp-results-grid">
-            {trialResults.map(([number, text]) => (
-              <div className="mave-pdp-result-tile" key={number} style={{ borderColor: 'rgba(200,169,110,0.22)', background: 'rgba(245,240,232,0.045)' }}>
-                <strong style={{ display: 'block', fontFamily: "'Cormorant Garamond',serif", fontSize: 54, fontWeight: 300, fontStyle: 'italic', color: C.gold, marginBottom: 12 }}>{number}</strong>
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.06em', color: 'rgba(245,240,232,0.66)' }}>{text}</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 1, background: 'rgba(200,169,110,0.18)', border: `1px solid rgba(200,169,110,0.18)` }}>
+            {[
+              ['What it does', details.description],
+              ['When to use', 'When skin feels unstable, depleted or when a minimal routine needs more structure.'],
+              ['Texture & finish', `${product.type === 'cleanser' ? 'Clean rinse' : product.type === 'cream' ? 'Controlled cream comfort' : 'Measured finish'}. No heavy excess.`],
+              ['Ingredient logic', details.ingredients.slice(0, 2).join('. ')],
+              ['Science note', 'Supports visible barrier condition and a balanced surface environment.'],
+              ['Pairs with', pairedProducts.map(item => item.name).join(' · ') || 'A clean base and measured finish.'],
+            ].map(([title, copy]) => (
+              <div key={title} style={{ minHeight: 154, background: 'rgba(26,20,16,0.78)', padding: '25px 26px' }}>
+                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gold, marginBottom: 14 }}>{title}</strong>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.03em', color: 'rgba(245,240,232,0.68)', margin: 0 }}>{copy}</p>
               </div>
             ))}
           </div>
@@ -5826,7 +5986,9 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
                   </button>
                 </div>
               )
-              : cart.map((item, i) => (
+              : (
+                <>
+                  {cart.map((item, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}
                     style={{ display: 'flex', gap: 18, marginBottom: 26, paddingBottom: 26, borderBottom: `1px solid rgba(107,87,68,0.14)` }}>
                     <img src={item.image} alt={item.name} style={{ width: 84, height: 104, objectFit: 'cover', filter: 'saturate(0.88)' }} />
@@ -5848,7 +6010,26 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
                       </div>
                     </div>
                   </motion.div>
-                ))
+                  ))}
+                  <div style={{ border: `1px solid rgba(200,169,110,0.22)`, background: 'rgba(200,169,110,0.07)', padding: 18, marginBottom: 22 }}>
+                    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, display: 'block', marginBottom: 8 }}>Complete your system</span>
+                    <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.65, color: C.bark, margin: '0 0 14px' }}>Add one formula that supports the next step in your ritual.</p>
+                    {SYSTEM_RECOMMENDATIONS.map(product => (
+                      <button key={product.id} type="button" onClick={() => window.dispatchEvent(new CustomEvent('mave-add-product', { detail: { id: product.id } }))}
+                        style={{ width: '100%', display: 'grid', gridTemplateColumns: '42px 1fr auto', gap: 12, alignItems: 'center', textAlign: 'left', background: 'transparent', border: 0, borderTop: `1px solid rgba(107,87,68,0.12)`, padding: '12px 0 0', marginTop: 12, cursor: 'pointer' }}>
+                        <img src={assetPath(product.image)} alt="" style={{ width: 42, height: 52, objectFit: 'cover', filter: 'saturate(0.82)' }} />
+                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.45, color: C.black }}>{product.name}<br /><span style={{ color: C.bark }}>{getProductRole(product)}</span></span>
+                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.goldD }}>Add</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div style={{ display: 'grid', gap: 10, marginBottom: 8 }}>
+                    {['Gift note available', 'Gift wrapping available', 'Replenishment reminder: 30 / 45 / 60 days'].map(item => (
+                      <span key={item} style={{ borderTop: `1px solid rgba(107,87,68,0.12)`, paddingTop: 10, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.5, color: C.bark }}>{item}</span>
+                    ))}
+                  </div>
+                </>
+              )
             }
           </div>
           {cart.length > 0 && (
@@ -6447,7 +6628,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
   const miniBenefits = [
     ['tag', 'Exclusive offers'],
     ['sparkle', 'Early access to new products'],
-    ['box', 'Member gift'],
+    ['box', 'Refill rewards'],
     ['truck', 'Free shipping over €60'],
   ];
 
@@ -6507,6 +6688,31 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mave-account-panels" style={{ marginBottom: 18 }}>
+            <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0)}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, display: 'block', marginBottom: 15 }}>Your routine</span>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 300, fontStyle: 'italic', color: C.black, marginBottom: 12 }}>Balance · Barrier · Renewal</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.78, color: 'rgba(26,20,16,0.68)', marginBottom: 20 }}>Your current system is built around daily stability.</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'rgba(107,87,68,0.12)', border: `1px solid rgba(107,87,68,0.12)` }}>
+                {['Cleanse', 'Balance', 'Reinforce'].map(item => <span key={item} style={{ background: 'rgba(245,240,232,0.7)', padding: 14, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.bark }}>{item}</span>)}
+              </div>
+            </motion.section>
+            <motion.section className="mave-account-panel" initial={reveal} whileInView={showReveal} viewport={{ once: true, amount: 0.2 }} transition={revealTransition(0.04)}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, display: 'block', marginBottom: 15 }}>Saved skin profile</span>
+              {[
+                ['Current focus', 'Barrier and balance'],
+                ['Routine level', 'Minimal'],
+                ['Preferred texture', 'Oil and cream'],
+                ['Recommended next step', 'Add targeted support when balance is lost.'],
+              ].map(([label, value]) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 20, padding: '12px 0', borderTop: `1px solid rgba(107,87,68,0.12)` }}>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.48)' }}>{label}</span>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.5, color: C.black, textAlign: 'right' }}>{value}</span>
+                </div>
+              ))}
+            </motion.section>
           </div>
 
           <div className="mave-account-panels">
@@ -7374,7 +7580,19 @@ const CheckoutSummary = ({ items, cta = 'delivery', editStyle, deliveryFee = nul
       </div>
       <div className="mave-checkout-free">
         <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(151,204,151,0.24)', display: 'grid', placeItems: 'center' }}><AccountLineIcon type={isReview ? 'check' : 'truck'} size={24} /></span>
-        <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>{isReview ? 'Ready to place' : 'Complimentary delivery'}</strong><span style={muted}>{isReview ? 'Details checked securely' : 'On orders over €60'}</span></span>
+        <span><strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5 }}>{isReview ? 'Ready to place' : 'Free shipping'}</strong><span style={muted}>{isReview ? 'Details checked securely' : 'On orders over €60'}</span></span>
+      </div>
+      <div style={{ marginTop: 18, borderTop: `1px solid rgba(107,87,68,0.14)`, paddingTop: 18 }}>
+        <span style={{ ...tiny, display: 'block', marginBottom: 8 }}>Complete your system</span>
+        <p style={{ ...muted, fontSize: 11, margin: '0 0 12px' }}>Add one formula that supports the next step in your ritual.</p>
+        {SYSTEM_RECOMMENDATIONS.slice(0, 1).map(product => (
+          <button key={product.id} type="button" onClick={() => window.dispatchEvent(new CustomEvent('mave-add-product', { detail: { id: product.id } }))}
+            style={{ width: '100%', display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 12, alignItems: 'center', textAlign: 'left', background: 'rgba(200,169,110,0.07)', border: `1px solid rgba(200,169,110,0.2)`, padding: 10, cursor: 'pointer' }}>
+            <img src={assetPath(product.image)} alt="" style={{ width: 40, height: 48, objectFit: 'cover', filter: 'saturate(0.84)' }} />
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.45, color: C.black }}>{product.name}<br /><span style={{ color: C.bark }}>{getProductRole(product)}</span></span>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.goldD }}>Add to ritual</span>
+          </button>
+        ))}
       </div>
     </aside>
   );
@@ -7393,10 +7611,10 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
     setCheckoutContact(next);
   };
   const benefits = [
-    ['lock', 'Encrypted checkout', 'Payment details stay protected'],
-    ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
-    ['sparkle', 'Private access', 'Member notes and early offers'],
-    ['check', '30-day returns', 'A quiet return window if needed'],
+    ['lock', 'Secure checkout', 'Your information is always protected.'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU.'],
+    ['sparkle', 'Care guidance', 'Product guidance when you need it.'],
+    ['check', '30-day returns', 'Easy returns guaranteed.'],
   ];
 
   return (
@@ -7518,10 +7736,10 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
     writeCheckoutDeliveryMethod(method);
   };
   const benefits = [
-    ['lock', 'Encrypted checkout', 'Payment details stay protected'],
-    ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
-    ['sparkle', 'Private access', 'Member notes and early offers'],
-    ['check', '30-day returns', 'A quiet return window if needed'],
+    ['lock', 'Secure checkout', 'Your information is always protected.'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU.'],
+    ['sparkle', 'Care guidance', 'Product guidance when you need it.'],
+    ['check', '30-day returns', 'Easy returns guaranteed.'],
   ];
   const addresses = [
     ['Home', 'Default', 'Alessandra Rossi', 'Brivibas iela 52, Riga, LV-1010, Latvia', '+371 20 123 456', true],
@@ -7660,10 +7878,10 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
     setCheckoutPayment(next);
   };
   const benefits = [
-    ['lock', 'Encrypted checkout', 'Payment details stay protected'],
-    ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
-    ['sparkle', 'Private access', 'Member notes and early offers'],
-    ['check', '30-day returns', 'A quiet return window if needed'],
+    ['lock', 'Secure checkout', 'Your information is always protected.'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU.'],
+    ['sparkle', 'Care guidance', 'Product guidance when you need it.'],
+    ['check', '30-day returns', 'Easy returns guaranteed.'],
   ];
 
   return (
@@ -7782,10 +8000,10 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
   const address = getDisplayAddress(checkoutMode);
   const payment = getDisplayPayment(checkoutMode);
   const benefits = [
-    ['lock', 'Encrypted checkout', 'Payment details stay protected'],
-    ['truck', 'Complimentary delivery', 'On orders over €60 within EU'],
-    ['sparkle', 'Private access', 'Member notes and early offers'],
-    ['check', '30-day returns', 'A quiet return window if needed'],
+    ['lock', 'Secure checkout', 'Your information is always protected.'],
+    ['truck', 'Free shipping', 'On orders over €60 within EU.'],
+    ['sparkle', 'Care guidance', 'Product guidance when you need it.'],
+    ['check', '30-day returns', 'Easy returns guaranteed.'],
   ];
   const editLink = { border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 };
 
@@ -7942,7 +8160,7 @@ const CheckoutResultPage = ({ status = 'success' }) => {
               </span>
               <span>
                 <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, display: 'block', marginBottom: 5, color: success ? '#2F6D3E' : '#9A6A18' }}>
-                  {success ? 'Complimentary delivery' : 'No charge made'}
+                  {success ? 'Free shipping' : 'No charge made'}
                 </strong>
                 <span style={muted}>{success ? 'Tracking appears in your account soon.' : 'Retry safely or use a different card.'}</span>
               </span>
@@ -8136,6 +8354,14 @@ const App = () => {
     return () => window.removeEventListener('mave-open-cart', onOpenCart);
   }, []);
   React.useEffect(() => {
+    const onAddProduct = event => {
+      const product = PRODUCTS.find(item => item.id === event.detail?.id || item.slug === event.detail?.slug);
+      if (product) addToCart(product, 1);
+    };
+    window.addEventListener('mave-add-product', onAddProduct);
+    return () => window.removeEventListener('mave-add-product', onAddProduct);
+  }, []);
+  React.useEffect(() => {
     if (!cartHydrated.current) {
       cartHydrated.current = true;
       return;
@@ -8312,14 +8538,17 @@ const App = () => {
         <>
           <Hero onCatalogOpen={openCatalog} />
           <BrandStatement />
+          <MethodCardsSection />
           <LiquidReveal onCatalogOpen={openCatalog} />
           <OilDropMoment onCatalogOpen={openCatalog} />
+          <RoutineGuideTeaser onSelect={openProduct} />
           <RoutineSection onSelect={openProduct} />
           <FeaturedProducts onSelect={openProduct} />
           <Marquee />
           <EditorialTrio onSelect={openProduct} />
           <SplitFeature onSelect={openProduct} onCatalogOpen={openCatalog} />
           <Testimonials />
+          <MaveCircleTeaser />
           <IngredientsStrip />
           <SkinQuizEntry onStart={openSearch} />
           <FullBleedCTA onCatalogOpen={openCatalog} />
