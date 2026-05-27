@@ -3847,47 +3847,85 @@ const getProductRole = product => scienceMechanisms[product.science?.primaryMech
 const getProductPairs = product => PRODUCTS
   .filter(item => item.id !== product.id && item.science?.mechanisms?.some(id => product.science?.mechanisms?.includes(id)))
   .slice(0, 2);
+const getRoutineCategory = product => {
+  if (!product) return 'formula';
+  if (product.type === 'mask') return 'mask';
+  if (product.type === 'cream') return 'cream';
+  if (product.name.toLowerCase().includes('serum') && product.collection === 'WOW Skin') return 'serum';
+  if (product.type === 'oil') return 'oil';
+  if (product.type === 'cleanser') return 'cleanse';
+  return product.type || 'formula';
+};
+const isSkinRoutineProduct = product => !['Hair Care', 'Oral Care', 'Body Care', 'Lash & Brow Care'].includes(product.collection);
+const routineIntensityScore = (product, answers) => {
+  const mechanisms = product.science?.mechanisms || [];
+  const need = answers.need || (answers.feel === 'dull' ? 'renewal' : answers.feel === 'dry' || answers.feel === 'sensitive' ? 'barrier' : 'balance');
+  let score = 0;
+  if (mechanisms.includes(need)) score += 8;
+  if (product.science?.primaryMechanism === need) score += 5;
+  if (answers.level === 'minimal' && product.id === 1) score += 7;
+  if (answers.level === 'minimal' && product.id === 2) score -= 2;
+  if (answers.level === 'intensive' && product.id === 2) score += 9;
+  if (answers.level === 'intensive' && ['mask', 'paste', 'cream', 'serum'].includes(getRoutineCategory(product))) score += 3;
+  if (answers.feel === 'dry' || answers.feel === 'sensitive') {
+    if (mechanisms.includes('barrier')) score += 4;
+  }
+  if (answers.feel === 'dull') {
+    if (mechanisms.includes('renewal')) score += 4;
+  }
+  if (answers.feel === 'unstable') {
+    if (mechanisms.includes('balance')) score += 4;
+  }
+  return score;
+};
 const buildRoutineResult = answers => {
   const preferredNeed = answers.need || (answers.feel === 'dull' ? 'renewal' : answers.feel === 'dry' || answers.feel === 'sensitive' ? 'barrier' : answers.feel === 'unstable' ? 'balance' : 'balance');
-  const preferredTexture = answers.texture || 'serum';
-  const routineCandidates = PRODUCTS.filter(product => !['Hair Care', 'Oral Care', 'Body Care', 'Lash & Brow Care'].includes(product.collection));
-  const scored = routineCandidates
+  if (!answers.texture) {
+    const focus = scienceMechanisms[preferredNeed]?.label || 'Balance';
+    return {
+      focus,
+      cadence: 'Select category',
+      texture: 'Pending',
+      products: [],
+      note: 'Choose Oil, Cream, Serum or Mask to see formulas from that category only.',
+    };
+  }
+  const preferredTexture = answers.texture;
+  const routineCandidates = PRODUCTS.filter(isSkinRoutineProduct);
+  const categoryCandidates = routineCandidates.filter(product => getRoutineCategory(product) === preferredTexture);
+  const candidatePool = categoryCandidates.length ? categoryCandidates : routineCandidates;
+  const scored = candidatePool
     .map(product => {
       const mechanisms = product.science?.mechanisms || [];
-      let score = 0;
-      if (mechanisms.includes('cleanse')) score += 4;
+      let score = routineIntensityScore(product, answers);
       if (mechanisms.includes(preferredNeed)) score += 8;
       if (product.science?.primaryMechanism === preferredNeed) score += 4;
-      if (product.type === preferredTexture) score += 3;
-      if (answers.level === 'minimal' && ['cleanser', 'oil', 'cream'].includes(product.type)) score += 2;
-      if (answers.level === 'intensive' && ['mask', 'paste', 'cream'].includes(product.type)) score += 2;
+      if (getRoutineCategory(product) === preferredTexture) score += 12;
       return { product, score };
     })
     .sort((a, b) => b.score - a.score)
     .map(item => item.product);
-  const cleanser = routineCandidates.find(product => product.science?.mechanisms?.includes('cleanse'));
-  const primary = scored.find(product => !product.science?.mechanisms?.includes('cleanse')) || scored[0];
-  const support = scored.find(product => product.id !== primary?.id && product.id !== cleanser?.id) || PRODUCTS[0];
-  const intensive = answers.level === 'intensive'
-    ? scored.find(product => ['mask', 'paste', 'cream'].includes(product.type) && ![cleanser?.id, primary?.id, support?.id].includes(product.id))
-    : null;
-  const products = [cleanser, primary, support, intensive]
+  const selectedLimit = answers.level === 'minimal' ? 1 : answers.level === 'intensive' ? 3 : 2;
+  const products = scored
     .filter(Boolean)
     .filter((product, index, arr) => arr.findIndex(item => item.id === product.id) === index)
-    .slice(0, answers.level === 'minimal' ? 3 : 4);
+    .slice(0, selectedLimit);
   const focus = scienceMechanisms[preferredNeed]?.label || 'Balance';
+  const categoryLabel = preferredTexture === 'oil' ? 'Oil' : preferredTexture === 'serum' ? 'Serum' : preferredTexture === 'mask' ? 'Mask' : preferredTexture === 'cream' ? 'Cream' : 'Formula';
   return {
     focus,
-    cadence: answers.level === 'minimal' ? '3 steps' : answers.level === 'intensive' ? '4 steps + weekly support' : '4 steps',
-    texture: preferredTexture,
+    cadence: answers.level === 'minimal' ? '1 formula' : answers.level === 'intensive' ? `${Math.min(products.length, 3)} focused formulas` : `${Math.min(products.length, 2)} formulas`,
+    texture: categoryLabel,
     products,
-    note: preferredNeed === 'renewal'
-      ? 'Start with clean removal, then layer renewal support with a stabilising finish.'
-      : preferredNeed === 'barrier'
-        ? 'Keep cleansing quiet, reinforce comfort, and finish with barrier continuity.'
-        : preferredNeed === 'cleanse'
-          ? 'Keep the system light: remove residue, then restore balance without excess.'
-          : 'Build around balance first, then add barrier or renewal support only where needed.',
+    note: preferredTexture === 'oil'
+      ? (answers.level === 'intensive' ? 'For stronger skin support, start with Organic Oil and keep application measured.' : 'For simple daily care, start with Molecular Oil Treatment.')
+      : preferredTexture === 'mask'
+        ? 'Mask care only: choose a focused mask layer without adding unrelated formulas.'
+        : preferredTexture === 'serum'
+          ? 'Serum care only: choose a focused serum for the selected role.'
+          : preferredTexture === 'cream'
+            ? 'Cream care only: reinforce comfort and barrier continuity.'
+            : 'Choose within one formula category first, then add more only where needed.',
   };
 };
 const readRoutineAnswers = () => {
