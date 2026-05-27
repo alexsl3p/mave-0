@@ -1134,6 +1134,17 @@
   .mave-account-page .mave-site-footer-divider {
     margin-bottom: 18px !important;
   }
+  .mave-routine-guide-inner,
+  .mave-routine-guide-panels,
+  .mave-routine-guide-copy,
+  .mave-routine-guide-question,
+  .mave-routine-guide-result {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .mave-routine-guide-copy p {
+    max-width: 100%;
+  }
   .mave-orders-top {
     display: grid;
     grid-template-columns: minmax(300px, .78fr) minmax(520px, 1.22fr);
@@ -3129,6 +3140,34 @@
     .mave-account-summary-grid,
     .mave-account-panels,
     .mave-account-mini-benefits { grid-template-columns: 1fr; }
+    .mave-routine-guide-page { padding-top: 72px !important; }
+    .mave-routine-guide-inner {
+      width: 100% !important;
+      padding: 54px 24px 42px !important;
+      gap: 34px !important;
+    }
+    .mave-routine-guide-panels {
+      width: 100% !important;
+      gap: 18px !important;
+    }
+    .mave-routine-guide-copy h1 { font-size: clamp(48px, 15vw, 68px) !important; }
+    .mave-routine-guide-copy p {
+      font-size: 12px !important;
+      line-height: 1.75 !important;
+      max-width: 100% !important;
+    }
+    .mave-routine-guide-question,
+    .mave-routine-guide-result {
+      width: 100% !important;
+      padding: 24px 16px !important;
+    }
+    .mave-routine-guide-result { min-height: auto !important; }
+    .mave-routine-guide-option {
+      width: 100% !important;
+      padding: 0 12px !important;
+    }
+    .mave-routine-guide-option span:first-child { font-size: 24px !important; }
+    .mave-routine-guide-option span:last-child { font-size: 7px !important; }
     .mave-addresses-grid,
     .mave-address-info,
     .mave-payment-grid,
@@ -3506,6 +3545,7 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
+  if (window.location.pathname === '/routine-guide') return 'routineGuide';
   if (window.location.pathname === '/collections') return 'catalog';
   const params = new URLSearchParams(window.location.search);
   return params.get('view') === 'catalog' ? 'catalog' : 'landing';
@@ -3632,6 +3672,11 @@ const setViewUrl = view => {
   }
   if (view === 'forgot') {
     url.pathname = '/forgot-password';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'routineGuide') {
+    url.pathname = '/routine-guide';
     window.history.pushState({}, '', url);
     return;
   }
@@ -3789,6 +3834,12 @@ const REPLENISHMENT_OPTIONS = [
   ['45', 'Remind me in 45 days'],
   ['60', 'Remind me in 60 days'],
 ];
+const ROUTINE_QUESTIONS = [
+  { id: 'feel', label: 'Skin feels', options: [['balanced', 'Balanced'], ['dry', 'Dry'], ['unstable', 'Unstable'], ['dull', 'Dull'], ['sensitive', 'Sensitive']] },
+  { id: 'need', label: 'Main need', options: [['barrier', 'Barrier'], ['balance', 'Balance'], ['renewal', 'Renewal'], ['cleanse', 'Cleanse']] },
+  { id: 'level', label: 'Routine level', options: [['minimal', 'Minimal'], ['complete', 'Complete'], ['intensive', 'Intensive']] },
+  { id: 'texture', label: 'Texture preference', options: [['oil', 'Oil'], ['cream', 'Cream'], ['serum', 'Serum'], ['mask', 'Mask']] },
+];
 
 const assetPath = value => String(value || '').startsWith('/') ? value : `/${value}`;
 const getProductMechanisms = product => product.science?.mechanisms?.map(id => scienceMechanisms[id]).filter(Boolean) || [];
@@ -3796,6 +3847,57 @@ const getProductRole = product => scienceMechanisms[product.science?.primaryMech
 const getProductPairs = product => PRODUCTS
   .filter(item => item.id !== product.id && item.science?.mechanisms?.some(id => product.science?.mechanisms?.includes(id)))
   .slice(0, 2);
+const buildRoutineResult = answers => {
+  const preferredNeed = answers.need || (answers.feel === 'dull' ? 'renewal' : answers.feel === 'dry' || answers.feel === 'sensitive' ? 'barrier' : answers.feel === 'unstable' ? 'balance' : 'balance');
+  const preferredTexture = answers.texture || 'serum';
+  const routineCandidates = PRODUCTS.filter(product => !['Hair Care', 'Oral Care', 'Body Care', 'Lash & Brow Care'].includes(product.collection));
+  const scored = routineCandidates
+    .map(product => {
+      const mechanisms = product.science?.mechanisms || [];
+      let score = 0;
+      if (mechanisms.includes('cleanse')) score += 4;
+      if (mechanisms.includes(preferredNeed)) score += 8;
+      if (product.science?.primaryMechanism === preferredNeed) score += 4;
+      if (product.type === preferredTexture) score += 3;
+      if (answers.level === 'minimal' && ['cleanser', 'oil', 'cream'].includes(product.type)) score += 2;
+      if (answers.level === 'intensive' && ['mask', 'paste', 'cream'].includes(product.type)) score += 2;
+      return { product, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.product);
+  const cleanser = routineCandidates.find(product => product.science?.mechanisms?.includes('cleanse'));
+  const primary = scored.find(product => !product.science?.mechanisms?.includes('cleanse')) || scored[0];
+  const support = scored.find(product => product.id !== primary?.id && product.id !== cleanser?.id) || PRODUCTS[0];
+  const intensive = answers.level === 'intensive'
+    ? scored.find(product => ['mask', 'paste', 'cream'].includes(product.type) && ![cleanser?.id, primary?.id, support?.id].includes(product.id))
+    : null;
+  const products = [cleanser, primary, support, intensive]
+    .filter(Boolean)
+    .filter((product, index, arr) => arr.findIndex(item => item.id === product.id) === index)
+    .slice(0, answers.level === 'minimal' ? 3 : 4);
+  const focus = scienceMechanisms[preferredNeed]?.label || 'Balance';
+  return {
+    focus,
+    cadence: answers.level === 'minimal' ? '3 steps' : answers.level === 'intensive' ? '4 steps + weekly support' : '4 steps',
+    texture: preferredTexture,
+    products,
+    note: preferredNeed === 'renewal'
+      ? 'Start with clean removal, then layer renewal support with a stabilising finish.'
+      : preferredNeed === 'barrier'
+        ? 'Keep cleansing quiet, reinforce comfort, and finish with barrier continuity.'
+        : preferredNeed === 'cleanse'
+          ? 'Keep the system light: remove residue, then restore balance without excess.'
+          : 'Build around balance first, then add barrier or renewal support only where needed.',
+  };
+};
+const readRoutineAnswers = () => {
+  try {
+    return JSON.parse(localStorage.getItem('mave-routine-guide') || '{}');
+  } catch {
+    return {};
+  }
+};
+const writeRoutineAnswers = answers => localStorage.setItem('mave-routine-guide', JSON.stringify(answers));
 const readReplenishmentChoice = productId => {
   try {
     const saved = JSON.parse(localStorage.getItem('mave-replenishment') || '{}');
@@ -4087,7 +4189,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
                   ['Molecular Method', onScienceOpen],
                   ['Ingredients Library', onScienceOpen],
                   ['Product Science', onScienceOpen],
-                  ['Routine Guide', () => onSectionOpen && onSectionOpen('mave-routine-guide')],
+                  ['Routine Guide', () => { window.location.href = '/routine-guide'; }],
                   ['Skin Diagnostic', onSearchOpen],
                 ].map(([label, action]) => megaLink(label, action))}
               </div>
@@ -5008,7 +5110,7 @@ const MethodCardsSection = () => (
   </section>
 );
 
-const RoutineGuideTeaser = ({ onSelect }) => {
+const RoutineGuideTeaser = ({ onSelect, onStart }) => {
   const [step, setStep] = React.useState(0);
   const questions = [
     ['Skin feels', ['balanced', 'dry', 'unstable', 'dull', 'sensitive']],
@@ -5023,7 +5125,7 @@ const RoutineGuideTeaser = ({ onSelect }) => {
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 18 }}>Routine guide</span>
           <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(38px,4.8vw,66px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.04, color: C.black, marginBottom: 22 }}>Find your MAVE system.</h2>
           <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.9, letterSpacing: '0.04em', color: C.bark, maxWidth: 460, marginBottom: 30 }}>Answer a few questions and build a routine by role, texture and intensity.</p>
-          <button type="button" onClick={() => setStep(s => (s + 1) % questions.length)}
+          <button type="button" onClick={onStart || (() => { window.location.href = '/routine-guide'; })}
             style={{ background: C.black, border: `1px solid ${C.black}`, color: C.gold, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.3em', textTransform: 'uppercase', padding: '17px 38px' }}>
             Start guide
           </button>
@@ -5052,6 +5154,98 @@ const RoutineGuideTeaser = ({ onSelect }) => {
         </div>
       </div>
     </section>
+  );
+};
+
+const RoutineGuidePage = ({ onBack, onSelect, onAdd }) => {
+  const initialAnswers = React.useMemo(() => readRoutineAnswers(), []);
+  const [step, setStep] = React.useState(Math.min(Object.keys(initialAnswers).length, ROUTINE_QUESTIONS.length - 1));
+  const [answers, setAnswers] = React.useState(initialAnswers);
+  const result = React.useMemo(() => buildRoutineResult(answers), [answers]);
+  const isComplete = ROUTINE_QUESTIONS.every(question => answers[question.id]);
+  const activeQuestion = ROUTINE_QUESTIONS[step];
+  const selectOption = value => {
+    const next = { ...answers, [activeQuestion.id]: value };
+    setAnswers(next);
+    writeRoutineAnswers(next);
+    if (step < ROUTINE_QUESTIONS.length - 1) setStep(step + 1);
+  };
+  const addRoutine = () => {
+    result.products.forEach(product => onAdd(product, 1));
+  };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', textTransform: 'uppercase' };
+  const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.8, letterSpacing: '0.03em', color: C.bark };
+  return (
+    <main className="mave-account-page mave-routine-guide-page" style={{ paddingTop: 88, background: C.cream, minHeight: '100vh' }}>
+      <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
+        <div style={{ position: 'absolute', inset: '0 auto 0 0', width: '38%', backgroundImage: "url('assets/account-side.png')", backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.42 }} />
+        <div style={{ position: 'absolute', inset: '0 auto 0 0', width: '48%', background: 'linear-gradient(90deg, rgba(245,240,232,0.1), #F5F0E8 78%)' }} />
+        <div className="mave-grid-2 mave-routine-guide-inner" style={{ position: 'relative', width: '100%', maxWidth: 1280, margin: '0 auto', padding: '76px 72px 64px', display: 'grid', gridTemplateColumns: '0.72fr 1.28fr', gap: 76, boxSizing: 'border-box' }}>
+          <div className="mave-routine-guide-copy" style={{ position: 'relative', zIndex: 2, alignSelf: 'center' }}>
+            <button type="button" onClick={onBack} style={{ ...tiny, border: 0, borderBottom: `1px solid rgba(154,122,66,0.46)`, background: 'transparent', color: C.goldD, padding: '0 0 8px', marginBottom: 28, cursor: 'pointer' }}>Back to MAVE</button>
+            <span style={{ ...tiny, color: C.gold, display: 'block', marginBottom: 16 }}>Routine guide</span>
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(54px,6vw,88px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.98, color: C.black, marginBottom: 24 }}>Build your system<span style={{ color: C.gold }}>.</span></h1>
+            <p style={{ ...body, maxWidth: 440 }}>A focused guide for choosing product roles, textures and cadence without adding excess.</p>
+          </div>
+          <div className="mave-grid-2 mave-routine-guide-panels" style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 28 }}>
+            <div className="mave-routine-guide-question" style={{ border: `1px solid rgba(107,87,68,0.18)`, background: 'rgba(245,240,232,0.68)', padding: 28 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+                {ROUTINE_QUESTIONS.map((question, index) => (
+                  <button key={question.id} type="button" onClick={() => setStep(index)}
+                    style={{ width: 38, height: 38, border: `1px solid ${index === step ? C.black : 'rgba(107,87,68,0.18)'}`, background: index === step ? C.black : answers[question.id] ? 'rgba(200,169,110,0.28)' : 'transparent', color: index === step ? C.gold : C.black, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600 }}>
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+              <span style={{ ...tiny, color: C.goldD, display: 'block', marginBottom: 12 }}>{activeQuestion.label}</span>
+              <div style={{ display: 'grid', gap: 10 }}>
+                {activeQuestion.options.map(([value, label]) => (
+                  <button key={value} type="button" className="mave-routine-guide-option" onClick={() => selectOption(value)}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: 58, border: `1px solid ${answers[activeQuestion.id] === value ? C.gold : 'rgba(107,87,68,0.16)'}`, background: answers[activeQuestion.id] === value ? 'rgba(200,169,110,0.18)' : 'transparent', padding: '0 18px', cursor: 'pointer', textAlign: 'left' }}>
+                    <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', color: C.black }}>{label}</span>
+                    <span style={{ ...tiny, color: answers[activeQuestion.id] === value ? C.goldD : 'rgba(107,87,68,0.38)' }}>{answers[activeQuestion.id] === value ? 'Selected' : 'Choose'}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mave-routine-guide-result" style={{ background: C.black, color: C.cream, padding: 30, minHeight: 420, display: 'flex', flexDirection: 'column' }}>
+              <span style={{ ...tiny, color: C.gold, display: 'block', marginBottom: 14 }}>Your current system</span>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 42, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.05, margin: '0 0 12px' }}>{result.focus} ritual</h2>
+              <p style={{ ...body, color: 'rgba(245,240,232,0.62)', marginBottom: 24 }}>{isComplete ? result.note : 'Answer each step to refine the recommendation.'}</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'rgba(200,169,110,0.18)', marginBottom: 24 }}>
+                {[['Cadence', result.cadence], ['Texture', result.texture], ['Focus', result.focus]].map(([label, value]) => (
+                  <div key={label} style={{ background: 'rgba(26,20,16,0.72)', padding: 16 }}>
+                    <span style={{ ...tiny, color: 'rgba(245,240,232,0.38)', display: 'block', marginBottom: 8 }}>{label}</span>
+                    <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', color: C.cream }}>{value}</strong>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'grid', gap: 12, marginBottom: 26 }}>
+                {result.products.map((product, index) => (
+                  <button key={product.id} type="button" onClick={() => onSelect(product)}
+                    style={{ display: 'grid', gridTemplateColumns: '54px 1fr auto', gap: 16, alignItems: 'center', textAlign: 'left', background: 'rgba(245,240,232,0.04)', border: `1px solid rgba(200,169,110,0.12)`, color: C.cream, cursor: 'pointer', padding: 10 }}>
+                    <img src={assetPath(product.image)} alt="" style={{ width: 54, height: 64, objectFit: 'cover', filter: 'saturate(0.82)' }} />
+                    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.5 }}>{index + 1}. {product.name}<br /><span style={{ color: 'rgba(245,240,232,0.45)' }}>{getProductRole(product)}</span></span>
+                    <span style={{ color: C.gold }}>View</span>
+                  </button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 12, marginTop: 'auto', flexWrap: 'wrap' }}>
+                <button type="button" onClick={addRoutine} disabled={!isComplete}
+                  style={{ flex: '1 1 220px', minHeight: 54, background: isComplete ? C.gold : 'rgba(200,169,110,0.22)', border: `1px solid ${isComplete ? C.gold : 'rgba(200,169,110,0.18)'}`, color: isComplete ? C.black : 'rgba(245,240,232,0.42)', cursor: isComplete ? 'pointer' : 'default', ...tiny }}>
+                  Add ritual
+                </button>
+                <button type="button" onClick={() => { setAnswers({}); writeRoutineAnswers({}); setStep(0); }}
+                  style={{ minHeight: 54, padding: '0 24px', background: 'transparent', border: `1px solid rgba(200,169,110,0.22)`, color: C.gold, cursor: 'pointer', ...tiny }}>
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
   );
 };
 
@@ -8430,6 +8624,12 @@ const App = () => {
     setView('wishlist');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openRoutineGuide = () => {
+    setViewUrl('routineGuide');
+    setProductPage(null);
+    setView('routineGuide');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openOrderDetail = () => {
     setViewUrl('orderDetail');
     setProductPage(null);
@@ -8483,7 +8683,7 @@ const App = () => {
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
         onSearchOpen={openSearch}
-        surface={productPage || view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage || view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -8502,6 +8702,8 @@ const App = () => {
         <PaymentMethodsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onWishlist={openWishlist} />
       ) : view === 'wishlist' ? (
         <WishlistPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onPaymentMethods={openPaymentMethods} onSelect={openProduct} />
+      ) : view === 'routineGuide' ? (
+        <RoutineGuidePage onBack={openLanding} onSelect={openProduct} onAdd={addToCart} />
       ) : view === 'checkoutContact' ? (
         <CheckoutContactPage onLogin={openAccount} mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'checkoutDelivery' ? (
@@ -8541,7 +8743,7 @@ const App = () => {
           <MethodCardsSection />
           <LiquidReveal onCatalogOpen={openCatalog} />
           <OilDropMoment onCatalogOpen={openCatalog} />
-          <RoutineGuideTeaser onSelect={openProduct} />
+          <RoutineGuideTeaser onSelect={openProduct} onStart={openRoutineGuide} />
           <RoutineSection onSelect={openProduct} />
           <FeaturedProducts onSelect={openProduct} />
           <Marquee />
