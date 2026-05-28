@@ -5149,13 +5149,11 @@ const MethodCardsSection = () => (
 );
 
 const RoutineGuideTeaser = ({ onSelect, onStart }) => {
-  const [step, setStep] = React.useState(0);
-  const questions = [
-    ['Skin feels', ['balanced', 'dry', 'unstable', 'dull', 'sensitive']],
-    ['Main need', ['barrier', 'balance', 'renewal', 'cleanse']],
-    ['Routine level', ['minimal', 'complete', 'intensive']],
-    ['Texture preference', ['oil', 'cream', 'serum', 'mask']],
-  ];
+  const [answers, setAnswers] = React.useState({});
+  const result = React.useMemo(() => buildRoutineResult(answers), [answers]);
+  const selectInlineOption = (questionId, value) => {
+    setAnswers(current => ({ ...current, [questionId]: value }));
+  };
   return (
     <section id="mave-routine-guide" className="mave-section" style={{ background: C.sand, padding: '96px 80px', borderTop: `1px solid rgba(107,87,68,0.12)` }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 70, alignItems: 'center' }} className="mave-grid-2">
@@ -5169,25 +5167,34 @@ const RoutineGuideTeaser = ({ onSelect, onStart }) => {
           </button>
         </Reveal>
         <div style={{ border: `1px solid rgba(107,87,68,0.18)`, background: 'rgba(245,240,232,0.58)', padding: 34 }}>
-          {questions.map(([label, options], index) => (
-            <div key={label} style={{ padding: '18px 0', borderTop: index ? `1px solid rgba(107,87,68,0.12)` : 0, opacity: index === step ? 1 : 0.62 }}>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: index === step ? C.black : C.bark, display: 'block', marginBottom: 12 }}>{index + 1}. {label}</span>
+          {ROUTINE_QUESTIONS.map((question, index) => (
+            <div key={question.id} style={{ padding: '18px 0', borderTop: index ? `1px solid rgba(107,87,68,0.12)` : 0, opacity: 1 }}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 12 }}>{index + 1}. {question.label}</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {options.map(option => <span key={option} style={{ border: `1px solid rgba(154,122,66,0.34)`, padding: '8px 11px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.08em', color: C.bark }}>{option}</span>)}
+                {question.options.map(([value, label]) => (
+                  <button key={value} type="button" onClick={() => selectInlineOption(question.id, value)}
+                    style={{ border: `1px solid ${answers[question.id] === value ? C.goldD : 'rgba(154,122,66,0.34)'}`, background: answers[question.id] === value ? 'rgba(200,169,110,0.18)' : 'transparent', padding: '8px 11px', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.08em', color: answers[question.id] === value ? C.black : C.bark, cursor: 'pointer', transition: 'background 240ms ease, border-color 240ms ease, color 240ms ease' }}>
+                    {label.toLowerCase()}
+                  </button>
+                ))}
               </div>
             </div>
           ))}
           <div style={{ marginTop: 24, padding: 24, background: C.black, color: C.cream }}>
             <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Your measured ritual</span>
-            <div style={{ display: 'grid', gap: 12 }}>
-              {ROUTINE_PRODUCTS.map(product => (
-                <button key={product.id} type="button" onClick={() => onSelect(product)} style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', gap: 14, alignItems: 'center', textAlign: 'left', background: 'transparent', border: 0, color: C.cream, cursor: 'pointer', padding: 0 }}>
-                  <img src={assetPath(product.image)} alt="" style={{ width: 44, height: 54, objectFit: 'cover', filter: 'saturate(0.82)' }} />
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.45 }}>{product.name}<br /><span style={{ color: 'rgba(245,240,232,0.5)' }}>{getProductRole(product)}</span></span>
-                  <span style={{ color: C.gold }}>›</span>
-                </button>
-              ))}
-            </div>
+            {result.products.length ? (
+              <div style={{ display: 'grid', gap: 12 }}>
+                {result.products.map(product => (
+                  <button key={product.id} type="button" onClick={() => onSelect(product)} style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', gap: 14, alignItems: 'center', textAlign: 'left', background: 'transparent', border: 0, color: C.cream, cursor: 'pointer', padding: 0 }}>
+                    <img src={assetPath(product.image)} alt="" style={{ width: 44, height: 54, objectFit: 'cover', filter: 'saturate(0.82)' }} />
+                    <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.45 }}>{product.name}<br /><span style={{ color: 'rgba(245,240,232,0.5)' }}>{getProductRole(product)}</span></span>
+                    <span style={{ color: C.gold }}>›</span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, color: 'rgba(245,240,232,0.58)', margin: 0 }}>{result.note}</p>
+            )}
           </div>
         </div>
       </div>
