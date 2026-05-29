@@ -3064,10 +3064,20 @@
       gap: 24px;
     }
     .mave-account-bg-strip { display: none; }
-    .mave-account-sidebar { padding: 36px 42px; border-right: 0; border-bottom: 1px solid rgba(107,87,68,0.14); }
+    .mave-account-sidebar {
+      grid-column: 1;
+      grid-row: auto;
+      padding: 36px 42px;
+      border-right: 0;
+      border-bottom: 1px solid rgba(107,87,68,0.14);
+    }
     .mave-account-nav { grid-template-columns: repeat(4, minmax(150px, 1fr)); overflow-x: auto; }
     .mave-account-logout { margin-top: 24px; }
-    .mave-account-main { padding: 42px; }
+    .mave-account-main {
+      grid-column: 1;
+      grid-row: auto;
+      padding: 42px;
+    }
     .mave-account-top,
     .mave-orders-top,
     .mave-account-quiz,
