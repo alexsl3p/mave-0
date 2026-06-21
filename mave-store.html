@@ -719,6 +719,26 @@
       opacity: 1 !important;
       display: block !important;
     }
+    .mave-pdp-shell.mave-pdp-hero-overlay .mave-pdp-buybox {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: auto !important;
+      width: 100% !important;
+      min-height: auto !important;
+      background: #1A1410 !important;
+      padding: 48px 28px !important;
+      backdrop-filter: none !important;
+    }
+    .mave-pdp-shell.mave-pdp-hero-overlay .mave-pdp-gallery {
+      min-height: auto !important;
+    }
+    .mave-pdp-shell.mave-pdp-hero-overlay .mave-pdp-hero-image {
+      position: relative !important;
+      height: 68vh !important;
+      min-height: 500px !important;
+      object-position: center center !important;
+    }
     .mave-pdp-thumbs { position: relative !important; left: auto !important; bottom: auto !important; padding: 2px !important; background: #1A1410 !important; }
   }
 
@@ -3428,8 +3448,8 @@ const PRODUCTS = [
 ];
 
 const PDP_ATMOSPHERE_THEMES = {
-  'molecular-oil-treatment': { background: 'assets/generated/molecular-oil-treatment-pdp-background.png', header: 'transparent-dark', page: '#2D1E17', surfaceStrong: 'rgba(239,226,207,0.72)', border: 'rgba(87,55,28,0.18)', text: '#211611', muted: '#60452F', dark: '#1B100C', amber: '#9A6327' },
-  'organic-oil': { background: 'assets/generated/organic-oil-pdp-background-main-ref.png', header: 'transparent-light', page: '#D7C2A4', surfaceStrong: 'rgba(244,235,221,0.74)', border: 'rgba(84,58,34,0.14)', text: '#24170F', muted: '#60452F', dark: '#21140D', amber: '#A66A24' },
+  'molecular-oil-treatment': { background: 'assets/generated/molecular-oil-treatment-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#2D1E17', surfaceStrong: 'rgba(239,226,207,0.72)', border: 'rgba(87,55,28,0.18)', text: '#211611', muted: '#60452F', dark: '#1B100C', amber: '#9A6327' },
+  'organic-oil': { background: 'assets/generated/organic-oil-pdp-background-main-ref.png', header: 'transparent-light', heroOverlay: true, page: '#D7C2A4', surfaceStrong: 'rgba(244,235,221,0.74)', border: 'rgba(84,58,34,0.14)', text: '#24170F', muted: '#60452F', dark: '#21140D', amber: '#A66A24' },
   'wow-skin-serum-2-in-1': { background: 'assets/generated/wow-serum-pdp-background-main-ref.png', header: 'transparent-dark', page: '#2D1E17', surfaceStrong: 'rgba(238,226,211,0.70)', border: 'rgba(86,55,42,0.18)', text: '#211611', muted: '#60483B', dark: '#1B100C', amber: '#8D5A2B' },
   'wow-pdrn-serum-2-in-1': { background: 'assets/generated/wow-pdrn-serum-2-in-1-pdp-background.png', header: 'transparent-light', page: '#E4C6BB', surfaceStrong: 'rgba(246,234,226,0.76)', border: 'rgba(144,89,81,0.16)', text: '#281917', muted: '#6A4A43', dark: '#2A1615', amber: '#B57A6F' },
   'mave-28-cream': { background: 'assets/generated/mave-28-cream-pdp-background.png', header: 'transparent-dark', page: '#3A1716', surfaceStrong: 'rgba(239,226,214,0.74)', border: 'rgba(92,31,31,0.18)', text: '#211211', muted: '#5E3B35', dark: '#210D0D', amber: '#9E6F55' },
@@ -3448,7 +3468,7 @@ const PRODUCT_DETAILS = {
   1: {
     statement: 'For daily balance or when more is required.',
     description: 'Restores balance. Reinforces the barrier.',
-    gallery: ['assets/treatment-oil-clean.jpg', 'assets/treatment-oil-amber.jpg', 'assets/organic-oil.jpg', 'assets/organic-oil-sunset.jpg'],
+    gallery: ['assets/generated/molecular-oil-treatment-pdp-hero-scene-main.png', 'assets/treatment-oil-clean.jpg', 'assets/treatment-oil-amber.jpg', 'assets/organic-oil.jpg'],
     ingredients: ['Oil phase for barrier continuity', 'Vitamin E for formula stability', 'Actives for controlled use'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin. Use daily or where needed. Repeat with precision.',
@@ -5920,6 +5940,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const details = PRODUCT_DETAILS[product.id] || PRODUCT_DETAILS[1];
   const gallery = details.gallery && details.gallery.length ? details.gallery : [product.image];
   const pdpAtmosphereTheme = PDP_ATMOSPHERE_THEMES[product.slug] || null;
+  const heroOverlayPdp = Boolean(pdpAtmosphereTheme?.heroOverlay);
   const [qty, setQty] = React.useState(1);
   const [tab, setTab] = React.useState('daily');
   const [open, setOpen] = React.useState('ingredients');
@@ -5987,17 +6008,24 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
     setReplenish(value);
     writeReplenishmentChoice(product.id, value);
   };
+  const buyboxText = heroOverlayPdp ? C.cream : (pdpAtmosphereTheme?.text || C.black);
+  const buyboxStrong = heroOverlayPdp ? 'rgba(245,240,232,0.92)' : C.black;
+  const buyboxMuted = heroOverlayPdp ? 'rgba(245,240,232,0.72)' : (pdpAtmosphereTheme?.muted || C.earth);
+  const buyboxSoft = heroOverlayPdp ? 'rgba(245,240,232,0.58)' : C.bark;
+  const buyboxBorder = heroOverlayPdp ? 'rgba(245,240,232,0.22)' : 'rgba(107,87,68,0.18)';
+  const buyboxOptionBg = heroOverlayPdp ? 'rgba(245,240,232,0.10)' : 'rgba(245,240,232,0.44)';
+  const buyboxOptionActiveBg = heroOverlayPdp ? 'rgba(200,169,110,0.20)' : 'rgba(200,169,110,0.11)';
 
   return (
     <motion.main
-      className={`mave-pdp-shell${pdpAtmosphereTheme ? ' mave-pdp-atmosphere' : ''}`}
+      className={`mave-pdp-shell${pdpAtmosphereTheme ? ' mave-pdp-atmosphere' : ''}${heroOverlayPdp ? ' mave-pdp-hero-overlay' : ''}`}
       initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}
       transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
       style={{
         background: pdpAtmosphereTheme
           ? `linear-gradient(180deg, rgba(215,194,164,0.78), rgba(245,240,232,0.94) 64%, ${C.cream} 100%), url('${pdpAtmosphereTheme.background}') center top / 100% auto no-repeat`
           : C.cream,
-        color: pdpAtmosphereTheme?.text || C.black,
+        color: buyboxText,
         minHeight: '100vh',
         paddingTop: pdpAtmosphereTheme ? 0 : 92,
       }}
@@ -6005,23 +6033,26 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
       <section className="mave-grid-2" style={{
         position: 'relative',
         display: 'grid',
-        gridTemplateColumns: '1.12fr 0.88fr',
+        gridTemplateColumns: heroOverlayPdp ? '1fr' : '1.12fr 0.88fr',
         gap: 0,
         minHeight: pdpAtmosphereTheme ? '100vh' : 'calc(100vh - 92px)',
-        background: pdpAtmosphereTheme
-          ? `linear-gradient(90deg, rgba(244,235,221,0.10) 0%, rgba(244,235,221,0.20) 46%, rgba(36,23,15,0.12) 100%), url('${pdpAtmosphereTheme.background}') center center / cover no-repeat`
-          : C.cream,
+        background: heroOverlayPdp
+          ? C.black
+          : pdpAtmosphereTheme
+            ? `linear-gradient(90deg, rgba(244,235,221,0.10) 0%, rgba(244,235,221,0.20) 46%, rgba(36,23,15,0.12) 100%), url('${pdpAtmosphereTheme.background}') center center / cover no-repeat`
+            : C.cream,
       }}>
-        {pdpAtmosphereTheme && (
+        {pdpAtmosphereTheme && !heroOverlayPdp && (
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.04) 0%, rgba(245,240,232,0.22) 48%, rgba(36,23,15,0.18) 100%)', pointerEvents: 'none' }} />
         )}
         <div className="mave-pdp-gallery" style={{
           position: 'relative',
+          gridColumn: heroOverlayPdp ? '1 / -1' : undefined,
           minHeight: pdpAtmosphereTheme ? '100vh' : 'calc(100vh - 92px)',
           overflow: 'hidden',
           background: pdpAtmosphereTheme ? 'transparent' : C.black,
-          display: pdpAtmosphereTheme ? 'grid' : 'block',
-          placeItems: pdpAtmosphereTheme ? 'center' : undefined,
+          display: pdpAtmosphereTheme && !heroOverlayPdp ? 'grid' : 'block',
+          placeItems: pdpAtmosphereTheme && !heroOverlayPdp ? 'center' : undefined,
           padding: 0,
           boxSizing: 'border-box',
         }}>
@@ -6029,12 +6060,14 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
             initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.05, ease: [0.23, 1, 0.32, 1] }}
             onClick={() => setLightbox(true)}
-            style={pdpAtmosphereTheme
-              ? { position: 'absolute', left: 0, right: 0, top: 0, width: '100%', height: '100vh', objectFit: 'cover', objectPosition: 'center top', filter: 'saturate(0.96) brightness(1.02) contrast(0.99)', opacity: 0.88, cursor: 'zoom-in' }
-              : { width: '100%', height: 'calc(100vh - 92px)', objectFit: 'cover', filter: 'saturate(0.9) brightness(1.06) contrast(0.98)', cursor: 'zoom-in' }
+            style={heroOverlayPdp
+              ? { position: 'absolute', inset: 0, width: '100%', height: '100vh', objectFit: 'cover', objectPosition: 'center center', filter: 'saturate(1.02) brightness(0.92) contrast(1.02)', opacity: 1, cursor: 'zoom-in' }
+              : pdpAtmosphereTheme
+                ? { position: 'absolute', left: 0, right: 0, top: 0, width: '100%', height: '100vh', objectFit: 'cover', objectPosition: 'center top', filter: 'saturate(0.96) brightness(1.02) contrast(0.99)', opacity: 0.88, cursor: 'zoom-in' }
+                : { width: '100%', height: 'calc(100vh - 92px)', objectFit: 'cover', filter: 'saturate(0.9) brightness(1.06) contrast(0.98)', cursor: 'zoom-in' }
             } />
-          <div style={{ position: 'absolute', inset: 0, background: pdpAtmosphereTheme ? 'radial-gradient(circle at 42% 50%, rgba(245,240,232,0.0), rgba(36,23,15,0.14) 72%)' : 'linear-gradient(90deg, rgba(26,20,16,0.02), rgba(245,240,232,0.10) 58%, rgba(26,20,16,0.10))', pointerEvents: 'none' }} />
-          <div className="mave-pdp-thumbs" style={{ position: 'absolute', left: 32, bottom: 32, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(82px, 124px))', gap: 12 }}>
+          <div style={{ position: 'absolute', inset: 0, background: heroOverlayPdp ? 'linear-gradient(90deg, rgba(26,20,16,0.03) 0%, rgba(26,20,16,0.08) 42%, rgba(26,20,16,0.56) 70%, rgba(26,20,16,0.84) 100%)' : pdpAtmosphereTheme ? 'radial-gradient(circle at 42% 50%, rgba(245,240,232,0.0), rgba(36,23,15,0.14) 72%)' : 'linear-gradient(90deg, rgba(26,20,16,0.02), rgba(245,240,232,0.10) 58%, rgba(26,20,16,0.10))', pointerEvents: 'none' }} />
+          <div className="mave-pdp-thumbs" style={{ position: 'absolute', left: 32, bottom: 32, zIndex: 4, display: heroOverlayPdp ? 'none' : 'grid', gridTemplateColumns: 'repeat(4, minmax(82px, 124px))', gap: 12 }}>
             {gallery.map((img, i) => (
               <button key={`${img}-${i}`} onClick={() => setActiveImage(img)}
                 style={{ padding: 0, border: `1px solid ${activeImage === img ? C.gold : 'rgba(245,240,232,0.16)'}`, background: C.black, cursor: 'pointer', opacity: activeImage === img ? 1 : 0.68, transition: 'opacity 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
@@ -6049,37 +6082,42 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: pdpAtmosphereTheme ? pdpAtmosphereTheme.surfaceStrong : C.cream,
-          borderLeft: pdpAtmosphereTheme ? `1px solid ${pdpAtmosphereTheme.border}` : undefined,
-          backdropFilter: pdpAtmosphereTheme ? 'blur(16px)' : undefined,
-          position: 'sticky',
+          color: buyboxText,
+          background: heroOverlayPdp ? 'linear-gradient(90deg, rgba(26,20,16,0.00) 0%, rgba(26,20,16,0.58) 24%, rgba(26,20,16,0.76) 100%)' : pdpAtmosphereTheme ? pdpAtmosphereTheme.surfaceStrong : C.cream,
+          borderLeft: heroOverlayPdp ? '1px solid rgba(245,240,232,0.12)' : pdpAtmosphereTheme ? `1px solid ${pdpAtmosphereTheme.border}` : undefined,
+          backdropFilter: heroOverlayPdp ? 'blur(8px)' : pdpAtmosphereTheme ? 'blur(16px)' : undefined,
+          position: heroOverlayPdp ? 'absolute' : 'sticky',
+          right: heroOverlayPdp ? 0 : undefined,
           top: pdpAtmosphereTheme ? 0 : 92,
+          bottom: heroOverlayPdp ? 0 : undefined,
+          zIndex: heroOverlayPdp ? 3 : undefined,
+          width: heroOverlayPdp ? 'min(46vw, 640px)' : undefined,
           alignSelf: 'start',
           minHeight: pdpAtmosphereTheme ? '100vh' : 'calc(100vh - 92px)',
           paddingTop: pdpAtmosphereTheme ? 118 : 70,
         }}>
           <button onClick={onBack}
-            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 38 }}>
+            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: buyboxSoft, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 38 }}>
             Back to collection
           </button>
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Formula role</span>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,5vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: pdpAtmosphereTheme?.text || C.black, marginBottom: 12 }}>{product.name}</h1>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,5vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: buyboxText, marginBottom: 12 }}>{product.name}</h1>
           <div style={{ marginBottom: 24 }}>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 300, letterSpacing: '0.08em', color: C.black }}>{volumeLabel} · {product.price}</span>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 300, letterSpacing: '0.08em', color: buyboxStrong }}>{volumeLabel} · {product.price}</span>
           </div>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.black, marginBottom: 12 }}>{details.statement}</p>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.78, letterSpacing: '0.02em', color: pdpAtmosphereTheme?.muted || C.earth, maxWidth: 520, marginBottom: 28 }}>{details.description}</p>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: buyboxStrong, marginBottom: 12 }}>{details.statement}</p>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.78, letterSpacing: '0.02em', color: buyboxMuted, maxWidth: 520, marginBottom: 28 }}>{details.description}</p>
 
           <div style={{ display: 'grid', gap: 10, marginBottom: 22 }}>
             <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD }}>Replenish this product</span>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: C.bark, lineHeight: 1.65, margin: 0 }}>Set a quiet reminder before your formula runs low.</p>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: buyboxSoft, lineHeight: 1.65, margin: 0 }}>Set a quiet reminder before your formula runs low.</p>
             {REPLENISHMENT_OPTIONS.map(([id, title]) => (
               <button key={id} type="button" onClick={() => updateReplenish(id)}
-                style={{ display: 'grid', gridTemplateColumns: '22px 1fr', gap: 12, alignItems: 'center', textAlign: 'left', border: `1px solid ${replenish === id ? C.goldD : 'rgba(107,87,68,0.18)'}`, background: replenish === id ? 'rgba(200,169,110,0.11)' : 'rgba(245,240,232,0.44)', padding: '12px 15px', cursor: 'pointer' }}>
-                <span style={{ width: 14, height: 14, borderRadius: '50%', border: `1px solid ${replenish === id ? C.goldD : 'rgba(107,87,68,0.34)'}`, display: 'grid', placeItems: 'center' }}>
+                style={{ display: 'grid', gridTemplateColumns: '22px 1fr', gap: 12, alignItems: 'center', textAlign: 'left', border: `1px solid ${replenish === id ? C.goldD : buyboxBorder}`, background: replenish === id ? buyboxOptionActiveBg : buyboxOptionBg, padding: '12px 15px', cursor: 'pointer' }}>
+                <span style={{ width: 14, height: 14, borderRadius: '50%', border: `1px solid ${replenish === id ? C.goldD : (heroOverlayPdp ? 'rgba(245,240,232,0.32)' : 'rgba(107,87,68,0.34)')}`, display: 'grid', placeItems: 'center' }}>
                   {replenish === id && <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.goldD }} />}
                 </span>
-                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black }}>{title}</strong>
+                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: buyboxStrong }}>{title}</strong>
               </button>
             ))}
           </div>
@@ -6090,21 +6128,21 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
               ['Returns', '30 days'],
               ['Member care', 'Private offers'],
             ].map(([title, text]) => (
-              <div className="mave-pdp-commerce-tile" key={title}>
+              <div className="mave-pdp-commerce-tile" key={title} style={heroOverlayPdp ? { background: 'rgba(245,240,232,0.10)', borderColor: 'rgba(245,240,232,0.16)' } : undefined}>
                 <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.goldD, marginBottom: 7 }}>{title}</strong>
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.55, color: C.bark }}>{text}</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.55, color: buyboxSoft }}>{text}</span>
               </div>
             ))}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '126px 1fr', gap: 12, marginBottom: 22 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: `1px solid rgba(107,87,68,0.38)`, padding: '0 18px', minHeight: 56 }}>
-              <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: C.black, padding: '16px 2px', lineHeight: 1 }}>−</button>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: C.black, minWidth: 22, textAlign: 'center' }}>{qty}</span>
-              <button onClick={() => setQty(q => q + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: C.black, padding: '16px 2px', lineHeight: 1 }}>+</button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: `1px solid ${heroOverlayPdp ? 'rgba(245,240,232,0.26)' : 'rgba(107,87,68,0.38)'}`, padding: '0 18px', minHeight: 56 }}>
+              <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: buyboxStrong, padding: '16px 2px', lineHeight: 1 }}>−</button>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: buyboxStrong, minWidth: 22, textAlign: 'center' }}>{qty}</span>
+              <button onClick={() => setQty(q => q + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: buyboxStrong, padding: '16px 2px', lineHeight: 1 }}>+</button>
             </div>
             <motion.button onClick={handleAdd} whileTap={{ scale: 0.97 }}
-              style={{ width: '100%', minHeight: 56, padding: '18px 30px', background: added ? C.gold : C.black, color: added ? C.black : C.gold, border: `1px solid ${added ? C.gold : C.black}`, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'background 420ms cubic-bezier(0.23, 1, 0.32, 1), color 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+              style={{ width: '100%', minHeight: 56, padding: '18px 30px', background: added ? C.gold : (heroOverlayPdp ? 'rgba(245,240,232,0.92)' : C.black), color: added ? C.black : (heroOverlayPdp ? C.black : C.gold), border: `1px solid ${added ? C.gold : (heroOverlayPdp ? 'rgba(245,240,232,0.92)' : C.black)}`, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'background 420ms cubic-bezier(0.23, 1, 0.32, 1), color 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
               {added ? 'Added' : 'Add to cart'}
             </motion.button>
           </div>
@@ -6112,7 +6150,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           <div style={{ display: 'flex', gap: 30 }}>
             {['How to use', 'Full INCI'].map(label => (
               <button key={label} onClick={() => openDisclosure(label === 'How to use' ? 'use' : 'inci')}
-                style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.78)`, color: C.earth, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '0 0 7px' }}>
+                style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.78)`, color: buyboxMuted, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '0 0 7px' }}>
                 {label}
               </button>
             ))}
