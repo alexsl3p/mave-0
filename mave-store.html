@@ -6079,7 +6079,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
         </div>
 
         <div className="mave-pdp-buybox" style={{
-          padding: '70px 74px',
+          padding: heroOverlayPdp ? '86px 48px 38px' : '70px 74px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -6092,38 +6092,38 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           top: pdpAtmosphereTheme ? 0 : 92,
           bottom: heroOverlayPdp ? 0 : undefined,
           zIndex: heroOverlayPdp ? 3 : undefined,
-          width: heroOverlayPdp ? 'min(46vw, 640px)' : undefined,
+          width: heroOverlayPdp ? 'min(40vw, 560px)' : undefined,
           alignSelf: 'start',
           minHeight: pdpAtmosphereTheme ? '100vh' : 'calc(100vh - 92px)',
-          paddingTop: pdpAtmosphereTheme ? 118 : 70,
+          paddingTop: heroOverlayPdp ? 88 : pdpAtmosphereTheme ? 118 : 70,
         }}>
           <button onClick={onBack}
-            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: buyboxSoft, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 8px', marginBottom: 38 }}>
+            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: buyboxSoft, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 8 : 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 7px', marginBottom: heroOverlayPdp ? 24 : 38 }}>
             Back to collection
           </button>
-          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 14 }}>Formula role</span>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,5vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1.02, color: buyboxText, marginBottom: 12 }}>{product.name}</h1>
-          <div style={{ marginBottom: 24 }}>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 300, letterSpacing: '0.08em', color: buyboxStrong }}>{volumeLabel} · {product.price}</span>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 8 : 9, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: heroOverlayPdp ? 10 : 14 }}>Formula role</span>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: heroOverlayPdp ? 'clamp(34px,3.7vw,56px)' : 'clamp(42px,5vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: heroOverlayPdp ? 0.98 : 1.02, color: buyboxText, marginBottom: heroOverlayPdp ? 10 : 12 }}>{product.name}</h1>
+          <div style={{ marginBottom: heroOverlayPdp ? 15 : 24 }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 15 : 18, fontWeight: 300, letterSpacing: '0.08em', color: buyboxStrong }}>{volumeLabel} · {product.price}</span>
           </div>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: buyboxStrong, marginBottom: 12 }}>{details.statement}</p>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.78, letterSpacing: '0.02em', color: buyboxMuted, maxWidth: 520, marginBottom: 28 }}>{details.description}</p>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 10 : 12, fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: buyboxStrong, marginBottom: heroOverlayPdp ? 8 : 12 }}>{details.statement}</p>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 12 : 14, fontWeight: 300, lineHeight: heroOverlayPdp ? 1.55 : 1.78, letterSpacing: '0.02em', color: buyboxMuted, maxWidth: heroOverlayPdp ? 440 : 520, marginBottom: heroOverlayPdp ? 18 : 28 }}>{details.description}</p>
 
-          <div style={{ display: 'grid', gap: 10, marginBottom: 22 }}>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD }}>Replenish this product</span>
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: buyboxSoft, lineHeight: 1.65, margin: 0 }}>Set a quiet reminder before your formula runs low.</p>
+          <div style={{ display: 'grid', gap: heroOverlayPdp ? 7 : 10, marginBottom: heroOverlayPdp ? 16 : 22 }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 8 : 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD }}>Replenish this product</span>
+            <p style={{ display: heroOverlayPdp ? 'none' : 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: buyboxSoft, lineHeight: 1.65, margin: 0 }}>Set a quiet reminder before your formula runs low.</p>
             {REPLENISHMENT_OPTIONS.map(([id, title]) => (
               <button key={id} type="button" onClick={() => updateReplenish(id)}
-                style={{ display: 'grid', gridTemplateColumns: '22px 1fr', gap: 12, alignItems: 'center', textAlign: 'left', border: `1px solid ${replenish === id ? C.goldD : buyboxBorder}`, background: replenish === id ? buyboxOptionActiveBg : buyboxOptionBg, padding: '12px 15px', cursor: 'pointer' }}>
-                <span style={{ width: 14, height: 14, borderRadius: '50%', border: `1px solid ${replenish === id ? C.goldD : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.32)' : 'rgba(107,87,68,0.34)')}`, display: 'grid', placeItems: 'center' }}>
+                style={{ display: 'grid', gridTemplateColumns: heroOverlayPdp ? '18px 1fr' : '22px 1fr', gap: heroOverlayPdp ? 10 : 12, alignItems: 'center', textAlign: 'left', border: `1px solid ${replenish === id ? C.goldD : buyboxBorder}`, background: replenish === id ? buyboxOptionActiveBg : buyboxOptionBg, padding: heroOverlayPdp ? '9px 13px' : '12px 15px', cursor: 'pointer' }}>
+                <span style={{ width: heroOverlayPdp ? 12 : 14, height: heroOverlayPdp ? 12 : 14, borderRadius: '50%', border: `1px solid ${replenish === id ? C.goldD : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.32)' : 'rgba(107,87,68,0.34)')}`, display: 'grid', placeItems: 'center' }}>
                   {replenish === id && <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.goldD }} />}
                 </span>
-                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: buyboxStrong }}>{title}</strong>
+                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 9 : 10, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: buyboxStrong }}>{title}</strong>
               </button>
             ))}
           </div>
 
-          <div className="mave-pdp-commerce-strip" style={{ marginBottom: 24 }}>
+          <div className="mave-pdp-commerce-strip" style={{ display: heroOverlayPdp ? 'none' : undefined, marginBottom: 24 }}>
             {[
               ['Delivery', 'Free over €60'],
               ['Returns', '30 days'],
@@ -6136,19 +6136,19 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '126px 1fr', gap: 12, marginBottom: 22 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: `1px solid ${heroOverlayPdp ? 'rgba(245,240,232,0.26)' : 'rgba(107,87,68,0.38)'}`, padding: '0 18px', minHeight: 56 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: heroOverlayPdp ? '104px 1fr' : '126px 1fr', gap: heroOverlayPdp ? 9 : 12, marginBottom: heroOverlayPdp ? 14 : 22 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: `1px solid ${heroOverlayPdp ? 'rgba(245,240,232,0.26)' : 'rgba(107,87,68,0.38)'}`, padding: heroOverlayPdp ? '0 14px' : '0 18px', minHeight: heroOverlayPdp ? 46 : 56 }}>
               <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: buyboxStrong, padding: '16px 2px', lineHeight: 1 }}>−</button>
               <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: buyboxStrong, minWidth: 22, textAlign: 'center' }}>{qty}</span>
               <button onClick={() => setQty(q => q + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: buyboxStrong, padding: '16px 2px', lineHeight: 1 }}>+</button>
             </div>
             <motion.button onClick={handleAdd} whileTap={{ scale: 0.97 }}
-              style={{ width: '100%', minHeight: 56, padding: '18px 30px', background: added ? C.gold : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.92)' : C.black), color: added ? C.black : (heroOverlayPdp && !heroOverlayLight ? C.black : C.gold), border: `1px solid ${added ? C.gold : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.92)' : C.black)}`, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'background 420ms cubic-bezier(0.23, 1, 0.32, 1), color 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+              style={{ width: '100%', minHeight: heroOverlayPdp ? 46 : 56, padding: heroOverlayPdp ? '14px 22px' : '18px 30px', background: added ? C.gold : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.92)' : C.black), color: added ? C.black : (heroOverlayPdp && !heroOverlayLight ? C.black : C.gold), border: `1px solid ${added ? C.gold : (heroOverlayPdp && !heroOverlayLight ? 'rgba(245,240,232,0.92)' : C.black)}`, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: heroOverlayPdp ? 9 : 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'background 420ms cubic-bezier(0.23, 1, 0.32, 1), color 420ms cubic-bezier(0.23, 1, 0.32, 1), border-color 420ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
               {added ? 'Added' : 'Add to cart'}
             </motion.button>
           </div>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.goldD, margin: '-6px 0 22px', textAlign: 'right' }}>Secure checkout · Free delivery over €60</p>
-          <div style={{ display: 'flex', gap: 30 }}>
+          <p style={{ display: heroOverlayPdp ? 'none' : 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.goldD, margin: '-6px 0 22px', textAlign: 'right' }}>Secure checkout ? Free delivery over ?60</p>
+          <div style={{ display: 'flex', gap: heroOverlayPdp ? 20 : 30 }}>
             {['How to use', 'Full INCI'].map(label => (
               <button key={label} onClick={() => openDisclosure(label === 'How to use' ? 'use' : 'inci')}
                 style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.78)`, color: buyboxMuted, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '0 0 7px' }}>
