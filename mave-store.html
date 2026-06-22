@@ -4110,8 +4110,8 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   const transparentSurface = transparentLightSurface || transparentDarkSurface;
   const earthHeaderBg = 'rgba(36,23,15,0.94)';
   const earthHeaderBorder = '1px solid rgba(200,169,110,0.22)';
-  const isEarthHeader = menuOpen || navHover || ((surface === 'transparent-light' || surface === 'transparent-dark') && scrolled);
-  const onLightSurface = surface === 'light' && !menuOpen && !navHover;
+  const isEarthHeader = menuOpen || megaOpen || navHover || ((surface === 'transparent-light' || surface === 'transparent-dark') && scrolled);
+  const onLightSurface = surface === 'light' && !menuOpen && !megaOpen && !navHover;
   const navText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.82)' : onLightSurface ? 'rgba(26,20,16,0.66)' : 'rgba(245,240,232,0.74)';
   const actionText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.74)' : onLightSurface ? 'rgba(26,20,16,0.58)' : 'rgba(245,240,232,0.62)';
   const navBgColor = isEarthHeader
@@ -4185,7 +4185,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
         }}
         className="mave-nav"
         onMouseEnter={() => setNavHover(true)}
-        onMouseLeave={() => { setNavHover(false); setMegaOpen(false); }}
+        onMouseLeave={() => setNavHover(false)}
       >
         {/* Logo */}
         <button onClick={onHome} aria-label="Go to MAVE landing" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', userSelect: 'none', marginLeft: 24, background: 'none', border: 'none', padding: 0 }}>
@@ -4285,8 +4285,8 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.28, ease: [0.16,1,0.3,1] }}
-            onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => setMegaOpen(false)}
+            onMouseEnter={() => { setMegaOpen(true); setNavHover(true); }}
+            onMouseLeave={() => { setMegaOpen(false); setNavHover(false); }}
           >
             <div className="mave-mega-inner">
               <div>
