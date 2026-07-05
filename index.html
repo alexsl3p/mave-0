@@ -5481,12 +5481,18 @@ const CollectionGrid = ({ onSelect }) => (
 );
 
 const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
-  const collections = ['All', ...Array.from(new Set(PRODUCTS.map(p => p.collection)))];
+  const filterGroups = {
+    'Skin': ['Base Care', 'Organic Care', 'WOW Skin', 'Targeted Care', 'Mask Care'],
+    'Hair & body': ['Hair Care', 'Body Care', 'Lash & Brow Care'],
+    'Cleanse': ['Cleanse', 'Oral Care'],
+    'Limited': ['Limited Edition'],
+  };
+  const collections = ['All', ...Object.keys(filterGroups)];
   const [active, setActive] = React.useState('All');
   const [query, setQuery] = React.useState('');
   const [sort, setSort] = React.useState('featured');
   const filtered = PRODUCTS.filter(p => {
-    const byCollection = active === 'All' || p.collection === active;
+    const byCollection = active === 'All' || (filterGroups[active] || []).includes(p.collection);
     const byQuery = !query.trim() || `${p.name} ${p.collection}`.toLowerCase().includes(query.toLowerCase());
     return byCollection && byQuery;
   });
