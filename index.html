@@ -3238,7 +3238,7 @@
     .mave-account-quiz-copy { padding: 28px 24px; }
     .mave-account-order-row { grid-template-columns: 52px 1fr; }
     .mave-account-order-row > *:nth-child(n+3) { justify-self: start; }
-    .mave-orders-tabs { gap: 10px; overflow-x: auto; }
+    .mave-orders-tabs { gap: 8px 10px; flex-wrap: wrap; }
     .mave-orders-row { grid-template-columns: 1fr; }
     .mave-orders-footer { align-items: flex-start; flex-direction: column; }
     .mave-order-summary,
@@ -3484,7 +3484,6 @@ const PRODUCT_DETAILS = {
     description: 'Restores balance. Reinforces the barrier.',
     gallery: ['/assets/generated/molecular-oil-treatment-pdp-hero-scene-main.webp', '/assets/treatment-oil-clean.webp', '/assets/treatment-oil-amber.webp', '/assets/organic-oil.webp'],
     ingredients: ['Oil phase for barrier continuity', 'Vitamin E for formula stability', 'Actives for controlled use'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin. Use daily or where needed. Repeat with precision.',
   },
   2: {
@@ -3492,7 +3491,6 @@ const PRODUCT_DETAILS = {
     description: 'Restores surface balance. Finishes with control.',
     gallery: ['/assets/generated/organic-oil-pdp-hero-scene-main.webp', '/assets/generated/organic-oil-pdp-hero-scene-01.webp', '/assets/generated/organic-oil-pdp-hero-scene-02.webp', '/assets/generated/organic-oil-pdp-hero-scene-03.webp'],
     ingredients: ['Oil phase for surface balance', 'Green tea oil for control', 'Chamomile extract for comfort', 'Vitamins A and E for formula stability'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply sparingly to clean skin or nails. Use as a final layer, or where more control is needed.',
   },
   3: {
@@ -3500,7 +3498,6 @@ const PRODUCT_DETAILS = {
     description: 'Prepares the surface. Keeps balance intact.',
     gallery: ['/assets/generated/wow-skin-serum-2-in-1-pdp-hero-scene-main.webp', '/assets/wow-serum.webp', '/assets/wow-pdrn.webp', '/assets/primary4.webp'],
     ingredients: ['Hydrolates for water balance', 'Sodium hyaluronate for hydration', 'Allantoin and aloe for comfort'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin before cream or oil. Use daily, or where the surface asks for focus.',
   },
   4: {
@@ -3508,7 +3505,6 @@ const PRODUCT_DETAILS = {
     description: 'Refines texture. Keeps the surface controlled.',
     gallery: ['/assets/generated/wow-pdrn-serum-2-in-1-pdp-hero-scene-main.webp', '/assets/wow-pdrn.webp', '/assets/wow-serum.webp', '/assets/primary4.webp'],
     ingredients: ['PDRN for renewal', 'Hyaluronic acid for hydration', 'Botanical actives for surface balance'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply after cleansing and before richer textures. Use consistently morning or evening.',
   },
   5: {
@@ -3516,7 +3512,6 @@ const PRODUCT_DETAILS = {
     description: 'Restores comfort. Reinforces the barrier.',
     gallery: ['/assets/generated/mave-28-cream-pdp-hero-scene-main.webp', '/assets/primary.webp', '/assets/primary4.webp', '/assets/primary6.webp'],
     ingredients: ['Hydration for comfort', 'Ceramides for barrier stability', 'Niacinamide for balance'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin with the roller. Move slowly across face, neck and eye area. Repeat where comfort is needed.',
   },
   6: {
@@ -3524,7 +3519,6 @@ const PRODUCT_DETAILS = {
     description: 'Reinforces integrity. Keeps application controlled.',
     gallery: ['/assets/generated/royal-elixir-pdp-hero-scene-main.webp', '/assets/royal-elixir.webp', '/assets/organic-oil-sunset.webp', '/assets/organic-oil.webp'],
     ingredients: ['Peptides for structure', 'Keratin and silk proteins for integrity', 'Biotin for consistent use'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply along clean lashes or brows with the applicator. Use consistently and with care around the eye area.',
   },
   7: {
@@ -3532,7 +3526,6 @@ const PRODUCT_DETAILS = {
     description: 'Absorbs excess. Keeps the surface stable.',
     gallery: ['/assets/generated/black-nanopowder-pdp-hero-scene-main.webp', '/assets/nanopowder.webp', '/assets/micellar-wipes.webp', '/assets/header.webp'],
     ingredients: ['Hydroxyapatite for controlled polish', 'Coconut-shell charcoal for absorption', 'Menthol for a clean finish'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Use a measured amount with a damp toothbrush. Polish lightly. Rinse thoroughly.',
   },
   8: {
@@ -3540,7 +3533,6 @@ const PRODUCT_DETAILS = {
     description: 'Removes buildup. Keeps balance intact.',
     gallery: ['/assets/generated/micellar-cleansing-foam-pdp-hero-scene-main.webp', '/assets/micellar-foam.webp', '/assets/micellar-wipes.webp', '/assets/organic-oil-sunset.webp'],
     ingredients: ['Micellar agents for clean removal', 'Panthenol for comfort', 'Botanical actives for surface balance'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to damp skin. Massage lightly. Rinse thoroughly. Use as the first cleansing step.',
   },
   9: {
@@ -3548,7 +3540,6 @@ const PRODUCT_DETAILS = {
     description: 'Maintains scalp balance. Leaves hair controlled.',
     gallery: ['/assets/generated/molecular-shampoo-conditioner-set-pdp-hero-scene-main.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/mave-shampoo-conditioner-set.webp'],
     ingredients: ['Jamaican black castor oil for density', 'Shea butter for condition', 'Protein and keratin for hair integrity'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Massage shampoo into wet hair and rinse thoroughly. Apply conditioner through lengths and ends, leave briefly, then rinse.',
   },
   10: {
@@ -3556,7 +3547,6 @@ const PRODUCT_DETAILS = {
     description: 'Removes buildup. Leaves a conditioned finish.',
     gallery: ['/assets/generated/taliora-shower-serum-pdp-hero-scene-main.webp', '/assets/taliora-shower-serum.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/micellar-foam.webp'],
     ingredients: ['Coco-glucoside for clean removal', 'Panthenol for comfort', 'Jojoba oil for a conditioned finish'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to wet skin in the shower. Massage and rinse. Use on hands when a conditioned finish is required.',
   },
   11: {
@@ -3564,7 +3554,6 @@ const PRODUCT_DETAILS = {
     description: 'Applied precisely. Used when required.',
     gallery: ['/assets/generated/organic-paste-skin-repair-pdp-hero-scene-main.webp', '/assets/organic-paste-skin-repair.webp', '/assets/category-daily-care.webp', '/assets/organic-oil.webp'],
     ingredients: ['Dense phase for local use', 'Propolis for controlled support', 'Botanical oils for focused balance'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply a small amount to clean skin. Use only where needed. Repeat with precision.',
   },
   12: {
@@ -3572,7 +3561,6 @@ const PRODUCT_DETAILS = {
     description: 'Removes residue. Leaves a clear finish.',
     gallery: ['/assets/generated/micellar-wipes-pdp-hero-scene-main.webp', '/assets/micellar-wipes-new.webp', '/assets/micellar-wipes.webp', '/assets/micellar-foam.webp'],
     ingredients: ['Micellar base for removal', 'Panthenol for comfort', 'Botanical actives for a clean finish'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Sweep over skin as needed. Close the pack after use to preserve freshness.',
   },
   13: {
@@ -3580,7 +3568,6 @@ const PRODUCT_DETAILS = {
     description: 'Restores control. Reinforces the fiber.',
     gallery: ['/assets/generated/slime-intense-moisture-elixir-pdp-hero-scene-main.webp', '/assets/slime-hair-mask.webp', '/assets/category-hair-integrity.webp', '/assets/mave-shampoo-conditioner-set.webp'],
     ingredients: ['Polypeptide for structure', 'Keratin for integrity', 'Conditioning actives for control'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply through clean wet hair. Focus on lengths and ends. Leave briefly, then rinse thoroughly.',
   },
   14: {
@@ -3588,7 +3575,6 @@ const PRODUCT_DETAILS = {
     description: 'Creates comfort. Reinforces balance.',
     gallery: ['/assets/generated/invisible-mask-pdp-hero-scene-main.webp', '/assets/invisible-mask-premium.webp', '/assets/micellar-wipes-new.webp', '/assets/wow-serum.webp'],
     ingredients: ['Humectants for hydration', 'Niacinamide for balance', 'Botanical actives for comfort'],
-    inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin. Leave according to packaging directions. Remove and finish with the next layer.',
   },
 };
@@ -6049,7 +6035,6 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
     ['ingredients', 'Key ingredients', `${details.ingredients.join('. ')}.`],
     ['how-it-works', 'How it works', 'Works through a clear role. Used daily. Adjusted when required.'],
     ['results', 'Function note', 'Designed for measured daily use inside a clear routine sequence.'],
-    ['inci', 'Full INCI', details.inci],
     ['use', 'How to use', details.use],
     ['care', 'Care note', 'For external use only. Use with care around sensitive areas. Store away from direct heat and light.'],
   ];
@@ -6263,8 +6248,8 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           </div>
           <p style={{ display: heroOverlayPdp ? 'none' : 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.goldD, margin: '-6px 0 22px', textAlign: 'right' }}>In stock · Secure checkout · Free delivery over €60</p>
           <div style={{ display: 'flex', gap: heroOverlayPdp ? 20 : 30 }}>
-            {['How to use', 'Full INCI'].map(label => (
-              <button key={label} onClick={() => openDisclosure(label === 'How to use' ? 'use' : 'inci')}
+            {['How to use'].map(label => (
+              <button key={label} onClick={() => openDisclosure('use')}
                 style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.78)`, color: buyboxMuted, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '0 0 7px' }}>
                 {label}
               </button>
@@ -7186,7 +7171,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 15 }}>Skin quiz</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 25, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.14, color: C.black, marginBottom: 18 }}>Not sure what your skin needs right now?</h2>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)', marginBottom: 22 }}>Take our quiz and get personalized product recommendations.</p>
-                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Take the quiz →</button>
+                <button type="button" onClick={() => { window.location.href = '/routine-guide'; }} style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Take the quiz →</button>
               </div>
             </motion.div>
           </div>
