@@ -10,3 +10,7 @@ Thumbs.db
 .env.*
 
 .vercel
+
+# build output
+dist
+node_modules

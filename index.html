@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MAVE® Molecular Cosmetics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" as="image" href="/assets/hero-mave-cream-jar.webp">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F7F3EC'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' fill='%23C8A96E'%3EM%3C/text%3E%3C/svg%3E">
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/framer-motion@6.5.1/dist/framer-motion.js"></script>
 <style>
@@ -35,7 +36,7 @@
     left: 0;
     right: 0;
     height: 840px;
-    background-image: url('/assets/collections-hero.png');
+    background-image: url('/assets/collections-hero.webp');
     background-size: 100% auto;
     background-position: center -225px;
     background-repeat: no-repeat;
@@ -127,7 +128,7 @@
     background:
       linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.94) 36%, rgba(245,240,232,0.64) 62%, rgba(245,240,232,0.22) 100%),
       linear-gradient(180deg, rgba(245,240,232,0) 54%, #F5F0E8 100%),
-      url('/assets/collections-hero.png') right -150px center/880px auto no-repeat;
+      url('/assets/collections-hero.webp') right -150px center/880px auto no-repeat;
     pointer-events: none;
   }
   .mave-search-copy,
@@ -292,7 +293,7 @@
   .mave-search-card-body span {
     display: block;
     font-family: 'Montserrat', sans-serif;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 300;
     letter-spacing: 0.24em;
     text-transform: uppercase;
@@ -684,7 +685,7 @@
       background:
         linear-gradient(90deg, #F5F0E8 0%, rgba(245,240,232,0.92) 66%, rgba(245,240,232,0.5) 100%),
         linear-gradient(180deg, rgba(245,240,232,0) 54%, #F5F0E8 100%),
-        url('/assets/collections-hero.png') right -240px top/760px auto no-repeat;
+        url('/assets/collections-hero.webp') right -240px top/760px auto no-repeat;
     }
     .mave-search-results { padding: 28px 24px 58px !important; }
     .mave-search-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
@@ -1160,7 +1161,7 @@
     background: rgba(202,213,182,0.45);
     color: #66704D;
     font-family: 'Montserrat', sans-serif;
-    font-size: 7px;
+    font-size: 9px;
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -1930,7 +1931,7 @@
     color: #9A7A42;
     padding: 7px 10px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -2162,7 +2163,7 @@
     width: min(560px, 44vw);
     background:
       linear-gradient(90deg, rgba(247,243,236,0.04) 0%, rgba(247,243,236,0.24) 58%, rgba(247,243,236,0.92) 100%),
-      url('/assets/addresses-bg.png') center/cover no-repeat;
+      url('/assets/addresses-bg.webp') center/cover no-repeat;
     filter: saturate(0.84) contrast(0.92);
     opacity: 0.54;
     -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0,0,0,0) 100%);
@@ -2277,7 +2278,7 @@
     left: 0;
     bottom: 0;
     width: clamp(470px, 34vw, 650px);
-    background: url('/assets/addresses-bg.png') 18% top / cover no-repeat;
+    background: url('/assets/addresses-bg.webp') 18% top / cover no-repeat;
     filter: saturate(0.68) contrast(0.88) brightness(1.12);
     opacity: 0.86;
     -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 30%, rgba(0,0,0,0.66) 56%, rgba(0,0,0,0.16) 82%, transparent 100%);
@@ -2935,7 +2936,7 @@
   .mave-checkout-review-item-thumb {
     width: 52px;
     height: 52px;
-    background: #E8DDD0 url('/assets/orders-product-set.png') no-repeat;
+    background: #E8DDD0 url('/assets/orders-product-set.webp') no-repeat;
     background-size: 310% 310%;
   }
   .mave-checkout-summary {
@@ -2960,7 +2961,7 @@
   .mave-checkout-summary-thumb {
     width: 62px;
     height: 62px;
-    background: #E8DDD0 url('/assets/orders-product-set.png') no-repeat;
+    background: #E8DDD0 url('/assets/orders-product-set.webp') no-repeat;
     background-size: 310% 310%;
   }
   .mave-checkout-total-lines {
@@ -3226,7 +3227,7 @@
       padding: 0 12px !important;
     }
     .mave-routine-guide-option span:first-child { font-size: 24px !important; }
-    .mave-routine-guide-option span:last-child { font-size: 7px !important; }
+    .mave-routine-guide-option span:last-child { font-size: 9px !important; }
     .mave-addresses-grid,
     .mave-address-info,
     .mave-payment-grid,
@@ -3304,7 +3305,7 @@
       display: grid;
       justify-items: center;
       gap: 8px;
-      font-size: 8px;
+      font-size: 9px;
       line-height: 1.2;
       letter-spacing: 0.12em;
       text-align: center;
@@ -3399,7 +3400,7 @@
 const FM = window.Motion || window.FramerMotion || window.MotionV6 || {};
 const { motion, AnimatePresence, useViewportScroll, useTransform, useInView, useReducedMotion } = FM;
 
-/* в”Ђв”Ђ TOKENS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── TOKENS ──────────────────────────────────────── */
 const C = {
   cream: '#F5F0E8', sand: '#E8DDD0', linen: '#DDD0BC',
   taupe: '#C4B5A0', gray: '#9A8C7E', bark: '#6B5744',
@@ -3407,17 +3408,17 @@ const C = {
   gold: '#C8A96E', goldL: '#E2C98A', goldD: '#9A7A42',
 };
 
-/* в”Ђв”Ђ SETTINGS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── SETTINGS ────────────────────────────────────── */
 const heroImage   = 'header';
 const overlayDark = 55;
 const marqueeSpeed = 35;
 
-/* в”Ђв”Ђ DATA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── DATA ─────────────────────────────────────────── */
 const HERO_IMAGES = {
-  header:  'assets/hero-mave-cream-jar.png',
-  sunset:  'assets/organic-oil-sunset.jpg',
-  amber:   'assets/treatment-oil-amber.jpg',
-  primary: 'assets/primary6.jpg',
+  header:  '/assets/hero-mave-cream-jar.webp',
+  sunset:  '/assets/organic-oil-sunset.webp',
+  amber:   '/assets/treatment-oil-amber.webp',
+  primary: '/assets/primary6.webp',
 };
 
 const scienceMechanisms = {
@@ -3444,44 +3445,44 @@ const scienceMechanisms = {
 };
 
 const PRODUCTS = [
-  { id:1, slug:'molecular-oil-treatment', type:'oil', name:'Molecular Oil Treatment', collection:'Base Care', vol:'100ml', desc:'Daily oil for balance, barrier continuity and precise local use.', price:'€28.95', image:'assets/treatment-oil-clean.jpg', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
-  { id:2, slug:'organic-oil',             type:'oil', name:'Organic Oil',             collection:'Organic Care',      vol:'30ml',  desc:'Oil for skin and nails. Daily balance, controlled finish.', price:'€21.95', image:'assets/organic-oil.jpg', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
-  { id:3, slug:'wow-skin-serum-2-in-1',   type:'oil', name:'WOW Skin Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Hydration, surface balance and precise layering.', price:'€29.95', image:'assets/wow-serum.jpg', accent:'#4A1E5E', badge:'Selected', science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
-  { id:4, slug:'wow-pdrn-serum-2-in-1',   type:'oil', name:'WOW PDRN Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Renewal support, texture refinement and surface control.', price:'€34.95', image:'assets/wow-pdrn.jpg', accent:'#C8847C', badge:'New', science:{ mechanisms:['renewal','balance'], primaryMechanism:'renewal' } },
-  { id:5, slug:'mave-28-cream',           type:'cream', name:'MAVE 28 Cream',           collection:'Limited Edition',   vol:'30ml',  desc:'Cream for comfort, hydration and barrier stability.', price:'€29.95', image:'assets/primary.jpg', accent:'#6B1C1C', badge:'Limited', science:{ mechanisms:['barrier'], primaryMechanism:'barrier' } },
-  { id:6, slug:'royal-elixir',            type:'oil', name:'Royal Elixir',            collection:'Lash & Brow Care',  vol:'10ml',  desc:'Lash and brow elixir. Integrity, control, finish.', price:'€29.95', image:'assets/royal-elixir.jpg', accent:'#9A7A42', badge:'Pro', science:{ mechanisms:['barrier','renewal'], primaryMechanism:'renewal' } },
-  { id:7, slug:'black-nanopowder',        type:'powder', name:'Black Nanopowder',        collection:'Oral Care',       vol:'50g',   desc:'Oral powder for light control, surface stability and clean finish.', price:'€20.96', image:'assets/nanopowder-light.jpg', accent:'#2A2018', badge:null, science:{ mechanisms:['balance'], primaryMechanism:'balance' } },
-  { id:8, slug:'micellar-cleansing-foam', type:'cleanser', name:'Micellar Cleansing Foam', collection:'Cleanse',           vol:'200ml', desc:'Foam cleansing for face, hands and feet. Clean removal, intact balance.', price:'€24.95', image:'assets/micellar-foam.jpg', accent:'#1E3355', badge:null, science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
-  { id:9, slug:'molecular-shampoo-conditioner-set', type:'cleanser', name:'Molecular Shampoo & Conditioner Set', collection:'Hair Care', vol:'2x650ml', desc:'Shampoo and conditioner for scalp balance, hair integrity and control.', price:'€46.95', image:'assets/mave-shampoo-conditioner-set.jpeg', accent:'#1B1A16', badge:'Bestseller', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
-  { id:10, slug:'taliora-shower-serum', type:'cleanser', name:'Taliora Shower Serum', collection:'Body Care', vol:'500ml', desc:'Shower serum for body and hands. Clean removal, conditioned finish.', price:'€30.95', image:'assets/taliora-shower-serum.jpg', accent:'#6A6E4A', badge:'New', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
-  { id:11, slug:'organic-paste-skin-repair', type:'paste', name:'Organic Paste Skin Repair', collection:'Targeted Care', vol:'15ml', desc:'Dense paste for focused local support where balance is lost.', price:'€19.50', image:'assets/organic-paste-skin-repair.png', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
-  { id:12, slug:'micellar-wipes', type:'cleanser', name:'Micellar Wipes', collection:'Cleanse', vol:'50pcs', desc:'Micellar wipes for clean removal, simple use and clear finish.', price:'€9.95', image:'assets/micellar-wipes-new.png', accent:'#1E4055', badge:null, science:{ mechanisms:['cleanse'], primaryMechanism:'cleanse' } },
-  { id:13, slug:'slime-intense-moisture-elixir', type:'mask', name:'S.L.I.M.E. Intense Moisture Elixir', collection:'Hair Care', vol:'500g', desc:'Intensive hair support for condition, control and integrity.', price:'€39.95', image:'assets/slime-hair-mask.png', accent:'#3C2944', badge:'New', science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
-  { id:14, slug:'invisible-mask', type:'mask', name:'Invisible Mask', collection:'Mask Care', vol:'25g x 5pcs', desc:'Mask layer for comfort, hydration and protective balance.', price:'€29.95', image:'assets/invisible-mask-premium.png', accent:'#1E4055', badge:null, science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
+  { id:1, slug:'molecular-oil-treatment', type:'oil', name:'Molecular Oil Treatment', collection:'Base Care', vol:'100ml', desc:'Daily oil for balance, barrier continuity and precise local use.', price:'€28,95', image:'/assets/treatment-oil-clean.webp', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:2, slug:'organic-oil',             type:'oil', name:'Organic Oil',             collection:'Organic Care',      vol:'30ml',  desc:'Oil for skin and nails. Daily balance, controlled finish.', price:'€21,95', image:'/assets/organic-oil.webp', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:3, slug:'wow-skin-serum-2-in-1',   type:'oil', name:'WOW Skin Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Hydration, surface balance and precise layering.', price:'€29,95', image:'/assets/wow-serum.webp', accent:'#4A1E5E', badge:'Selected', science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:4, slug:'wow-pdrn-serum-2-in-1',   type:'oil', name:'WOW PDRN Serum 2 in 1',   collection:'WOW Skin',          vol:'30ml',  desc:'Renewal support, texture refinement and surface control.', price:'€34,95', image:'/assets/wow-pdrn.webp', accent:'#C8847C', badge:'New', science:{ mechanisms:['renewal','balance'], primaryMechanism:'renewal' } },
+  { id:5, slug:'mave-28-cream',           type:'cream', name:'MAVE 28 Cream',           collection:'Limited Edition',   vol:'30ml',  desc:'Cream for comfort, hydration and barrier stability.', price:'€29,95', image:'/assets/primary.webp', accent:'#6B1C1C', badge:'Limited', science:{ mechanisms:['barrier'], primaryMechanism:'barrier' } },
+  { id:6, slug:'royal-elixir',            type:'oil', name:'Royal Elixir',            collection:'Lash & Brow Care',  vol:'10ml',  desc:'Lash and brow elixir. Integrity, control, finish.', price:'€29,95', image:'/assets/royal-elixir.webp', accent:'#9A7A42', badge:'Pro', science:{ mechanisms:['barrier','renewal'], primaryMechanism:'renewal' } },
+  { id:7, slug:'black-nanopowder',        type:'powder', name:'Black Nanopowder',        collection:'Oral Care',       vol:'50g',   desc:'Oral powder for light control, surface stability and clean finish.', price:'€20,96', image:'/assets/nanopowder-light.webp', accent:'#2A2018', badge:null, science:{ mechanisms:['balance'], primaryMechanism:'balance' } },
+  { id:8, slug:'micellar-cleansing-foam', type:'cleanser', name:'Micellar Cleansing Foam', collection:'Cleanse',           vol:'200ml', desc:'Foam cleansing for face, hands and feet. Clean removal, intact balance.', price:'€24,95', image:'/assets/micellar-foam.webp', accent:'#1E3355', badge:null, science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:9, slug:'molecular-shampoo-conditioner-set', type:'cleanser', name:'Molecular Shampoo & Conditioner Set', collection:'Hair Care', vol:'2x650ml', desc:'Shampoo and conditioner for scalp balance, hair integrity and control.', price:'€46,95', image:'/assets/mave-shampoo-conditioner-set.webp', accent:'#1B1A16', badge:'Bestseller', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:10, slug:'taliora-shower-serum', type:'cleanser', name:'Taliora Shower Serum', collection:'Body Care', vol:'500ml', desc:'Shower serum for body and hands. Clean removal, conditioned finish.', price:'€30,95', image:'/assets/taliora-shower-serum.webp', accent:'#6A6E4A', badge:'New', science:{ mechanisms:['cleanse','balance'], primaryMechanism:'cleanse' } },
+  { id:11, slug:'organic-paste-skin-repair', type:'paste', name:'Organic Paste Skin Repair', collection:'Targeted Care', vol:'15ml', desc:'Dense paste for focused local support where balance is lost.', price:'€19,50', image:'/assets/organic-paste-skin-repair.webp', accent:'#7C4A18', badge:null, science:{ mechanisms:['balance','barrier'], primaryMechanism:'balance' } },
+  { id:12, slug:'micellar-wipes', type:'cleanser', name:'Micellar Wipes', collection:'Cleanse', vol:'50pcs', desc:'Micellar wipes for clean removal, simple use and clear finish.', price:'€9,95', image:'/assets/micellar-wipes-new.webp', accent:'#1E4055', badge:null, science:{ mechanisms:['cleanse'], primaryMechanism:'cleanse' } },
+  { id:13, slug:'slime-intense-moisture-elixir', type:'mask', name:'S.L.I.M.E. Intense Moisture Elixir', collection:'Hair Care', vol:'500g', desc:'Intensive hair support for condition, control and integrity.', price:'€39,95', image:'/assets/slime-hair-mask.webp', accent:'#3C2944', badge:'New', science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
+  { id:14, slug:'invisible-mask', type:'mask', name:'Invisible Mask', collection:'Mask Care', vol:'25g x 5pcs', desc:'Mask layer for comfort, hydration and protective balance.', price:'€29,95', image:'/assets/invisible-mask-premium.webp', accent:'#1E4055', badge:null, science:{ mechanisms:['barrier','balance'], primaryMechanism:'barrier' } },
 ];
 
 const PDP_ATMOSPHERE_THEMES = {
-  'molecular-oil-treatment': { background: 'assets/generated/molecular-oil-treatment-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#2D1E17', surfaceStrong: 'rgba(239,226,207,0.72)', border: 'rgba(87,55,28,0.18)', text: '#211611', muted: '#60452F', dark: '#1B100C', amber: '#9A6327' },
-  'organic-oil': { background: 'assets/generated/organic-oil-pdp-background-main-ref.png', header: 'transparent-light', heroOverlay: true, page: '#D7C2A4', surfaceStrong: 'rgba(244,235,221,0.74)', border: 'rgba(84,58,34,0.14)', text: '#24170F', muted: '#60452F', dark: '#21140D', amber: '#A66A24' },
-  'wow-skin-serum-2-in-1': { background: 'assets/generated/wow-serum-pdp-background-main-ref.png', header: 'transparent-dark', heroOverlay: true, page: '#2D1E17', surfaceStrong: 'rgba(238,226,211,0.70)', border: 'rgba(86,55,42,0.18)', text: '#211611', muted: '#60483B', dark: '#1B100C', amber: '#8D5A2B' },
-  'wow-pdrn-serum-2-in-1': { background: 'assets/generated/wow-pdrn-serum-2-in-1-pdp-background.png', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#E4C6BB', surfaceStrong: 'rgba(246,234,226,0.76)', border: 'rgba(144,89,81,0.16)', text: '#281917', muted: '#6A4A43', dark: '#2A1615', amber: '#B57A6F' },
-  'mave-28-cream': { background: 'assets/generated/mave-28-cream-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#3A1716', surfaceStrong: 'rgba(239,226,214,0.74)', border: 'rgba(92,31,31,0.18)', text: '#211211', muted: '#5E3B35', dark: '#210D0D', amber: '#9E6F55' },
-  'royal-elixir': { background: 'assets/generated/royal-elixir-pdp-background.png', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#E8DCC8', surfaceStrong: 'rgba(236,224,205,0.72)', border: 'rgba(130,96,42,0.18)', text: '#21180F', muted: '#604B2D', dark: '#19120A', amber: '#B08A42' },
-  'black-nanopowder': { background: 'assets/generated/black-nanopowder-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#1F1C18', surfaceStrong: 'rgba(237,230,218,0.72)', border: 'rgba(70,61,52,0.18)', text: '#1E1A16', muted: '#57504A', dark: '#11100E', amber: '#8E7B62' },
-  'micellar-cleansing-foam': { background: 'assets/generated/micellar-cleansing-foam-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#1B252C', surfaceStrong: 'rgba(242,239,231,0.76)', border: 'rgba(62,91,110,0.15)', text: '#17222B', muted: '#4B5B62', dark: '#10202B', amber: '#7A8D94' },
-  'molecular-shampoo-conditioner-set': { background: 'assets/generated/molecular-shampoo-conditioner-set-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#151712', surfaceStrong: 'rgba(235,224,209,0.72)', border: 'rgba(58,48,37,0.18)', text: '#1E1712', muted: '#5B4A3B', dark: '#14110E', amber: '#8E6F45' },
-  'taliora-shower-serum': { background: 'assets/generated/taliora-shower-serum-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#24261E', surfaceStrong: 'rgba(243,236,222,0.76)', border: 'rgba(93,102,66,0.16)', text: '#202017', muted: '#596047', dark: '#1B1F15', amber: '#8B8C5B' },
-  'organic-paste-skin-repair': { background: 'assets/generated/organic-paste-skin-repair-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#2D1B10', surfaceStrong: 'rgba(244,233,215,0.76)', border: 'rgba(124,77,31,0.16)', text: '#24170F', muted: '#63472D', dark: '#21140D', amber: '#A66A24' },
-  'micellar-wipes': { background: 'assets/generated/micellar-wipes-pdp-background.png', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#DCE5E6', surfaceStrong: 'rgba(244,241,234,0.76)', border: 'rgba(53,88,104,0.15)', text: '#18242A', muted: '#4B5E65', dark: '#10202A', amber: '#748C96' },
-  'slime-intense-moisture-elixir': { background: 'assets/generated/slime-intense-moisture-elixir-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#180F1B', surfaceStrong: 'rgba(237,225,214,0.72)', border: 'rgba(68,42,77,0.18)', text: '#211621', muted: '#5A465D', dark: '#180F1B', amber: '#8F6A4C' },
-  'invisible-mask': { background: 'assets/generated/invisible-mask-pdp-background.png', header: 'transparent-dark', heroOverlay: true, page: '#172329', surfaceStrong: 'rgba(245,242,236,0.76)', border: 'rgba(64,92,105,0.14)', text: '#172329', muted: '#4C5E65', dark: '#102029', amber: '#778D96' },
+  'molecular-oil-treatment': { background: '/assets/generated/molecular-oil-treatment-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#2D1E17', surfaceStrong: 'rgba(239,226,207,0.72)', border: 'rgba(87,55,28,0.18)', text: '#211611', muted: '#60452F', dark: '#1B100C', amber: '#9A6327' },
+  'organic-oil': { background: '/assets/generated/organic-oil-pdp-background-main-ref.webp', header: 'transparent-light', heroOverlay: true, page: '#D7C2A4', surfaceStrong: 'rgba(244,235,221,0.74)', border: 'rgba(84,58,34,0.14)', text: '#24170F', muted: '#60452F', dark: '#21140D', amber: '#A66A24' },
+  'wow-skin-serum-2-in-1': { background: '/assets/generated/wow-serum-pdp-background-main-ref.webp', header: 'transparent-dark', heroOverlay: true, page: '#2D1E17', surfaceStrong: 'rgba(238,226,211,0.70)', border: 'rgba(86,55,42,0.18)', text: '#211611', muted: '#60483B', dark: '#1B100C', amber: '#8D5A2B' },
+  'wow-pdrn-serum-2-in-1': { background: '/assets/generated/wow-pdrn-serum-2-in-1-pdp-background.webp', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#E4C6BB', surfaceStrong: 'rgba(246,234,226,0.76)', border: 'rgba(144,89,81,0.16)', text: '#281917', muted: '#6A4A43', dark: '#2A1615', amber: '#B57A6F' },
+  'mave-28-cream': { background: '/assets/generated/mave-28-cream-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#3A1716', surfaceStrong: 'rgba(239,226,214,0.74)', border: 'rgba(92,31,31,0.18)', text: '#211211', muted: '#5E3B35', dark: '#210D0D', amber: '#9E6F55' },
+  'royal-elixir': { background: '/assets/generated/royal-elixir-pdp-background.webp', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#E8DCC8', surfaceStrong: 'rgba(236,224,205,0.72)', border: 'rgba(130,96,42,0.18)', text: '#21180F', muted: '#604B2D', dark: '#19120A', amber: '#B08A42' },
+  'black-nanopowder': { background: '/assets/generated/black-nanopowder-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#1F1C18', surfaceStrong: 'rgba(237,230,218,0.72)', border: 'rgba(70,61,52,0.18)', text: '#1E1A16', muted: '#57504A', dark: '#11100E', amber: '#8E7B62' },
+  'micellar-cleansing-foam': { background: '/assets/generated/micellar-cleansing-foam-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#1B252C', surfaceStrong: 'rgba(242,239,231,0.76)', border: 'rgba(62,91,110,0.15)', text: '#17222B', muted: '#4B5B62', dark: '#10202B', amber: '#7A8D94' },
+  'molecular-shampoo-conditioner-set': { background: '/assets/generated/molecular-shampoo-conditioner-set-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#151712', surfaceStrong: 'rgba(235,224,209,0.72)', border: 'rgba(58,48,37,0.18)', text: '#1E1712', muted: '#5B4A3B', dark: '#14110E', amber: '#8E6F45' },
+  'taliora-shower-serum': { background: '/assets/generated/taliora-shower-serum-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#24261E', surfaceStrong: 'rgba(243,236,222,0.76)', border: 'rgba(93,102,66,0.16)', text: '#202017', muted: '#596047', dark: '#1B1F15', amber: '#8B8C5B' },
+  'organic-paste-skin-repair': { background: '/assets/generated/organic-paste-skin-repair-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#2D1B10', surfaceStrong: 'rgba(244,233,215,0.76)', border: 'rgba(124,77,31,0.16)', text: '#24170F', muted: '#63472D', dark: '#21140D', amber: '#A66A24' },
+  'micellar-wipes': { background: '/assets/generated/micellar-wipes-pdp-background.webp', header: 'transparent-light', heroOverlay: true, heroOverlayTone: 'light', page: '#DCE5E6', surfaceStrong: 'rgba(244,241,234,0.76)', border: 'rgba(53,88,104,0.15)', text: '#18242A', muted: '#4B5E65', dark: '#10202A', amber: '#748C96' },
+  'slime-intense-moisture-elixir': { background: '/assets/generated/slime-intense-moisture-elixir-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#180F1B', surfaceStrong: 'rgba(237,225,214,0.72)', border: 'rgba(68,42,77,0.18)', text: '#211621', muted: '#5A465D', dark: '#180F1B', amber: '#8F6A4C' },
+  'invisible-mask': { background: '/assets/generated/invisible-mask-pdp-background.webp', header: 'transparent-dark', heroOverlay: true, page: '#172329', surfaceStrong: 'rgba(245,242,236,0.76)', border: 'rgba(64,92,105,0.14)', text: '#172329', muted: '#4C5E65', dark: '#102029', amber: '#778D96' },
 };
 
 const PRODUCT_DETAILS = {
   1: {
     statement: 'For daily balance or when more is required.',
     description: 'Restores balance. Reinforces the barrier.',
-    gallery: ['assets/generated/molecular-oil-treatment-pdp-hero-scene-main.png', 'assets/treatment-oil-clean.jpg', 'assets/treatment-oil-amber.jpg', 'assets/organic-oil.jpg'],
+    gallery: ['/assets/generated/molecular-oil-treatment-pdp-hero-scene-main.webp', '/assets/treatment-oil-clean.webp', '/assets/treatment-oil-amber.webp', '/assets/organic-oil.webp'],
     ingredients: ['Oil phase for barrier continuity', 'Vitamin E for formula stability', 'Actives for controlled use'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin. Use daily or where needed. Repeat with precision.',
@@ -3489,7 +3490,7 @@ const PRODUCT_DETAILS = {
   2: {
     statement: 'Daily oil support for skin and nails.',
     description: 'Restores surface balance. Finishes with control.',
-    gallery: ['assets/generated/organic-oil-pdp-hero-scene-main.png', 'assets/generated/organic-oil-pdp-hero-scene-01.png', 'assets/generated/organic-oil-pdp-hero-scene-02.png', 'assets/generated/organic-oil-pdp-hero-scene-03.png'],
+    gallery: ['/assets/generated/organic-oil-pdp-hero-scene-main.webp', '/assets/generated/organic-oil-pdp-hero-scene-01.webp', '/assets/generated/organic-oil-pdp-hero-scene-02.webp', '/assets/generated/organic-oil-pdp-hero-scene-03.webp'],
     ingredients: ['Oil phase for surface balance', 'Green tea oil for control', 'Chamomile extract for comfort', 'Vitamins A and E for formula stability'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply sparingly to clean skin or nails. Use as a final layer, or where more control is needed.',
@@ -3497,7 +3498,7 @@ const PRODUCT_DETAILS = {
   3: {
     statement: 'Daily hydration with precise control.',
     description: 'Prepares the surface. Keeps balance intact.',
-    gallery: ['assets/generated/wow-skin-serum-2-in-1-pdp-hero-scene-main.png', 'assets/wow-serum.jpg', 'assets/wow-pdrn.jpg', 'assets/primary4.jpg'],
+    gallery: ['/assets/generated/wow-skin-serum-2-in-1-pdp-hero-scene-main.webp', '/assets/wow-serum.webp', '/assets/wow-pdrn.webp', '/assets/primary4.webp'],
     ingredients: ['Hydrolates for water balance', 'Sodium hyaluronate for hydration', 'Allantoin and aloe for comfort'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin before cream or oil. Use daily, or where the surface asks for focus.',
@@ -3505,7 +3506,7 @@ const PRODUCT_DETAILS = {
   4: {
     statement: 'Targeted serum support for renewal.',
     description: 'Refines texture. Keeps the surface controlled.',
-    gallery: ['assets/generated/wow-pdrn-serum-2-in-1-pdp-hero-scene-main.png', 'assets/wow-pdrn.jpg', 'assets/wow-serum.jpg', 'assets/primary4.jpg'],
+    gallery: ['/assets/generated/wow-pdrn-serum-2-in-1-pdp-hero-scene-main.webp', '/assets/wow-pdrn.webp', '/assets/wow-serum.webp', '/assets/primary4.webp'],
     ingredients: ['PDRN for renewal', 'Hyaluronic acid for hydration', 'Botanical actives for surface balance'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply after cleansing and before richer textures. Use consistently morning or evening.',
@@ -3513,7 +3514,7 @@ const PRODUCT_DETAILS = {
   5: {
     statement: 'Daily support for skin stability.',
     description: 'Restores comfort. Reinforces the barrier.',
-    gallery: ['assets/generated/mave-28-cream-pdp-hero-scene-main.png', 'assets/primary.jpg', 'assets/primary4.jpg', 'assets/primary6.jpg'],
+    gallery: ['/assets/generated/mave-28-cream-pdp-hero-scene-main.webp', '/assets/primary.webp', '/assets/primary4.webp', '/assets/primary6.webp'],
     ingredients: ['Hydration for comfort', 'Ceramides for barrier stability', 'Niacinamide for balance'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin with the roller. Move slowly across face, neck and eye area. Repeat where comfort is needed.',
@@ -3521,7 +3522,7 @@ const PRODUCT_DETAILS = {
   6: {
     statement: 'Precision support for lashes and brows.',
     description: 'Reinforces integrity. Keeps application controlled.',
-    gallery: ['assets/generated/royal-elixir-pdp-hero-scene-main.png', 'assets/royal-elixir.jpg', 'assets/organic-oil-sunset.jpg', 'assets/organic-oil.jpg'],
+    gallery: ['/assets/generated/royal-elixir-pdp-hero-scene-main.webp', '/assets/royal-elixir.webp', '/assets/organic-oil-sunset.webp', '/assets/organic-oil.webp'],
     ingredients: ['Peptides for structure', 'Keratin and silk proteins for integrity', 'Biotin for consistent use'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply along clean lashes or brows with the applicator. Use consistently and with care around the eye area.',
@@ -3529,7 +3530,7 @@ const PRODUCT_DETAILS = {
   7: {
     statement: 'Light control where balance shifts.',
     description: 'Absorbs excess. Keeps the surface stable.',
-    gallery: ['assets/generated/black-nanopowder-pdp-hero-scene-main.png', 'assets/nanopowder.jpg', 'assets/micellar-wipes.jpg', 'assets/header.jpg'],
+    gallery: ['/assets/generated/black-nanopowder-pdp-hero-scene-main.webp', '/assets/nanopowder.webp', '/assets/micellar-wipes.webp', '/assets/header.webp'],
     ingredients: ['Hydroxyapatite for controlled polish', 'Coconut-shell charcoal for absorption', 'Menthol for a clean finish'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Use a measured amount with a damp toothbrush. Polish lightly. Rinse thoroughly.',
@@ -3537,7 +3538,7 @@ const PRODUCT_DETAILS = {
   8: {
     statement: 'Cleanse without excess.',
     description: 'Removes buildup. Keeps balance intact.',
-    gallery: ['assets/generated/micellar-cleansing-foam-pdp-hero-scene-main.png', 'assets/micellar-foam.jpg', 'assets/micellar-wipes.jpg', 'assets/organic-oil-sunset.jpg'],
+    gallery: ['/assets/generated/micellar-cleansing-foam-pdp-hero-scene-main.webp', '/assets/micellar-foam.webp', '/assets/micellar-wipes.webp', '/assets/organic-oil-sunset.webp'],
     ingredients: ['Micellar agents for clean removal', 'Panthenol for comfort', 'Botanical actives for surface balance'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to damp skin. Massage lightly. Rinse thoroughly. Use as the first cleansing step.',
@@ -3545,7 +3546,7 @@ const PRODUCT_DETAILS = {
   9: {
     statement: 'Cleanse and condition without excess.',
     description: 'Maintains scalp balance. Leaves hair controlled.',
-    gallery: ['assets/generated/molecular-shampoo-conditioner-set-pdp-hero-scene-main.png', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg'],
+    gallery: ['/assets/generated/molecular-shampoo-conditioner-set-pdp-hero-scene-main.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/mave-shampoo-conditioner-set.webp'],
     ingredients: ['Jamaican black castor oil for density', 'Shea butter for condition', 'Protein and keratin for hair integrity'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Massage shampoo into wet hair and rinse thoroughly. Apply conditioner through lengths and ends, leave briefly, then rinse.',
@@ -3553,7 +3554,7 @@ const PRODUCT_DETAILS = {
   10: {
     statement: 'Cleanse with a serum finish.',
     description: 'Removes buildup. Leaves a conditioned finish.',
-    gallery: ['assets/generated/taliora-shower-serum-pdp-hero-scene-main.png', 'assets/taliora-shower-serum.jpg', 'assets/mave-shampoo-conditioner-set.jpeg', 'assets/micellar-foam.jpg'],
+    gallery: ['/assets/generated/taliora-shower-serum-pdp-hero-scene-main.webp', '/assets/taliora-shower-serum.webp', '/assets/mave-shampoo-conditioner-set.webp', '/assets/micellar-foam.webp'],
     ingredients: ['Coco-glucoside for clean removal', 'Panthenol for comfort', 'Jojoba oil for a conditioned finish'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to wet skin in the shower. Massage and rinse. Use on hands when a conditioned finish is required.',
@@ -3561,7 +3562,7 @@ const PRODUCT_DETAILS = {
   11: {
     statement: 'Focused support where balance is lost.',
     description: 'Applied precisely. Used when required.',
-    gallery: ['assets/generated/organic-paste-skin-repair-pdp-hero-scene-main.png', 'assets/organic-paste-skin-repair.png', 'assets/category-daily-care.jpg', 'assets/organic-oil.jpg'],
+    gallery: ['/assets/generated/organic-paste-skin-repair-pdp-hero-scene-main.webp', '/assets/organic-paste-skin-repair.webp', '/assets/category-daily-care.webp', '/assets/organic-oil.webp'],
     ingredients: ['Dense phase for local use', 'Propolis for controlled support', 'Botanical oils for focused balance'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply a small amount to clean skin. Use only where needed. Repeat with precision.',
@@ -3569,7 +3570,7 @@ const PRODUCT_DETAILS = {
   12: {
     statement: 'Clean removal without disruption.',
     description: 'Removes residue. Leaves a clear finish.',
-    gallery: ['assets/generated/micellar-wipes-pdp-hero-scene-main.png', 'assets/micellar-wipes-new.png', 'assets/micellar-wipes.jpg', 'assets/micellar-foam.jpg'],
+    gallery: ['/assets/generated/micellar-wipes-pdp-hero-scene-main.webp', '/assets/micellar-wipes-new.webp', '/assets/micellar-wipes.webp', '/assets/micellar-foam.webp'],
     ingredients: ['Micellar base for removal', 'Panthenol for comfort', 'Botanical actives for a clean finish'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Sweep over skin as needed. Close the pack after use to preserve freshness.',
@@ -3577,7 +3578,7 @@ const PRODUCT_DETAILS = {
   13: {
     statement: 'Intensive support for hair integrity.',
     description: 'Restores control. Reinforces the fiber.',
-    gallery: ['assets/generated/slime-intense-moisture-elixir-pdp-hero-scene-main.png', 'assets/slime-hair-mask.png', 'assets/category-hair-integrity.jpeg', 'assets/mave-shampoo-conditioner-set.jpeg'],
+    gallery: ['/assets/generated/slime-intense-moisture-elixir-pdp-hero-scene-main.webp', '/assets/slime-hair-mask.webp', '/assets/category-hair-integrity.webp', '/assets/mave-shampoo-conditioner-set.webp'],
     ingredients: ['Polypeptide for structure', 'Keratin for integrity', 'Conditioning actives for control'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply through clean wet hair. Focus on lengths and ends. Leave briefly, then rinse thoroughly.',
@@ -3585,7 +3586,7 @@ const PRODUCT_DETAILS = {
   14: {
     statement: 'More support when skin asks for it.',
     description: 'Creates comfort. Reinforces balance.',
-    gallery: ['assets/generated/invisible-mask-pdp-hero-scene-main.png', 'assets/invisible-mask-premium.png', 'assets/micellar-wipes-new.png', 'assets/wow-serum.jpg'],
+    gallery: ['/assets/generated/invisible-mask-pdp-hero-scene-main.webp', '/assets/invisible-mask-premium.webp', '/assets/micellar-wipes-new.webp', '/assets/wow-serum.webp'],
     ingredients: ['Humectants for hydration', 'Niacinamide for balance', 'Botanical actives for comfort'],
     inci: 'See product packaging for the full INCI list.',
     use: 'Apply to clean skin. Leave according to packaging directions. Remove and finish with the next layer.',
@@ -3618,6 +3619,8 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/returns') return 'returns';
   if (window.location.pathname === '/contact') return 'contact';
   if (window.location.pathname === '/privacy') return 'privacy';
+  if (window.location.pathname === '/login') return 'login';
+  if (window.location.pathname === '/terms') return 'terms';
   if (window.location.pathname === '/register') return 'register';
   if (window.location.pathname === '/forgot-password') return 'forgot';
   if (window.location.pathname === '/science') return 'science';
@@ -3741,6 +3744,16 @@ const setViewUrl = view => {
     window.history.pushState({}, '', url);
     return;
   }
+  if (view === 'login') {
+    url.pathname = '/login';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'terms') {
+    url.pathname = '/terms';
+    window.history.pushState({}, '', url);
+    return;
+  }
   if (view === 'register') {
     url.pathname = '/register';
     window.history.pushState({}, '', url);
@@ -3788,8 +3801,8 @@ const parseEuro = value => {
 const formatEuro = value => `€${Number(value || 0).toFixed(2).replace('.', ',')}`;
 
 const DEFAULT_CHECKOUT_ITEMS = [
-  { id: 'glow-renewal-serum', name: 'Glow Renewal Serum', price: 59, qty: 1, image: '/assets/orders-product-set.png', size: '30 ml', collection: 'Serum', summaryPosition: '24% 52%' },
-  { id: 'nourishing-face-cream', name: 'Nourishing Face Cream', price: 30, qty: 1, image: '/assets/orders-product-set.png', size: '50 ml', collection: 'Cream', summaryPosition: '76% 62%' },
+  { id: 'glow-renewal-serum', name: 'Glow Renewal Serum', price: 59, qty: 1, image: '/assets/orders-product-set.webp', size: '30 ml', collection: 'Serum', summaryPosition: '24% 52%' },
+  { id: 'nourishing-face-cream', name: 'Nourishing Face Cream', price: 30, qty: 1, image: '/assets/orders-product-set.webp', size: '50 ml', collection: 'Cream', summaryPosition: '76% 62%' },
 ];
 
 const normalizeCheckoutItem = (entry, index = 0) => {
@@ -3799,7 +3812,7 @@ const normalizeCheckoutItem = (entry, index = 0) => {
     name: product.name || entry?.name || 'MAVE formula',
     price: parseEuro(product.price ?? entry?.price),
     qty: Number(entry?.quantity ?? entry?.qty ?? 1) || 1,
-    image: product.image || entry?.image || '/assets/orders-product-set.png',
+    image: product.image || entry?.image || '/assets/orders-product-set.webp',
     size: product.size || entry?.vol || entry?.size || '',
     collection: product.step || entry?.collection || '',
     summaryPosition: product.summaryPosition || entry?.summaryPosition || '',
@@ -3869,7 +3882,7 @@ const writeCheckoutDeliveryMethod = method => {
 
 const DEFAULT_CHECKOUT_CONTACT = {
   guest: { name: 'Guest checkout', email: '', phone: '' },
-  loggedin: { name: 'Anna Müller', email: 'anna.muller@example.com', phone: '+49 171 1234567' },
+  loggedin: { name: 'Alessandra Rossi', email: 'alessandra@mail.com', phone: '+371 20 123 456' },
 };
 
 const DEFAULT_CHECKOUT_ADDRESS = {
@@ -4061,7 +4074,7 @@ const getDisplayPayment = mode => {
   };
 };
 
-/* в”Ђв”Ђ MAVE WORDMARK (inline SVG, just MAVE letters) в”Ђв”Ђ */
+/* ── MAVE WORDMARK (inline SVG, just MAVE letters) ── */
 const MaveLogo = ({ height = 44 }) => (
   <svg
     viewBox="99 172 648 166"
@@ -4075,7 +4088,7 @@ const MaveLogo = ({ height = 44 }) => (
   </svg>
 );
 
-/* в”Ђв”Ђ SHARED в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── SHARED ───────────────────────────────────────── */
 const Reveal = ({ children, delay = 0, y = 36, style = {}, ...rest }) => (
   <motion.div
     initial={{ opacity: 0, y }}
@@ -4087,7 +4100,7 @@ const Reveal = ({ children, delay = 0, y = 36, style = {}, ...rest }) => (
   >{children}</motion.div>
 );
 
-/* в”Ђв”Ђ HEADER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── HEADER ───────────────────────────────────────── */
 const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, onScienceOpen, onAccountOpen, onSearchOpen, surface = 'dark', activeView = '' }) => {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -4104,6 +4117,11 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   React.useEffect(() => {
     if (scrolled && menuOpen) setMenuOpen(false);
   }, [scrolled]);
+
+  // Close menu when the route changes
+  React.useEffect(() => {
+    setMenuOpen(false);
+  }, [activeView]);
 
   const transparentLightSurface = surface === 'transparent-light' && !scrolled && !menuOpen;
   const transparentDarkSurface = surface === 'transparent-dark' && !scrolled && !menuOpen;
@@ -4260,7 +4278,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
             </AnimatePresence>
           </motion.button>
 
-          {/* Hamburger вЂ” mobile only */}
+          {/* Hamburger — mobile only */}
           <button
             className="mave-hamburger"
             onClick={() => setMenuOpen(o => !o)}
@@ -4330,10 +4348,10 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
                 ].map(([label, action]) => megaLink(label, action))}
               </div>
               <button type="button" onClick={() => { closeMega(); onScienceOpen && onScienceOpen(); }} className="mave-mega-promo" style={{ border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
-                <img src="assets/collections-hero.png" alt="" />
+                <img src="/assets/collections-hero.webp" alt="" />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,20,16,0.48), rgba(26,20,16,0.06))' }} />
                 <div style={{ position: 'absolute', left: 24, bottom: 22, right: 24 }}>
-                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 8 }}>MAVE Method</span>
+                  <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 8 }}>MAVE Method</span>
                   <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 300, fontStyle: 'italic', color: C.cream }}>A system for balance, barrier and renewal.</strong>
                 </div>
               </button>
@@ -4390,7 +4408,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   );
 };
 
-/* в”Ђв”Ђ HERO в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── HERO ─────────────────────────────────────────── */
 const Hero = ({ onCatalogOpen }) => {
   const { scrollY } = useViewportScroll();
   const imgY     = useTransform(scrollY, [0, 700], [0, -140]);
@@ -4451,7 +4469,7 @@ const Hero = ({ onCatalogOpen }) => {
         initial={{ opacity: 0 }} animate={{ opacity: 0.65 }} transition={{ delay: 2.2, duration: 1.2 }}
         style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, zIndex: 2 }}
       >
-        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold }}>Scroll</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.gold }}>Scroll</span>
         <motion.div animate={{ y: [0, 9, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           style={{ width: 1, height: 44, background: `linear-gradient(to bottom, ${C.gold}, transparent)` }} />
       </motion.div>
@@ -4459,7 +4477,7 @@ const Hero = ({ onCatalogOpen }) => {
   );
 };
 
-/* в”Ђв”Ђ STICKY CTA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── STICKY CTA ───────────────────────────────────── */
 const StickyCTA = ({ onCatalogOpen }) => {
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
@@ -4495,7 +4513,7 @@ const StickyCTA = ({ onCatalogOpen }) => {
   );
 };
 
-/* в”Ђв”Ђ TESTIMONIALS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── TESTIMONIALS ─────────────────────────────────── */
 const Testimonials = () => {
   const reviews = [
     { quote: 'It absorbs quickly, leaves no oily film, and stays controlled on the skin.', name: 'Janine K.', role: 'Molecular Oil · verified note', rating: 5 },
@@ -4556,7 +4574,7 @@ const Testimonials = () => {
   );
 };
 
-/* в”Ђв”Ђ MARQUEE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── MARQUEE ──────────────────────────────────────── */
 const Marquee = () => {
   const chunk = 'MAVE® · MOLECULAR SYSTEM · CORE CARE · CONTROLLED SEQUENCE · ';
   return (
@@ -4569,7 +4587,7 @@ const Marquee = () => {
   );
 };
 
-/* в”Ђв”Ђ EDITORIAL TRIO в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── EDITORIAL TRIO ───────────────────────────────── */
 const EditorialPanel = ({ p, i }) => {
   const [hov, setHov] = React.useState(false);
   return (
@@ -4624,9 +4642,9 @@ const EditorialPanel = ({ p, i }) => {
 
 const EditorialTrio = ({ onSelect }) => {
   const panels = [
-    { img: 'assets/category-targeted-use.jpg', title: 'Daily balance', sub: 'Cleanse. Maintain. Control.', onClick: () => onSelect(PRODUCTS[0]) },
-    { img: 'assets/category-daily-care.jpg', title: 'Focused support', sub: 'When more is required.', onClick: () => onSelect(PRODUCTS[10]) },
-    { img: 'assets/category-hair-integrity.jpeg', title: 'Hair integrity', sub: 'Strength. Balance. Control.', onClick: () => onSelect(PRODUCTS[8]) },
+    { img: '/assets/category-targeted-use.webp', title: 'Daily balance', sub: 'Cleanse. Maintain. Control.', onClick: () => onSelect(PRODUCTS[0]) },
+    { img: '/assets/category-daily-care.webp', title: 'Focused support', sub: 'When more is required.', onClick: () => onSelect(PRODUCTS[10]) },
+    { img: '/assets/category-hair-integrity.webp', title: 'Hair integrity', sub: 'Strength. Balance. Control.', onClick: () => onSelect(PRODUCTS[8]) },
   ];
   return (
     <motion.section
@@ -4642,7 +4660,7 @@ const EditorialTrio = ({ onSelect }) => {
   );
 };
 
-/* в”Ђв”Ђ PRODUCT CARD в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── PRODUCT CARD ─────────────────────────────────── */
 const ProductCard = ({ product, onSelect, index, onQuickShop }) => {
   const [hov, setHov] = React.useState(false);
   return (
@@ -4670,7 +4688,7 @@ const ProductCard = ({ product, onSelect, index, onQuickShop }) => {
           style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(200,169,110,0.08), rgba(26,20,16,0.08))', pointerEvents: 'none' }}
         />
         {product.badge && (
-          <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
+          <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
             {product.badge}
           </span>
         )}
@@ -4683,14 +4701,14 @@ const ProductCard = ({ product, onSelect, index, onQuickShop }) => {
         </motion.span>
       </div>
       <div style={{ padding: '22px 8px 30px' }}>
-        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 300, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 10 }}>{product.name}</span>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, letterSpacing: '0.1em', color: C.black }}>{product.price}</span>
         </div>
         {onQuickShop && (
           <button type="button" onClick={event => { event.stopPropagation(); onQuickShop(product); }}
-            style={{ marginTop: 16, width: '100%', height: 38, border: `1px solid rgba(200,169,110,0.44)`, background: 'rgba(245,240,232,0.46)', color: C.goldD, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            style={{ marginTop: 16, width: '100%', height: 38, border: `1px solid rgba(200,169,110,0.44)`, background: 'rgba(245,240,232,0.46)', color: C.goldD, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
             Quick shop
           </button>
         )}
@@ -4699,7 +4717,7 @@ const ProductCard = ({ product, onSelect, index, onQuickShop }) => {
   );
 };
 
-/* в”Ђв”Ђ FEATURED PRODUCTS в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── FEATURED PRODUCTS ────────────────────────────── */
 const FeaturedProducts = ({ onSelect }) => {
   const { scrollY } = useViewportScroll();
   const backgroundY = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -4728,13 +4746,13 @@ const FeaturedProducts = ({ onSelect }) => {
   );
 };
 
-/* в”Ђв”Ђ BRAND STATEMENT в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── BRAND STATEMENT ──────────────────────────────── */
 const BrandStatement = () => {
   const words = "For skin that asks for more.".split(' ');
   return (
     <section id="mave-approach" className="mave-section-dark" style={{ position: 'relative', overflow: 'hidden', background: C.black, padding: '148px 80px', textAlign: 'center' }}>
       <video
-        src="assets/mave-approach-hand.mp4"
+        src="/assets/mave-approach-hand.mp4"
         autoPlay
         muted
         loop
@@ -4775,7 +4793,7 @@ const BrandStatement = () => {
   );
 };
 
-/* в”Ђв”Ђ ROUTINE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── ROUTINE ──────────────────────────────────────── */
 const LiquidReveal = ({ onCatalogOpen }) => {
   const { scrollY } = useViewportScroll();
   const ref = React.useRef(null);
@@ -4848,7 +4866,7 @@ const LiquidReveal = ({ onCatalogOpen }) => {
 
       <motion.img
         className="mave-liquid-image"
-        src="assets/liquid-reveal-corrected.png"
+        src="/assets/liquid-reveal-corrected.webp"
         alt="MAVE organic oil bottle in liquid reflection"
         loading="lazy"
         initial={{ opacity: 0 }}
@@ -5053,7 +5071,7 @@ const OilDropMoment = ({ onCatalogOpen }) => {
       }}
     >
       <motion.video
-        src="assets/mave-oil-drop.mp4"
+        src="/assets/mave-oil-drop.mp4"
         autoPlay
         muted
         loop
@@ -5312,7 +5330,7 @@ const RoutineGuidePage = ({ onBack, onSelect, onAdd }) => {
   return (
     <main className="mave-account-page mave-routine-guide-page" style={{ paddingTop: 88, background: C.cream, minHeight: '100vh' }}>
       <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
-        <div style={{ position: 'absolute', inset: '0 auto 0 0', width: '38%', backgroundImage: "url('assets/account-side.png')", backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.42 }} />
+        <div style={{ position: 'absolute', inset: '0 auto 0 0', width: '38%', backgroundImage: "url('/assets/addresses-bg.webp')", backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.42 }} />
         <div style={{ position: 'absolute', inset: '0 auto 0 0', width: '48%', background: 'linear-gradient(90deg, rgba(245,240,232,0.1), #F5F0E8 78%)' }} />
         <div className="mave-grid-2 mave-routine-guide-inner" style={{ position: 'relative', width: '100%', maxWidth: 1280, margin: '0 auto', padding: '76px 72px 64px', display: 'grid', gridTemplateColumns: '0.72fr 1.28fr', gap: 76, boxSizing: 'border-box' }}>
           <div className="mave-routine-guide-copy" style={{ position: 'relative', zIndex: 2, alignSelf: 'center' }}>
@@ -5411,7 +5429,7 @@ const MaveCircleTeaser = () => (
   </section>
 );
 
-/* в”Ђв”Ђ SPLIT FEATURE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── SPLIT FEATURE ────────────────────────────────── */
 const SplitFeature = ({ onSelect, onCatalogOpen }) => {
   const featured = PRODUCTS[4];
   return (
@@ -5419,9 +5437,9 @@ const SplitFeature = ({ onSelect, onCatalogOpen }) => {
       <motion.div initial={{ opacity: 0, x: -72 }} whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: '-80px' }} transition={{ duration: 1.05, ease: [0.4, 0, 0.2, 1] }}
         style={{ overflow: 'hidden', position: 'relative' }}>
-        <motion.img src="assets/primary.jpg" alt="28 Powerful Actives" whileHover={{ scale: 1.04 }} transition={{ duration: 1 }}
+        <motion.img src="/assets/primary.webp" alt="28 Powerful Actives" whileHover={{ scale: 1.04 }} transition={{ duration: 1 }}
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
-        <div style={{ position: 'absolute', top: 16, left: 16, background: '#6B1C1C', color: C.cream, fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '4px 10px' }}>Limited Edition</div>
+        <div style={{ position: 'absolute', top: 16, left: 16, background: '#6B1C1C', color: C.cream, fontFamily: "'Montserrat',sans-serif", fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '4px 10px' }}>Limited Edition</div>
       </motion.div>
 
       <motion.div initial={{ opacity: 0, x: 72 }} whileInView={{ opacity: 1, x: 0 }}
@@ -5437,7 +5455,7 @@ const SplitFeature = ({ onSelect, onCatalogOpen }) => {
           Peptides · Probiotics · Hyaluron · Ceramides · Niacinamide
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
-          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 28, fontWeight: 300, color: C.black }}>€29.95</span>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 28, fontWeight: 300, color: C.black }}>€29,95</span>
           <button onClick={() => onSelect(featured)}
             style={{ padding: '15px 48px', background: C.black, border: `1px solid ${C.black}`, color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', cursor: 'pointer', transition: 'background 0.45s, color 0.45s, border-color 0.45s' }}
             onMouseEnter={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.color = C.black; e.currentTarget.style.borderColor = C.gold; }}
@@ -5449,7 +5467,7 @@ const SplitFeature = ({ onSelect, onCatalogOpen }) => {
   );
 };
 
-/* в”Ђв”Ђ COLLECTION GRID в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── COLLECTION GRID ──────────────────────────────── */
 const CollectionGrid = ({ onSelect }) => (
   <section className="mave-section" style={{ padding: '80px 80px 72px', background: C.sand }}>
     <Reveal style={{ marginBottom: 44 }}>
@@ -5466,11 +5484,16 @@ const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
   const collections = ['All', ...Array.from(new Set(PRODUCTS.map(p => p.collection)))];
   const [active, setActive] = React.useState('All');
   const [query, setQuery] = React.useState('');
+  const [sort, setSort] = React.useState('featured');
   const filtered = PRODUCTS.filter(p => {
     const byCollection = active === 'All' || p.collection === active;
     const byQuery = !query.trim() || `${p.name} ${p.collection}`.toLowerCase().includes(query.toLowerCase());
     return byCollection && byQuery;
   });
+  const sorted = [...filtered];
+  if (sort === 'price-asc') sorted.sort((a, b) => parseEuro(a.price) - parseEuro(b.price));
+  if (sort === 'price-desc') sorted.sort((a, b) => parseEuro(b.price) - parseEuro(a.price));
+  if (sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <motion.main
@@ -5483,15 +5506,15 @@ const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
           <div className="mave-catalog-hero-inner">
             <div>
               <button onClick={onBack}
-                style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 7px', marginBottom: 34 }}>
+                style={{ background: 'none', border: 'none', borderBottom: `1px solid ${C.gold}`, color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '0 0 7px', marginBottom: 34 }}>
                 Back to landing
               </button>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 15 }}>Collection</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.36em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 15 }}>Collection</span>
               <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,5.35vw,76px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 20 }}>A focused collection.</h1>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.03em', color: C.bark, maxWidth: 500 }}>Clear roles.<br />No excess.</p>
             </div>
             <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'stretch', paddingBottom: 6 }}>
-              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
+              <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
               <input
                 id="catalog-search"
                 value={query}
@@ -5506,17 +5529,27 @@ const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
                   <button key={c} onClick={() => setActive(c)}
                     className="mave-catalog-filter"
                     data-active={active === c}
-                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : 'rgba(26,20,16,0.82)', opacity: active === c ? 1 : 0.94, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: active === c ? 700 : 600, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
+                    style={{ padding: 0, border: 'none', background: 'transparent', color: active === c ? C.black : 'rgba(26,20,16,0.82)', opacity: active === c ? 1 : 0.94, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: active === c ? 700 : 600, letterSpacing: '0.18em', textTransform: 'uppercase', transition: 'color 520ms cubic-bezier(0.23, 1, 0.32, 1), opacity 520ms cubic-bezier(0.23, 1, 0.32, 1)' }}>
                     {c}
                   </button>
                 ))}
               </div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid rgba(26,20,16,0.26)', paddingTop: 12 }}>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Sort</span>
+                <select value={sort} onChange={e => setSort(e.target.value)} aria-label="Sort products"
+                  style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black }}>
+                  <option value="featured">Featured</option>
+                  <option value="price-asc">Price, low to high</option>
+                  <option value="price-desc">Price, high to low</option>
+                  <option value="name">Name, A to Z</option>
+                </select>
+              </label>
             </div>
           </div>
         </section>
         <section className="mave-catalog-products">
           <div className="mave-grid-4 mave-catalog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
-            {filtered.map((p, i) => (
+            {sorted.map((p, i) => (
               <motion.button
                 key={p.id}
                 type="button"
@@ -5536,13 +5569,13 @@ const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
                   style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.9)' }}
                 />
                 {p.badge && (
-                  <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.76)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
+                  <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.76)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
                     {p.badge}
                   </span>
                 )}
                 {onQuickShop && (
                   <span onClick={event => { event.stopPropagation(); onQuickShop(p); }}
-                    style={{ position: 'absolute', left: 18, right: 18, bottom: 18, height: 40, display: 'grid', placeItems: 'center', background: 'rgba(245,240,232,0.88)', color: C.black, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', backdropFilter: 'blur(8px)' }}>
+                    style={{ position: 'absolute', left: 18, right: 18, bottom: 18, height: 40, display: 'grid', placeItems: 'center', background: 'rgba(245,240,232,0.88)', color: C.black, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', backdropFilter: 'blur(8px)' }}>
                     Quick shop
                   </span>
                 )}
@@ -5654,7 +5687,7 @@ const SearchPage = ({ empty = false, onSelect, onCatalogOpen, onQuickShop }) => 
                 <div className="mave-search-card-media">
                   <img src={product.image} alt={product.name} loading="eager" />
                   {product.badge && (
-                    <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>{product.badge}</span>
+                    <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>{product.badge}</span>
                   )}
                 </div>
                 <div className="mave-search-card-body">
@@ -5678,7 +5711,7 @@ const SearchPage = ({ empty = false, onSelect, onCatalogOpen, onQuickShop }) => 
   );
 };
 
-/* в”Ђв”Ђ INGREDIENTS STRIP в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── INGREDIENTS STRIP ────────────────────────────── */
 const IngredientsStrip = () => {
   const items = ['Monarda Oil Serum','Green Tea Oil','Chamomile Extract','Sodium Hyaluronate','Allantoin','Panthenol','Hydroxyapatite','Coconut-Shell Charcoal'];
   return (
@@ -5702,7 +5735,7 @@ const IngredientsStrip = () => {
   );
 };
 
-/* в”Ђв”Ђ FULL BLEED CTA в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── FULL BLEED CTA ───────────────────────────────── */
 const FullBleedCTA = ({ onCatalogOpen }) => {
   const { scrollY } = useViewportScroll();
   const ref = React.useRef(null);
@@ -5713,7 +5746,7 @@ const FullBleedCTA = ({ onCatalogOpen }) => {
   return (
     <section ref={ref} style={{ position: 'relative', height: '70vh', overflow: 'hidden', background: C.black }}>
       <motion.div style={{ position: 'absolute', inset: 0, y: imgY }}>
-        <img src="assets/organic-oil-sunset.jpg" alt="" loading="lazy" style={{ width: '100%', height: '120%', objectFit: 'cover', filter: 'saturate(0.78) brightness(0.62)', marginTop: '-10%' }} />
+        <img src="/assets/organic-oil-sunset.webp" alt="" loading="lazy" style={{ width: '100%', height: '120%', objectFit: 'cover', filter: 'saturate(0.78) brightness(0.62)', marginTop: '-10%' }} />
       </motion.div>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,20,16,0.72) 0%, rgba(26,20,16,0.22) 55%, rgba(26,20,16,0.52) 100%)' }}></div>
       <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 80px' }}>
@@ -5901,7 +5934,7 @@ const SciencePage = ({ onBack, onSelect }) => {
   );
 };
 
-/* в”Ђв”Ђ PRODUCT PAGE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── PRODUCT PAGE ────────────────────────────── */
 const RelatedProductCard = ({ product, index, onSelect, onQuickAdd }) => {
   const [hov, setHov] = React.useState(false);
   return (
@@ -5925,7 +5958,7 @@ const RelatedProductCard = ({ product, index, onSelect, onQuickAdd }) => {
           transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.84)' }}
         />
-        <span style={{ position: 'absolute', left: 16, top: 16, background: 'rgba(245,240,232,0.86)', color: C.goldD, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 10px' }}>{getProductRole(product)}</span>
+        <span style={{ position: 'absolute', left: 16, top: 16, background: 'rgba(245,240,232,0.86)', color: C.goldD, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 10px' }}>{getProductRole(product)}</span>
         <motion.div
           animate={{ opacity: hov ? 1 : 0 }}
           transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
@@ -5933,21 +5966,21 @@ const RelatedProductCard = ({ product, index, onSelect, onQuickAdd }) => {
         />
       </div>
       <div style={{ padding: '22px 8px 28px' }}>
-        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.28em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 10 }}>{product.name}</span>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, marginBottom: 14 }}>
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, letterSpacing: '0.14em', color: C.bark }}>{product.price}</span>
           <motion.span
             animate={{ opacity: hov ? 1 : 0.46, x: hov ? 0 : 4 }}
             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-            style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gold }}
+            style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gold }}
           >
             View
           </motion.span>
         </div>
         <span
           onClick={e => { e.stopPropagation(); onQuickAdd?.(product); }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, borderBottom: `1px solid rgba(154,122,66,0.42)`, paddingBottom: 7 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, borderBottom: `1px solid rgba(154,122,66,0.42)`, paddingBottom: 7 }}
         >
           Quick add
         </span>
@@ -5964,10 +5997,10 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const heroOverlayLight = heroOverlayPdp && pdpAtmosphereTheme?.heroOverlayTone === 'light';
   const treatmentScrollFrames = React.useMemo(() => product.slug === 'molecular-oil-treatment'
     ? [
-      'assets/generated/molecular-oil-treatment-pdp-hero-scene-main.png',
-      'assets/generated/molecular-oil-treatment-pdp-hero-scene-01.png',
-      'assets/generated/molecular-oil-treatment-pdp-hero-scene-02.png',
-      'assets/generated/molecular-oil-treatment-pdp-hero-scene-03.png',
+      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-main.webp',
+      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-01.webp',
+      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-02.webp',
+      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-03.webp',
     ]
     : [], [product.slug]);
   const treatmentScrollSequence = treatmentScrollFrames.length > 1;
@@ -6205,7 +6238,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
               ['Member care', 'Private offers'],
             ].map(([title, text]) => (
               <div className="mave-pdp-commerce-tile" key={title} style={heroOverlayPdp ? { background: 'rgba(245,240,232,0.10)', borderColor: 'rgba(245,240,232,0.16)' } : undefined}>
-                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.goldD, marginBottom: 7 }}>{title}</strong>
+                <strong style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.goldD, marginBottom: 7 }}>{title}</strong>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.55, color: buyboxSoft }}>{text}</span>
               </div>
             ))}
@@ -6222,7 +6255,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
               {added ? 'Added' : 'Add to cart'}
             </motion.button>
           </div>
-          <p style={{ display: heroOverlayPdp ? 'none' : 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.goldD, margin: '-6px 0 22px', textAlign: 'right' }}>Secure checkout ? Free delivery over ?60</p>
+          <p style={{ display: heroOverlayPdp ? 'none' : 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.goldD, margin: '-6px 0 22px', textAlign: 'right' }}>In stock · Secure checkout · Free delivery over €60</p>
           <div style={{ display: 'flex', gap: heroOverlayPdp ? 20 : 30 }}>
             {['How to use', 'Full INCI'].map(label => (
               <button key={label} onClick={() => openDisclosure(label === 'How to use' ? 'use' : 'inci')}
@@ -6374,7 +6407,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   );
 };
 
-/* в”Ђв”Ђ PRODUCT DRAWER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── PRODUCT DRAWER ───────────────────────────────── */
 const ProductDrawer = ({ product, onClose, onAdd }) => {
   const [qty, setQty] = React.useState(1);
   const [added, setAdded] = React.useState(false);
@@ -6434,7 +6467,7 @@ const ProductDrawer = ({ product, onClose, onAdd }) => {
   );
 };
 
-/* в”Ђв”Ђ CART SIDEBAR в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── CART SIDEBAR ─────────────────────────────────── */
 const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
   <AnimatePresence>
     {isOpen && (
@@ -6468,7 +6501,7 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
                     style={{ display: 'flex', gap: 18, marginBottom: 26, paddingBottom: 26, borderBottom: `1px solid rgba(107,87,68,0.14)` }}>
                     <img src={item.image} alt={item.name} style={{ width: 84, height: 104, objectFit: 'cover', filter: 'saturate(0.88)' }} />
                     <div style={{ flex: 1, paddingTop: 2 }}>
-                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 7 }}>{item.collection}</span>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 7 }}>{item.collection}</span>
                       <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 9 }}>{item.name}</span>
                       <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.bark, display: 'block', marginBottom: 14 }}>{item.price}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -6489,12 +6522,12 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
                   <div style={{ border: `1px solid rgba(200,169,110,0.22)`, background: 'rgba(200,169,110,0.07)', padding: 18, marginBottom: 22 }}>
                     <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.goldD, display: 'block', marginBottom: 8 }}>Complete your system</span>
                     <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.65, color: C.bark, margin: '0 0 14px' }}>Add one formula that supports the next step in your ritual.</p>
-                    {SYSTEM_RECOMMENDATIONS.map(product => (
+                    {SYSTEM_RECOMMENDATIONS.filter(product => !cart.some(item => item.id === product.id)).map(product => (
                       <button key={product.id} type="button" onClick={() => window.dispatchEvent(new CustomEvent('mave-add-product', { detail: { id: product.id } }))}
                         style={{ width: '100%', display: 'grid', gridTemplateColumns: '42px 1fr auto', gap: 12, alignItems: 'center', textAlign: 'left', background: 'transparent', border: 0, borderTop: `1px solid rgba(107,87,68,0.12)`, padding: '12px 0 0', marginTop: 12, cursor: 'pointer' }}>
                         <img src={assetPath(product.image)} alt="" style={{ width: 42, height: 52, objectFit: 'cover', filter: 'saturate(0.82)' }} />
                         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.45, color: C.black }}>{product.name}<br /><span style={{ color: C.bark }}>{getProductRole(product)}</span></span>
-                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.goldD }}>Add</span>
+                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.goldD }}>Add</span>
                       </button>
                     ))}
                   </div>
@@ -6700,7 +6733,7 @@ const LoginIcon = ({ type }) => {
   );
 };
 
-const LoginPage = ({ onBack, onRegister, onForgot }) => {
+const LoginPage = ({ onBack, onRegister, onForgot, onLoggedIn }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const reduceMotion = useReducedMotion ? useReducedMotion() : false;
   const hiddenSoft = { opacity: 1, y: 0, filter: 'blur(0px)' };
@@ -6713,11 +6746,11 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
   const goldButtonHover = reduceMotion ? {} : { y: -2, boxShadow: '0 16px 38px rgba(200,169,110,0.22)' };
   const benefitHover = reduceMotion ? {} : { y: -5 };
   const memberBenefits = [
-    ['assets/member-price.svg', 'Member prices'],
-    ['assets/member-heart.svg', 'Saved products'],
-    ['assets/member-box.svg', 'Order tracking'],
-    ['assets/member-lock.svg', 'Early access'],
-    ['assets/member-envelope.svg', 'Private offers'],
+    ['/assets/member-price.svg', 'Member prices'],
+    ['/assets/member-heart.svg', 'Saved products'],
+    ['/assets/member-box.svg', 'Order tracking'],
+    ['/assets/member-lock.svg', 'Early access'],
+    ['/assets/member-envelope.svg', 'Private offers'],
   ];
 
   return (
@@ -6730,7 +6763,7 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0 }}
           >
-            <img src="assets/login-shampoo.png" alt="MAVE Expert Molecular Shampoo" />
+            <img src="/assets/login-shampoo.webp" alt="MAVE Expert Molecular Shampoo" />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.10) 36%, rgba(245,240,232,0.48) 72%, rgba(245,240,232,0.94) 100%)' }} />
             <motion.div
               className="mave-login-visual-copy"
@@ -6762,7 +6795,7 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
               <motion.h2 initial={hiddenSoft} animate={showSoft} transition={softTransition(0.02)} style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(48px,4.1vw,62px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 0.96, color: C.black, marginBottom: 24 }}>Login.</motion.h2>
               <motion.p initial={hiddenSoft} animate={showSoft} transition={softTransition(0.04)} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.7)', marginBottom: 34 }}>Access your account to continue.</motion.p>
 
-              <form onSubmit={e => e.preventDefault()}>
+              <form onSubmit={e => { e.preventDefault(); onLoggedIn && onLoggedIn(); }}>
               <motion.label initial={hiddenSoft} animate={showSoft} transition={softTransition(0.06)} style={{ display: 'block', marginBottom: 18 }}>
                 <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)', marginBottom: 12 }}>Email</span>
                 <input className="mave-login-input" type="email" autoComplete="email" />
@@ -6837,7 +6870,7 @@ const LoginPage = ({ onBack, onRegister, onForgot }) => {
 
 const AuthVisualPanel = ({ eyebrow, title, copy, titleLabel }) => (
   <motion.div className="mave-login-visual" initial={false} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0 }}>
-    <img src="assets/login-shampoo.png" alt="MAVE Expert Molecular Shampoo" />
+    <img src="/assets/login-shampoo.webp" alt="MAVE Expert Molecular Shampoo" />
     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.02) 0%, rgba(245,240,232,0.10) 36%, rgba(245,240,232,0.48) 72%, rgba(245,240,232,0.94) 100%)' }} />
     <div className="mave-login-visual-copy">
       <div>
@@ -6858,11 +6891,11 @@ const AuthBenefits = ({ onRegister }) => {
   const reduceMotion = useReducedMotion ? useReducedMotion() : false;
   const hoverTransition = reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 280, damping: 28, mass: 0.8 };
   const memberBenefits = [
-    ['assets/member-price.svg', 'Member prices'],
-    ['assets/member-heart.svg', 'Saved products'],
-    ['assets/member-box.svg', 'Order tracking'],
-    ['assets/member-lock.svg', 'Early access'],
-    ['assets/member-envelope.svg', 'Private offers'],
+    ['/assets/member-price.svg', 'Member prices'],
+    ['/assets/member-heart.svg', 'Saved products'],
+    ['/assets/member-box.svg', 'Order tracking'],
+    ['/assets/member-lock.svg', 'Early access'],
+    ['/assets/member-envelope.svg', 'Private offers'],
   ];
   return (
     <section className="mave-member-benefits" aria-labelledby="member-benefits-title">
@@ -7096,9 +7129,9 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
     ['heart', 'Wishlist items', '8', 'Go to wishlist', onWishlist],
   ];
   const orders = [
-    ['assets/primary.jpg', 'Order #1045', 'May 15, 2024', 'Delivered', '€89,00'],
-    ['assets/login-shampoo.png', 'Order #1021', 'Apr 28, 2024', 'In progress', '€129,00'],
-    ['assets/organic-oil.jpg', 'Order #0987', 'Apr 10, 2024', 'Delivered', '€64,00'],
+    ['/assets/primary.webp', 'Order #1045', 'May 15, 2026', 'Delivered', '€89,00'],
+    ['/assets/login-shampoo.webp', 'Order #1021', 'Apr 28, 2026', 'In progress', '€129,00'],
+    ['/assets/organic-oil.webp', 'Order #0987', 'Apr 10, 2026', 'Delivered', '€64,00'],
   ];
   const miniBenefits = [
     ['tag', 'Exclusive offers'],
@@ -7110,11 +7143,11 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Account dashboard">
-        <div className="mave-account-bg-strip"><img src="assets/collections-hero.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/collections-hero.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
@@ -7142,9 +7175,9 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)', maxWidth: 310 }}>Here's what's happening with your account and your skin journey.</p>
             </motion.div>
             <motion.div className="mave-account-quiz" initial={reveal} animate={showReveal} transition={revealTransition(0.06)}>
-              <img src="assets/collections-hero.png" alt="MAVE skin quiz still life" />
+              <img src="/assets/collections-hero.webp" alt="MAVE skin quiz still life" />
               <div className="mave-account-quiz-copy">
-                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 15 }}>Skin quiz</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', display: 'block', marginBottom: 15 }}>Skin quiz</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 25, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.14, color: C.black, marginBottom: 18 }}>Not sure what your skin needs right now?</h2>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)', marginBottom: 22 }}>Take our quiz and get personalized product recommendations.</p>
                 <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Take the quiz →</button>
@@ -7157,7 +7190,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
               <motion.div key={label} className="mave-account-summary-card" initial={reveal} animate={showReveal} transition={revealTransition(0.09 + index * 0.04)}>
                 <div className="mave-account-icon-disc"><AccountLineIcon type={icon} size={26} /></div>
                 <div>
-                  <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', marginBottom: 8 }}>{label}</span>
+                  <span style={{ display: 'block', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.58)', marginBottom: 8 }}>{label}</span>
                   <strong style={{ display: 'block', fontFamily: "'Cormorant Garamond',serif", fontSize: value === 'In progress' ? 23 : 25, fontWeight: 400, color: C.black, marginBottom: 17 }}>{value}</strong>
                   <button type="button" onClick={summary[index][4]} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: 'rgba(61,43,31,0.78)', cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300 }}>{action} →</button>
                 </div>
@@ -7253,22 +7286,22 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
     ['profile', 'Support'],
   ];
   const rows = [
-    ['#1045', 'May 16, 2024', ['assets/orders-product-set.png', 'assets/primary.jpg'], '+1', 'Delivered', '€89,00', ['View order', 'Reorder']],
-    ['#1021', 'Apr 28, 2024', ['assets/primary.jpg', 'assets/orders-product-set.png'], '', 'In progress', '€129,00', ['Track', 'View order']],
-    ['#0987', 'Apr 10, 2024', ['assets/login-shampoo.png'], '', 'Delivered', '€64,00', ['View order', 'Reorder']],
-    ['#0955', 'Mar 22, 2024', ['assets/orders-product-set.png', 'assets/primary6.jpg', 'assets/orders-package-box.png'], '', 'Delivered', '€153,00', ['View order', 'Reorder']],
-    ['#0912', 'Mar 05, 2024', ['assets/orders-package-wide.png', 'assets/primary.jpg'], '', 'Cancelled', '€98,00', ['View order']],
+    ['#1045', 'May 16, 2026', ['/assets/orders-product-set.webp', '/assets/primary.webp'], '+1', 'Delivered', '€89,00', ['View order', 'Reorder']],
+    ['#1021', 'Apr 28, 2026', ['/assets/primary.webp', '/assets/orders-product-set.webp'], '', 'In progress', '€129,00', ['Track', 'View order']],
+    ['#0987', 'Apr 10, 2026', ['/assets/login-shampoo.webp'], '', 'Delivered', '€64,00', ['View order', 'Reorder']],
+    ['#0955', 'Mar 22, 2026', ['/assets/orders-product-set.webp', '/assets/primary6.webp', '/assets/orders-package-box.webp'], '', 'Delivered', '€153,00', ['View order', 'Reorder']],
+    ['#0912', 'Mar 05, 2026', ['/assets/orders-package-wide.webp', '/assets/primary.webp'], '', 'Cancelled', '€98,00', ['View order']],
   ];
   const statusClass = status => status === 'In progress' ? 'is-progress' : status === 'Cancelled' ? 'is-cancelled' : '';
 
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Orders">
-        <div className="mave-account-bg-strip"><img src="assets/orders-vase-still-life.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="assets/orders-help-still-life.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/orders-help-still-life.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
@@ -7296,7 +7329,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)', maxWidth: 330 }}>Review your recent orders and track their delivery status.</p>
             </div>
             <div className="mave-orders-help">
-              <img src="assets/orders-vase-still-life.png" alt="MAVE order support still life" />
+              <img src="/assets/orders-vase-still-life.webp" alt="MAVE order support still life" />
               <div className="mave-orders-help-copy">
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.2, color: C.black, marginBottom: 20 }}>Need help with your order?</h2>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.7, color: 'rgba(26,20,16,0.62)', marginBottom: 24 }}>Our support team is here for you.</p>
@@ -7320,7 +7353,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
           <section className="mave-orders-table" aria-label="Recent orders">
             <div className="mave-orders-head">
               {['Order', 'Date', 'Items', 'Status', 'Total', 'Actions'].map(label => (
-                <span key={label} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' }}>{label}</span>
+                <span key={label} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' }}>{label}</span>
               ))}
             </div>
             {rows.map(([order, date, items, more, status, total, actions]) => (
@@ -7373,35 +7406,35 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
     ['envelope', 'Notifications'],
     ['profile', 'Support'],
   ];
-  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.72)' };
   const productName = { fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 500, color: C.black, marginBottom: 10 };
   const detailLabel = { ...body, fontSize: 10, color: 'rgba(26,20,16,0.58)' };
   const items = [
-    ['/assets/orders-product-set.png', 'Glow Renewal Serum', '30 ml', '€59,00', '18% 52%'],
-    ['/assets/orders-product-set.png', 'Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
+    ['/assets/orders-product-set.webp', 'Glow Renewal Serum', '30 ml', '€59,00', '18% 52%'],
+    ['/assets/orders-product-set.webp', 'Nourishing Face Cream', '50 ml', '€30,00', '76% 62%'],
   ];
   const summary = [
     ['Order number', '#1045'],
-    ['Date', 'May 15, 2024'],
+    ['Date', 'May 15, 2026'],
     ['Payment method', 'Visa •••• 4242'],
     ['Total', '€89,00'],
   ];
   const steps = [
-    ['box', 'Order placed', 'May 15, 2024 - 10:24 AM'],
-    ['lock', 'Payment confirmed', 'May 15, 2024 - 10:25 AM'],
-    ['truck', 'Order shipped', 'May 16, 2024 - 02:15 PM'],
-    ['check', 'Delivered', 'May 18, 2024 - 11:03 AM'],
+    ['box', 'Order placed', 'May 15, 2026 - 10:24 AM'],
+    ['lock', 'Payment confirmed', 'May 15, 2026 - 10:25 AM'],
+    ['truck', 'Order shipped', 'May 16, 2026 - 02:15 PM'],
+    ['check', 'Delivered', 'May 18, 2026 - 11:03 AM'],
   ];
 
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Order detail">
-        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
@@ -7428,7 +7461,7 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
             <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(42px,3.4vw,56px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black }}>Order #1045</h1>
             <span className="mave-account-status">Delivered</span>
           </div>
-          <p style={{ ...body, fontSize: 12, marginBottom: 0 }}>Placed on May 15, 2024 at 10:24 AM</p>
+          <p style={{ ...body, fontSize: 12, marginBottom: 0 }}>Placed on May 15, 2026 at 10:24 AM</p>
 
           <div className="mave-order-detail-shell">
             <div>
@@ -7482,13 +7515,13 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
                   </section>
                   <section className="mave-order-card mave-order-card-pad">
                     <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Shipping method</span>
-                    <p style={body}><strong style={{ fontWeight: 500, color: C.black }}>Standard Shipping</strong><br />Delivered on May 18, 2024</p>
+                    <p style={body}><strong style={{ fontWeight: 500, color: C.black }}>Standard Shipping</strong><br />Delivered on May 18, 2026</p>
                   </section>
                   <section className="mave-order-card mave-order-card-pad">
                     <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Payment information</span>
                     <div style={{ display: 'grid', gridTemplateColumns: '52px 1fr auto', gap: 16, alignItems: 'center' }}>
-                      <span style={{ display: 'grid', placeItems: 'center', height: 22, border: '1px solid rgba(107,87,68,0.16)', color: '#254AA5', fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700 }}>VISA</span>
-                      <p style={body}>Visa •••• 4242<br />May 15, 2024 - 10:24 AM</p>
+                      <span style={{ display: 'grid', placeItems: 'center', height: 22, border: '1px solid rgba(107,87,68,0.16)', color: '#254AA5', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700 }}>VISA</span>
+                      <p style={body}>Visa •••• 4242<br />May 15, 2026 - 10:24 AM</p>
                       <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, color: C.black }}>€89,00</strong>
                     </div>
                   </section>
@@ -7543,7 +7576,7 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
     ['envelope', 'Notifications'],
     ['profile', 'Support'],
   ];
-  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
   const checkText = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.72)' };
   const birthDateRef = React.useRef(null);
   const EyeIcon = () => (
@@ -7556,11 +7589,11 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
   return (
     <main className="mave-account-page mave-profile-page">
       <section className="mave-account-layout" aria-label="Profile settings">
-        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@gmail.com</p>
@@ -7702,11 +7735,11 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile, onPaymentMethods, onW
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Addresses">
-        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@gmail.com</p>
@@ -7734,7 +7767,7 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile, onPaymentMethods, onW
               <p style={{ ...body, fontSize: 15, maxWidth: 260 }}>Manage your delivery and billing addresses.</p>
             </div>
             <div className="mave-addresses-help">
-              <img src="/assets/addresses-help.png" alt="MAVE delivery still life" />
+              <img src="/assets/addresses-help.webp" alt="MAVE delivery still life" />
               <div className="mave-addresses-help-copy">
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 20 }}>Need help with delivery?</h2>
                 <p style={{ ...body, fontSize: 12, marginBottom: 24 }}>Our support team is here for you.</p>
@@ -7795,22 +7828,22 @@ const WishlistPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPayment
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.7, color: 'rgba(26,20,16,0.68)' };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' };
   const saved = [
-    ['assets/primary.jpg', 'Glow Renewal Serum', '30 ml', '€59,00', 'Back in stock', 'Hydration support'],
-    ['assets/organic-oil.jpg', 'Organic Treatment Oil', '50 ml', '€64,00', 'Saved May 18', 'Barrier comfort'],
-    ['assets/wow-serum.jpg', 'WOW Serum 2 in 1', '30 ml', '€89,00', 'Low stock', 'Even tone support'],
-    ['assets/login-shampoo.png', 'MAVE Expert Shampoo', '650 ml', '€38,00', 'New ritual', 'Hair integrity'],
-    ['assets/primary6.jpg', 'Renew Cream Cleanser', '120 ml', '€42,00', 'Saved May 12', 'Soft cleanse'],
-    ['assets/orders-package-box.png', 'Limited Care Set', '3 pcs', '€153,00', 'Member price', 'Complete routine'],
+    ['/assets/primary.webp', 'Glow Renewal Serum', '30 ml', '€59,00', 'Back in stock', 'Hydration support'],
+    ['/assets/organic-oil.webp', 'Organic Treatment Oil', '50 ml', '€64,00', 'Saved May 18', 'Barrier comfort'],
+    ['/assets/wow-serum.webp', 'WOW Serum 2 in 1', '30 ml', '€89,00', 'Low stock', 'Even tone support'],
+    ['/assets/login-shampoo.webp', 'MAVE Expert Shampoo', '650 ml', '€38,00', 'New ritual', 'Hair integrity'],
+    ['/assets/primary6.webp', 'Renew Cream Cleanser', '120 ml', '€42,00', 'Saved May 12', 'Soft cleanse'],
+    ['/assets/orders-package-box.webp', 'Limited Care Set', '3 pcs', '€153,00', 'Member price', 'Complete routine'],
   ];
 
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Saved products">
-        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/orders-vase-still-life.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
@@ -7838,7 +7871,7 @@ const WishlistPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPayment
               <p style={{ ...body, fontSize: 15, maxWidth: 350 }}>Keep formulas you return to, compare rituals, and move favorites into cart when the timing is right.</p>
             </div>
             <div className="mave-wishlist-feature">
-              <img src="/assets/collections-hero.png" alt="MAVE saved products still life" />
+              <img src="/assets/collections-hero.webp" alt="MAVE saved products still life" />
               <div className="mave-wishlist-feature-copy">
                 <span style={{ ...tiny, display: 'block', marginBottom: 15 }}>Saved ritual</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 18 }}>Your formulas, held quietly.</h2>
@@ -7874,7 +7907,7 @@ const WishlistPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPayment
                     <strong style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, whiteSpace: 'nowrap' }}>{price}</strong>
                   </div>
                   <div className="mave-wishlist-actions">
-                    <button type="button" className="mave-wishlist-add">Add to cart</button>
+                    <button type="button" className="mave-wishlist-add" onClick={() => window.dispatchEvent(new CustomEvent('mave-add-product', { detail: { id: PRODUCTS[index % PRODUCTS.length].id } }))}>Add to cart</button>
                     <button type="button" className="mave-wishlist-quick" onClick={() => onSelect?.(PRODUCTS[index % PRODUCTS.length])} aria-label={`View ${name}`}><AccountLineIcon type="search" size={18} /></button>
                   </div>
                 </div>
@@ -7916,11 +7949,11 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
   return (
     <main className="mave-account-page">
       <section className="mave-account-layout" aria-label="Payment methods">
-        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.png" alt="" /></div>
+        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.webp" alt="" /></div>
 
         <aside className="mave-account-sidebar">
           <div className="mave-account-profile">
-            <div className="mave-account-avatar"><img src="/assets/account-avatar.png" alt="Alessandra" /></div>
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
             <div>
               <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@gmail.com</p>
@@ -7948,7 +7981,7 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
               <p style={{ ...body, fontSize: 15, maxWidth: 360 }}>Manage saved cards and billing preferences for a quieter checkout.</p>
             </div>
             <div className="mave-payment-help">
-              <img src="/assets/orders-package-box.png" alt="MAVE secure payment packaging" />
+              <img src="/assets/orders-package-box.webp" alt="MAVE secure payment packaging" />
               <div className="mave-payment-help-copy">
                 <span style={{ ...tiny, display: 'block', marginBottom: 15 }}>Secure by default</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 27, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 18 }}>Details ready only when needed.</h2>
@@ -7973,11 +8006,11 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
                 <h2 className="mave-payment-number">{ending === 'Connected' ? 'Apple Pay' : `**** **** ${ending}`}</h2>
                 <div className="mave-payment-meta">
                   <div>
-                    <span style={{ ...tiny, display: 'block', fontSize: 8, marginBottom: 7 }}>Card holder</span>
+                    <span style={{ ...tiny, display: 'block', fontSize: 9, marginBottom: 7 }}>Card holder</span>
                     <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{name}</p>
                   </div>
                   <div>
-                    <span style={{ ...tiny, display: 'block', fontSize: 8, marginBottom: 7 }}>Expires</span>
+                    <span style={{ ...tiny, display: 'block', fontSize: 9, marginBottom: 7 }}>Expires</span>
                     <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{expiry}</p>
                   </div>
                 </div>
@@ -8065,7 +8098,7 @@ const CheckoutSummary = ({ items, cta = 'delivery', editStyle, deliveryFee = nul
             style={{ width: '100%', display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 12, alignItems: 'center', textAlign: 'left', background: 'rgba(200,169,110,0.07)', border: `1px solid rgba(200,169,110,0.2)`, padding: 10, cursor: 'pointer' }}>
             <img src={assetPath(product.image)} alt="" style={{ width: 40, height: 48, objectFit: 'cover', filter: 'saturate(0.84)' }} />
             <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, lineHeight: 1.45, color: C.black }}>{product.name}<br /><span style={{ color: C.bark }}>{getProductRole(product)}</span></span>
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.goldD }}>Add to ritual</span>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.goldD }}>Add to ritual</span>
           </button>
         ))}
       </div>
@@ -8121,7 +8154,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
               <div className="mave-checkout-field-card mave-checkout-logged-card">
                 <div className="mave-checkout-login-row">
                   <span style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid rgba(107,87,68,0.24)', display: 'grid', placeItems: 'center', color: 'rgba(26,20,16,0.68)' }}><AccountLineIcon type="profile" size={20} /></span>
-                  <span style={muted}>Logged in as Anna Müller</span>
+                  <span style={muted}>Logged in as Alessandra Rossi</span>
                   <button type="button" style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11 }}>Use another account</button>
                 </div>
                 {[
@@ -8542,7 +8575,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
 
             <label className="mave-checkout-check" style={{ margin: '20px 0 24px' }}>
               <span>✓</span>
-              <span className="mave-checkout-check-text">I confirm these order details and agree to the MAVE service terms.</span>
+              <span className="mave-checkout-check-text">I confirm these order details and agree to the MAVE <button type="button" onClick={() => { window.location.href = '/terms'; }} style={{ border: 0, borderBottom: '1px solid rgba(154,122,66,0.46)', background: 'transparent', color: C.goldD, cursor: 'pointer', padding: 0, font: 'inherit' }}>service terms</button>.</span>
             </label>
 
             <div className="mave-checkout-delivery-action-row">
@@ -8576,6 +8609,12 @@ const CheckoutResultPage = ({ status = 'success' }) => {
   const deliveryMethod = readCheckoutDeliveryMethod('guest');
   const totals = getCheckoutTotals(items, deliveryMethod.fee);
   const contact = getDisplayContact('guest');
+  React.useEffect(() => {
+    if (success) {
+      localStorage.removeItem('mave-cart');
+      localStorage.removeItem('mave-delivery-method');
+    }
+  }, [success]);
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.black };
   const rows = success
@@ -8701,6 +8740,19 @@ const SERVICE_PAGES = {
       ['Your choices', ['You can request access, correction, or deletion of account information.', 'Some order records may be retained where required for accounting or fraud prevention.', 'For privacy requests, contact support@mavecare.com with the subject “Privacy request”.']],
     ],
   },
+  terms: {
+    kicker: 'Policy',
+    title: 'Terms',
+    lede: 'The conditions that apply when you browse the store, place an order, or use a MAVE account.',
+    cardTitle: 'Clear conditions, stated once.',
+    cardBody: 'These terms describe how orders, payments, accounts, and product information work inside the MAVE store. Placing an order means you accept them.',
+    sections: [
+      ['Orders and payment', ['An order is confirmed when payment is authorized and you receive the order confirmation.', 'Prices are shown in euro and include applicable VAT unless stated otherwise at checkout.', 'We may decline or limit an order where fraud checks, stock, or delivery constraints require it.']],
+      ['Products and use', ['Products are cosmetics intended for external use as described on the packaging.', 'Read the label and usage directions before first use; patch testing is recommended for sensitive skin.', 'Product information on this site supports careful use and is not medical advice.']],
+      ['Accounts', ['You are responsible for keeping account credentials private.', 'We may suspend accounts used in ways that harm the store, other customers, or the brand.', 'You can request account deletion through support at any time.']],
+      ['Liability and law', ['Statutory consumer rights in your country of residence remain unaffected.', 'Our liability is limited to the value of the order except where law does not permit such limits.', 'These terms are governed by the law of the seller’s country of registration.']],
+    ],
+  },
 };
 
 const ServicePolicyPage = ({ type = 'shipping' }) => {
@@ -8736,15 +8788,33 @@ const ServicePolicyPage = ({ type = 'shipping' }) => {
   );
 };
 
-/* в”Ђв”Ђ FOOTER в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── FOOTER ───────────────────────────────────────── */
 const Footer = () => {
   const cols = [
     { head:'Care', links:['Core Oils','WOW Serums','Cleanse','Limited Edition'] },
     { head:'MAVE',         links:['Approach','Science','Stockists'] },
-    { head:'Service',      links:['Shipping','Returns','Contact','Privacy'] },
+    { head:'Service',      links:['Shipping','Returns','Contact','Privacy','Terms'] },
   ];
   const lnk = { fontFamily:"'Montserrat',sans-serif", fontSize:11, fontWeight:300, letterSpacing:'0.06em', color:'rgba(245,240,232,0.44)', display:'block', marginBottom:11 };
-  const serviceRoutes = { Shipping: '/shipping', Returns: '/returns', Contact: '/contact', Privacy: '/privacy' };
+  const serviceRoutes = {
+    'Core Oils': '/collections',
+    'WOW Serums': '/collections',
+    'Cleanse': '/collections',
+    'Limited Edition': '/collections',
+    'Approach': '/#mave-approach',
+    'Science': '/science',
+    'Stockists': '/contact',
+    Shipping: '/shipping',
+    Returns: '/returns',
+    Contact: '/contact',
+    Privacy: '/privacy',
+    Terms: '/terms',
+  };
+  const socials = [
+    ['Instagram', 'https://www.instagram.com/mave.molecular'],
+    ['TikTok', 'https://www.tiktok.com/@mave.molecular'],
+    ['YouTube', 'https://www.youtube.com/@mave.molecular'],
+  ];
   return (
     <footer className="mave-site-footer" style={{ background: C.black, padding: '78px 80px 42px', borderTop: '1px solid rgba(200,169,110,0.12)' }}>
       <div className="mave-grid-footer mave-site-footer-grid" style={{ display: 'grid', gridTemplateColumns: '2.2fr 1fr 1fr 1fr', gap: 62, marginBottom: 58 }}>
@@ -8772,13 +8842,44 @@ const Footer = () => {
       <div className="mave-site-footer-divider" style={{ height: 1, background: 'rgba(200,169,110,0.12)', marginBottom: 24 }}></div>
       <div className="mave-site-footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', gap: 28, flexWrap: 'wrap' }}>
         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.07em', color: 'rgba(245,240,232,0.28)' }}>© 2026 MAVE® Molecular Cosmetics. All rights reserved.</span>
-        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, letterSpacing: '0.07em', color: 'rgba(245,240,232,0.28)' }}>MAVE® Molecular Cosmetics</span>
+        <span style={{ display: 'flex', gap: 26 }}>
+          {socials.map(([label, href]) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.4)', textDecoration: 'none' }}
+              onMouseEnter={e => e.target.style.color = C.gold}
+              onMouseLeave={e => e.target.style.color = 'rgba(245,240,232,0.4)'}
+            >{label}</a>
+          ))}
+        </span>
       </div>
     </footer>
   );
 };
 
-/* в”Ђв”Ђ APP в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ── COOKIE NOTICE ────────────────────────────────── */
+const CookieNotice = () => {
+  const [visible, setVisible] = React.useState(() => {
+    try { return !localStorage.getItem('mave-cookie-consent'); } catch { return false; }
+  });
+  const decide = value => {
+    try { localStorage.setItem('mave-cookie-consent', value); } catch { /* storage unavailable */ }
+    setVisible(false);
+  };
+  if (!visible) return null;
+  return (
+    <div role="dialog" aria-label="Cookie preferences" style={{ position: 'fixed', left: 20, right: 20, bottom: 20, zIndex: 900, display: 'flex', flexWrap: 'wrap', gap: 18, alignItems: 'center', justifyContent: 'space-between', maxWidth: 760, margin: '0 auto', background: 'rgba(26,20,16,0.97)', border: '1px solid rgba(200,169,110,0.28)', padding: '18px 22px', backdropFilter: 'blur(10px)', boxShadow: '0 18px 60px rgba(26,20,16,0.35)' }}>
+      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.6, color: 'rgba(245,240,232,0.78)', flex: '1 1 320px' }}>
+        We use cookies to run the store and understand how it is used. Details are in our <button type="button" onClick={() => { window.location.href = '/privacy'; }} style={{ border: 0, borderBottom: '1px solid rgba(200,169,110,0.5)', background: 'transparent', color: C.gold, cursor: 'pointer', padding: 0, font: 'inherit' }}>Privacy policy</button>.
+      </span>
+      <span style={{ display: 'flex', gap: 10 }}>
+        <button type="button" onClick={() => decide('essential')} style={{ padding: '11px 18px', background: 'transparent', border: '1px solid rgba(200,169,110,0.4)', color: 'rgba(245,240,232,0.72)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Essential only</button>
+        <button type="button" onClick={() => decide('all')} style={{ padding: '11px 20px', background: C.gold, border: `1px solid ${C.gold}`, color: C.black, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Accept</button>
+      </span>
+    </div>
+  );
+};
+
+/* ── APP ──────────────────────────────────────────── */
 const App = () => {
   const [productPage, setProductPage] = React.useState(() => productFromUrl());
   const [view, setView] = React.useState(() => viewFromUrl());
@@ -8923,6 +9024,12 @@ const App = () => {
     setView('register');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  const openLogin = () => {
+    setViewUrl('login');
+    setProductPage(null);
+    setView('login');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const openForgot = () => {
     setViewUrl('forgot');
     setProductPage(null);
@@ -8964,7 +9071,7 @@ const App = () => {
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
         onSearchOpen={openSearch}
-        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'terms' || view === 'login' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -8986,7 +9093,7 @@ const App = () => {
       ) : view === 'routineGuide' ? (
         <RoutineGuidePage onBack={openLanding} onSelect={openProduct} onAdd={addToCart} />
       ) : view === 'checkoutContact' ? (
-        <CheckoutContactPage onLogin={openAccount} mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
+        <CheckoutContactPage onLogin={openLogin} mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'checkoutDelivery' ? (
         <CheckoutDeliveryPage mode={new URLSearchParams(window.location.search).get('state') === 'loggedin' ? 'loggedin' : 'guest'} />
       ) : view === 'checkoutPayment' ? (
@@ -9009,10 +9116,14 @@ const App = () => {
         <ServicePolicyPage type="contact" />
       ) : view === 'privacy' ? (
         <ServicePolicyPage type="privacy" />
+      ) : view === 'login' ? (
+        <LoginPage onBack={openLanding} onRegister={openRegister} onForgot={openForgot} onLoggedIn={openAccount} />
+      ) : view === 'terms' ? (
+        <ServicePolicyPage type="terms" />
       ) : view === 'register' ? (
-        <RegisterPage onBack={openLanding} onLogin={openAccount} />
+        <RegisterPage onBack={openLanding} onLogin={openLogin} />
       ) : view === 'forgot' ? (
-        <ForgotPasswordPage onBack={openLanding} onLogin={openAccount} onRegister={openRegister} />
+        <ForgotPasswordPage onBack={openLanding} onLogin={openLogin} onRegister={openRegister} />
       ) : view === 'science' ? (
         <SciencePage onBack={openLanding} onSelect={openProduct} />
       ) : view === 'catalog' ? (
@@ -9021,11 +9132,11 @@ const App = () => {
         <>
           <Hero onCatalogOpen={openCatalog} />
           <BrandStatement />
+          <FeaturedProducts onSelect={openProduct} />
           <LiquidReveal onCatalogOpen={openCatalog} />
           <OilDropMoment onCatalogOpen={openCatalog} />
           <RoutineGuideTeaser onSelect={openProduct} onStart={openRoutineGuide} />
           <RoutineSection onSelect={openProduct} />
-          <FeaturedProducts onSelect={openProduct} />
           <Marquee />
           <EditorialTrio onSelect={openProduct} />
           <SplitFeature onSelect={openProduct} onCatalogOpen={openCatalog} />
@@ -9039,6 +9150,7 @@ const App = () => {
       <ProductDrawer product={quickProduct} onClose={() => setQuickProduct(null)} onAdd={addToCart} />
       <CartSidebar cart={cart} isOpen={cartOpen} onClose={() => setCartOpen(false)} onRemove={removeFromCart} onQtyChange={changeCartQty} />
       <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <CookieNotice />
     </motion.div>
   );
 };

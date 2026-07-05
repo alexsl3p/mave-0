@@ -1,8 +1,11 @@
 # MAVE Molecular Cosmetics — project context
 
 Single-page store for MAVE Molecular Cosmetics. The whole app lives in `index.html`
-(React 18 + framer-motion 6, JSX compiled in the browser via Babel Standalone).
-`vercel.json` rewrites SPA routes to `/index.html`.
+(React 18 + framer-motion 6). `index.html` is the only source you edit; opening it
+directly still works via Babel Standalone, but production is built with
+`npm run build` (`scripts/build.mjs`), which precompiles the JSX with esbuild into
+`dist/` — Vercel runs this automatically (see `buildCommand` in `vercel.json`).
+`vercel.json` also rewrites SPA routes to `/index.html`.
 
 ## Brand voice — required reading
 
@@ -27,5 +30,9 @@ Use them for any UI/visual work in this repo.
 
 - Images live in `assets/`; reference them with absolute paths (`/assets/...`)
   so they resolve on nested SPA routes like `/checkout/delivery`.
-- Prices display in euro. Demo persona: Alessandra Rossi (Riga, Latvia).
-- Keep `mave-store.html` out of new work — `index.html` is canonical.
+- Product/scene imagery is stored as WebP (~100KB each). When adding a new
+  image, convert to WebP (quality ~80, max width 2000px) before committing.
+- Prices display in euro, comma decimals (`€28,95`); parse with `parseEuro`,
+  format with `formatEuro`.
+- Demo persona: Alessandra Rossi (Riga, Latvia), demo dates in 2026.
+- `index.html` is canonical; there is no `mave-store.html` anymore.
