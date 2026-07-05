@@ -15,7 +15,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: #F5F0E8; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body { background: #F5F0E8; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
   button { font-family: inherit; }
   img { display: block; }
   ::-webkit-scrollbar { width: 2px; }
@@ -3917,6 +3917,9 @@ const METHOD_CARDS = [
 
 const ROUTINE_PRODUCTS = [PRODUCTS[7], PRODUCTS[2], PRODUCTS[0]].filter(Boolean);
 const SYSTEM_RECOMMENDATIONS = [PRODUCTS[7], PRODUCTS[0]].filter(Boolean);
+
+// 48 stills extracted from the treatment-oil transformation video; scrubbed by scroll on the PDP hero.
+const TREATMENT_SEQUENCE_FRAMES = Array.from({ length: 48 }, (_, i) => `/assets/generated/treatment-oil-sequence/frame-${String(i + 1).padStart(3, '0')}.webp`);
 const REPLENISHMENT_OPTIONS = [
   ['once', 'One-time purchase'],
   ['30', 'Remind me in 30 days'],
@@ -5996,14 +5999,11 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const heroOverlayPdp = Boolean(pdpAtmosphereTheme?.heroOverlay);
   const heroOverlayLight = heroOverlayPdp && pdpAtmosphereTheme?.heroOverlayTone === 'light';
   const treatmentScrollFrames = React.useMemo(() => product.slug === 'molecular-oil-treatment'
-    ? [
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-main.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-01.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-02.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-03.webp',
-    ]
+    ? TREATMENT_SEQUENCE_FRAMES
     : [], [product.slug]);
   const treatmentScrollSequence = treatmentScrollFrames.length > 1;
+  const sequenceReducedMotion = useReducedMotion ? useReducedMotion() : false;
+  const pinnedSequence = treatmentScrollSequence && !sequenceReducedMotion;
   const [qty, setQty] = React.useState(1);
   const [tab, setTab] = React.useState('daily');
   const [open, setOpen] = React.useState('ingredients');
@@ -6077,7 +6077,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
       const hero = document.querySelector('[data-pdp-scroll-sequence="treatment-oil"]');
       if (!hero) return;
       const rect = hero.getBoundingClientRect();
-      const distance = Math.max(window.innerHeight * 0.92, 1);
+      const distance = Math.max(rect.height - window.innerHeight, 1);
       const progress = Math.min(1, Math.max(0, -rect.top / distance));
       const nextIndex = Math.min(treatmentScrollFrames.length - 1, Math.round(progress * (treatmentScrollFrames.length - 1)));
       setSequenceFrameIndex(current => current === nextIndex ? current : nextIndex);
@@ -6135,9 +6135,10 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
     >
       <section className="mave-grid-2" data-pdp-scroll-sequence={treatmentScrollSequence ? 'treatment-oil' : undefined} style={{
         position: 'relative',
-        display: 'grid',
+        display: pinnedSequence ? 'block' : 'grid',
         gridTemplateColumns: heroOverlayPdp ? '1fr' : '1.12fr 0.88fr',
         gap: 0,
+        height: pinnedSequence ? '300vh' : undefined,
         minHeight: pdpAtmosphereTheme ? '100vh' : 'calc(100vh - 92px)',
         background: heroOverlayPdp
           ? C.black
@@ -6145,6 +6146,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
             ? `linear-gradient(90deg, rgba(244,235,221,0.10) 0%, rgba(244,235,221,0.20) 46%, rgba(36,23,15,0.12) 100%), url('${pdpAtmosphereTheme.background}') center center / cover no-repeat`
             : C.cream,
       }}>
+        <div style={pinnedSequence ? { position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' } : { display: 'contents' }}>
         {pdpAtmosphereTheme && !heroOverlayPdp && (
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(245,240,232,0.04) 0%, rgba(245,240,232,0.22) 48%, rgba(36,23,15,0.18) 100%)', pointerEvents: 'none' }} />
         )}
@@ -6160,14 +6162,10 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
           boxSizing: 'border-box',
         }}>
           {treatmentScrollSequence ? (
-            treatmentScrollFrames.map((frame, frameIndex) => (
-              <motion.img key={frame} className="mave-pdp-hero-image" src={frame} alt={product.name}
-                initial={false}
-                animate={{ opacity: sequenceFrameIndex === frameIndex ? 1 : 0, scale: sequenceFrameIndex === frameIndex ? 1 : 1.012 }}
-                transition={{ duration: 0.34, ease: [0.23, 1, 0.32, 1] }}
-                onClick={() => setLightbox(true)}
-                style={{ ...heroImageStyle, pointerEvents: sequenceFrameIndex === frameIndex ? 'auto' : 'none' }} />
-            ))
+            <img className="mave-pdp-hero-image" src={sequenceHeroImage} alt={product.name}
+              decoding="sync"
+              onClick={() => setLightbox(true)}
+              style={heroImageStyle} />
           ) : (
             <motion.img key={activeImage} className="mave-pdp-hero-image" src={activeImage} alt={product.name}
               initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }}
@@ -6264,6 +6262,7 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
               </button>
             ))}
           </div>
+        </div>
         </div>
       </section>
 
@@ -9060,7 +9059,7 @@ const App = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0 }}
-      style={{ background: C.cream, overflowX: 'hidden' }}
+      style={{ background: C.cream, overflowX: 'clip' }}
     >
       <Header
         cartCount={cartCount}
