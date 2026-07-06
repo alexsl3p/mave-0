@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+<div className="mave-orders-footer">
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.56)' }}>All orders are shown.</span>﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -3196,10 +3197,27 @@
     }
     .mave-account-sidebar,
     .mave-account-main { padding: 30px 24px; }
-    .mave-account-nav,
     .mave-account-summary-grid,
     .mave-account-panels,
     .mave-account-mini-benefits { grid-template-columns: 1fr; }
+    .mave-account-sidebar { padding-bottom: 18px; }
+    .mave-account-profile { margin-bottom: 20px; }
+    .mave-account-nav {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mave-account-nav button {
+      flex: 0 0 auto;
+      border: 1px solid rgba(107,87,68,0.2);
+      padding: 10px 14px;
+      white-space: nowrap;
+    }
+    .mave-account-nav button span { display: none; }
+    .mave-account-logout { margin-top: 12px; }
     .mave-routine-guide-page { padding-top: 72px !important; }
     .mave-routine-guide-inner {
       width: 100% !important;
@@ -3593,6 +3611,8 @@ const viewFromUrl = () => {
   if (window.location.pathname === '/addresses') return 'addresses';
   if (window.location.pathname === '/payment-methods') return 'paymentMethods';
   if (window.location.pathname === '/wishlist') return 'wishlist';
+  if (window.location.pathname === '/rewards') return 'rewards';
+  if (window.location.pathname === '/notifications') return 'notifications';
   if (window.location.pathname === '/checkout/contact') return 'checkoutContact';
   if (window.location.pathname === '/checkout/delivery') return 'checkoutDelivery';
   if (window.location.pathname === '/checkout/payment') return 'checkoutPayment';
@@ -3667,6 +3687,16 @@ const setViewUrl = view => {
   }
   if (view === 'wishlist') {
     url.pathname = '/wishlist';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'rewards') {
+    url.pathname = '/rewards';
+    window.history.pushState({}, '', url);
+    return;
+  }
+  if (view === 'notifications') {
+    url.pathname = '/notifications';
     window.history.pushState({}, '', url);
     return;
   }
@@ -7109,14 +7139,14 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const summary = [
     ['box', 'Total orders', '12', 'View all orders', onOrders],
     ['truck', 'Next order', 'In progress', 'Track your order', onOrders],
-    ['sparkle', 'Bonus points', '320', 'View rewards', onWishlist],
+    ['sparkle', 'Bonus points', '320', 'View rewards', () => { window.location.href = '/rewards'; }],
     ['heart', 'Wishlist items', '8', 'Go to wishlist', onWishlist],
   ];
   const orders = [
@@ -7153,7 +7183,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7255,7 +7285,7 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
                   ))}
                 </div>
               </div>
-              <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Learn more about our rewards →</button>
+              <button type="button" style={{ marginTop: 20, background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }} onClick={() => { window.location.href = '/rewards'; }}>Learn more about our rewards →</button>
             </motion.section>
           </div>
         </div>
@@ -7266,15 +7296,26 @@ const AccountDashboardPage = ({ onBack, onOrders, onProfile, onAddresses, onPaym
 };
 
 const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaymentMethods, onWishlist }) => {
+  const [activeTab, setActiveTab] = React.useState('All orders');
+  const [orderQuery, setOrderQuery] = React.useState('');
+  const orderAction = (action, order) => {
+    if (action === 'View order' || action === 'Track') return onOrderDetail;
+    if (action === 'Reorder') return () => {
+      const seed = parseInt(String(order).replace(/\D/g, ''), 10) || 0;
+      const product = PRODUCTS[seed % PRODUCTS.length];
+      window.dispatchEvent(new CustomEvent('mave-add-product', { detail: { id: product.id } }));
+    };
+    return undefined;
+  };
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders'],
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const rows = [
     ['#1045', 'May 16, 2026', ['/assets/orders-product-set.webp', '/assets/primary.webp'], '+1', 'Delivered', '€89,00', ['View order', 'Reorder']],
@@ -7307,7 +7348,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7324,20 +7365,20 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
               <div className="mave-orders-help-copy">
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.2, color: C.black, marginBottom: 20 }}>Need help with your order?</h2>
                 <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.7, color: 'rgba(26,20,16,0.62)', marginBottom: 24 }}>Our support team is here for you.</p>
-                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
+                <button type="button" onClick={() => { window.location.href = '/contact'; }} style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
               </div>
             </div>
           </div>
 
           <div className="mave-orders-controls">
             <div className="mave-orders-tabs">
-              {['All orders', 'In progress', 'Delivered', 'Cancelled'].map((tab, index) => (
-                <button key={tab} type="button" className={`mave-orders-tab ${index === 0 ? 'is-active' : ''}`}>{tab}</button>
+              {['All orders', 'In progress', 'Delivered', 'Cancelled'].map(tab => (
+                <button key={tab} type="button" onClick={() => setActiveTab(tab)} className={`mave-orders-tab ${activeTab === tab ? 'is-active' : ''}`}>{tab}</button>
               ))}
             </div>
             <label className="mave-orders-search">
               <AccountLineIcon type="search" size={17} />
-              <input type="search" placeholder="Search by order number or product" />
+              <input type="search" placeholder="Search by order number" value={orderQuery} onChange={event => setOrderQuery(event.target.value)} />
             </label>
           </div>
 
@@ -7347,7 +7388,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
                 <span key={label} style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' }}>{label}</span>
               ))}
             </div>
-            {rows.map(([order, date, items, more, status, total, actions]) => (
+            {rows.filter(([order, , , , status]) => (activeTab === 'All orders' || status === activeTab) && (!orderQuery.trim() || order.toLowerCase().includes(orderQuery.trim().toLowerCase()))).map(([order, date, items, more, status, total, actions]) => (
               <div className="mave-orders-row" key={order}>
                 <strong style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 27, fontWeight: 400, color: C.black }}>{order}</strong>
                 <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: 'rgba(26,20,16,0.72)' }}>{date}</span>
@@ -7361,7 +7402,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
                   {actions.map((action, index) => (
                     <React.Fragment key={action}>
                       {index > 0 && <span style={{ color: 'rgba(107,87,68,0.38)' }}>|</span>}
-                      <button type="button" onClick={action === 'View order' ? onOrderDetail : undefined} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>{action}</button>
+                      <button type="button" onClick={orderAction(action, order)} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(107,87,68,0.34)', color: C.goldD, cursor: 'pointer', padding: '0 0 3px', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300 }}>{action}</button>
                     </React.Fragment>
                   ))}
                 </div>
@@ -7393,9 +7434,9 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.72)' };
@@ -7440,7 +7481,7 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7557,15 +7598,20 @@ const OrderDetailPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaym
 };
 
 const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaymentMethods, onWishlist }) => {
+  const [savedKey, setSavedKey] = React.useState('');
+  const flashSaved = key => {
+    setSavedKey(key);
+    setTimeout(() => setSavedKey(''), 1600);
+  };
   const nav = [
     ['home', 'Dashboard', onDashboard],
     ['orders', 'Orders', onOrders],
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.66)' };
   const checkText = { fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.72)' };
@@ -7599,7 +7645,7 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7645,14 +7691,14 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
                 <span style={checkText}>Subscribe to our newsletter and updates</span>
               </label>
               <div className="mave-profile-card-actions">
-                <button type="button" className="mave-profile-button">Save changes</button>
+                <button type="button" className="mave-profile-button" onClick={() => flashSaved('profile')}>{savedKey === 'profile' ? 'Saved' : 'Save changes'}</button>
               </div>
             </section>
 
             <div className="mave-profile-side">
               <section className="mave-profile-card" aria-label="Password">
                 <span style={{ ...tiny, display: 'block', marginBottom: 18 }}>Password</span>
-                <form onSubmit={event => event.preventDefault()}>
+                <form onSubmit={event => { event.preventDefault(); flashSaved('password'); }}>
                   <input
                     type="email"
                     name="username"
@@ -7675,7 +7721,7 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
                     ))}
                   </div>
                   <div className="mave-profile-card-actions" style={{ marginTop: 16 }}>
-                    <button type="submit" className="mave-profile-button">Update password</button>
+                    <button type="submit" className="mave-profile-button">{savedKey === 'password' ? 'Updated' : 'Update password'}</button>
                   </div>
                 </form>
               </section>
@@ -7693,7 +7739,7 @@ const ProfileSettingsPage = ({ onDashboard, onOrders, onProfile, onAddresses, on
                   </label>
                 </div>
                 <div className="mave-profile-card-actions" style={{ marginTop: 30 }}>
-                  <button type="button" className="mave-profile-button">Save preferences</button>
+                  <button type="button" className="mave-profile-button" onClick={() => flashSaved('prefs')}>{savedKey === 'prefs' ? 'Saved' : 'Save preferences'}</button>
                 </div>
               </section>
             </div>
@@ -7712,15 +7758,46 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile, onPaymentMethods, onW
     ['pin', 'Addresses'],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
-  const addresses = [
-    ['home', 'Home', 'Alessandra Rossi', 'Brivibas iela 52, Riga', 'LV-1010, Latvia', '+371 20 123 456', true],
-    ['orders', 'Work', 'Alessandra Rossi', 'Elizabetes iela 15, Riga', 'LV-1050, Latvia', '+371 20 123 456', false],
-    ['profile', "Parents' house", 'Alessandra Rossi', 'Meza prospekts 14, Jurmala', 'LV-2015, Latvia', '+371 20 123 456', false],
+  const defaultAddresses = [
+    { icon: 'home', title: 'Home', name: 'Alessandra Rossi', street: 'Brivibas iela 52, Riga', city: 'LV-1010, Latvia', phone: '+371 20 123 456', isDefault: true },
+    { icon: 'orders', title: 'Work', name: 'Alessandra Rossi', street: 'Elizabetes iela 15, Riga', city: 'LV-1050, Latvia', phone: '+371 20 123 456', isDefault: false },
+    { icon: 'profile', title: "Parents' house", name: 'Alessandra Rossi', street: 'Meza prospekts 14, Jurmala', city: 'LV-2015, Latvia', phone: '+371 20 123 456', isDefault: false },
   ];
+  const [addresses, setAddresses] = React.useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('mave-addresses') || 'null');
+      if (Array.isArray(saved) && saved.length) return saved;
+    } catch { /* corrupted storage falls back to defaults */ }
+    return defaultAddresses;
+  });
+  const [editing, setEditing] = React.useState(null);
+  const [draft, setDraft] = React.useState(null);
+  const persistAddresses = list => {
+    setAddresses(list);
+    try { localStorage.setItem('mave-addresses', JSON.stringify(list)); } catch { /* ignore */ }
+  };
+  const startEdit = index => { setEditing(index); setDraft({ ...addresses[index] }); };
+  const startAdd = () => { setEditing('new'); setDraft({ icon: 'pin', title: '', name: 'Alessandra Rossi', street: '', city: '', phone: '', isDefault: addresses.length === 0 }); };
+  const cancelEdit = () => { setEditing(null); setDraft(null); };
+  const saveDraft = () => {
+    if (!draft || !draft.title.trim() || !draft.street.trim()) return;
+    const list = editing === 'new' ? [...addresses, draft] : addresses.map((item, i) => i === editing ? draft : item);
+    persistAddresses(list);
+    cancelEdit();
+  };
+  const removeAddress = index => {
+    const list = addresses.filter((_, i) => i !== index);
+    if (list.length && !list.some(a => a.isDefault)) list[0] = { ...list[0], isDefault: true };
+    persistAddresses(list);
+    cancelEdit();
+  };
+  const makeDefault = index => persistAddresses(addresses.map((item, i) => ({ ...item, isDefault: i === index })));
+  const addressFields = [['Title', 'title'], ['Full name', 'name'], ['Street', 'street'], ['City and country', 'city'], ['Phone', 'phone']];
+  const editField = { width: '100%', background: 'transparent', border: 0, borderBottom: '1px solid rgba(107,87,68,0.32)', padding: '8px 0', fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: C.black, outline: 'none', marginBottom: 12 };
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, color: 'rgba(26,20,16,0.72)' };
 
   return (
@@ -7745,7 +7822,7 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile, onPaymentMethods, onW
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7762,41 +7839,73 @@ const AddressesPage = ({ onDashboard, onOrders, onProfile, onPaymentMethods, onW
               <div className="mave-addresses-help-copy">
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 20 }}>Need help with delivery?</h2>
                 <p style={{ ...body, fontSize: 12, marginBottom: 24 }}>Our support team is here for you.</p>
-                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
+                <button type="button" onClick={() => { window.location.href = '/contact'; }} style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 500 }}>Contact us →</button>
               </div>
             </div>
           </div>
 
           <div className="mave-addresses-toolbar">
-            <button type="button" className="mave-address-add-button">Add new address <span style={{ fontSize: 28, fontWeight: 200 }}>+</span></button>
+            <button type="button" className="mave-address-add-button" onClick={startAdd}>Add new address <span style={{ fontSize: 28, fontWeight: 200 }}>+</span></button>
           </div>
 
           <div className="mave-addresses-grid">
-            {addresses.map(([icon, title, name, street, city, phone, isDefault]) => (
-              <article className={`mave-address-card ${isDefault ? 'is-default' : ''}`} key={title}>
-                {isDefault && <span className="mave-address-badge">Default</span>}
-                {isDefault && <span className="mave-address-check">✓</span>}
-                <div className="mave-address-icon-disc"><AccountLineIcon type={icon} size={30} /></div>
-                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 29, fontWeight: 400, color: C.black, marginBottom: 16 }}>{title}</h2>
-                <p style={body}>{name}<br />{street}<br />{city}</p>
-                <p style={{ ...body, marginTop: 14 }}>{phone}</p>
+            {addresses.map((address, index) => editing === index ? (
+              <article className="mave-address-card" key={`edit-${index}`}>
+                <div className="mave-address-icon-disc"><AccountLineIcon type={address.icon} size={30} /></div>
+                {addressFields.map(([label, key]) => (
+                  <input key={key} aria-label={label} placeholder={label} value={draft[key]} onChange={event => setDraft({ ...draft, [key]: event.target.value })} style={editField} />
+                ))}
                 <div className="mave-address-actions">
-                  <button type="button" className="mave-address-link">Edit</button>
+                  <button type="button" className="mave-address-link" onClick={saveDraft}>Save</button>
                   <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
-                  <button type="button" className="mave-address-link">Delete</button>
+                  <button type="button" className="mave-address-link" onClick={cancelEdit}>Cancel</button>
+                </div>
+              </article>
+            ) : (
+              <article className={`mave-address-card ${address.isDefault ? 'is-default' : ''}`} key={`${address.title}-${index}`}>
+                {address.isDefault && <span className="mave-address-badge">Default</span>}
+                {address.isDefault && <span className="mave-address-check">✓</span>}
+                <div className="mave-address-icon-disc"><AccountLineIcon type={address.icon} size={30} /></div>
+                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 29, fontWeight: 400, color: C.black, marginBottom: 16 }}>{address.title}</h2>
+                <p style={body}>{address.name}<br />{address.street}<br />{address.city}</p>
+                <p style={{ ...body, marginTop: 14 }}>{address.phone}</p>
+                <div className="mave-address-actions">
+                  <button type="button" className="mave-address-link" onClick={() => startEdit(index)}>Edit</button>
+                  <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
+                  <button type="button" className="mave-address-link" onClick={() => removeAddress(index)}>Delete</button>
+                  {!address.isDefault && (
+                    <>
+                      <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
+                      <button type="button" className="mave-address-link" onClick={() => makeDefault(index)}>Set default</button>
+                    </>
+                  )}
                 </div>
               </article>
             ))}
-            <button type="button" className="mave-address-card mave-address-empty" aria-label="Add new address">
-              <span className="mave-address-empty-plus">+</span>
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300 }}>Add new address</span>
-            </button>
+            {editing === 'new' ? (
+              <article className="mave-address-card" key="new-address">
+                <div className="mave-address-icon-disc"><AccountLineIcon type="pin" size={30} /></div>
+                {addressFields.map(([label, key]) => (
+                  <input key={key} aria-label={label} placeholder={label} value={draft[key]} onChange={event => setDraft({ ...draft, [key]: event.target.value })} style={editField} />
+                ))}
+                <div className="mave-address-actions">
+                  <button type="button" className="mave-address-link" onClick={saveDraft}>Save</button>
+                  <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
+                  <button type="button" className="mave-address-link" onClick={cancelEdit}>Cancel</button>
+                </div>
+              </article>
+            ) : (
+              <button type="button" className="mave-address-card mave-address-empty" aria-label="Add new address" onClick={startAdd}>
+                <span className="mave-address-empty-plus">+</span>
+                <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300 }}>Add new address</span>
+              </button>
+            )}
           </div>
 
           <div className="mave-address-info">
             <span className="mave-address-info-icon">i</span>
             <span style={{ ...body, fontSize: 13 }}>Need to make changes? You can add, edit or remove your addresses anytime.</span>
-            <button type="button" className="mave-address-link" style={{ whiteSpace: 'nowrap' }}>Learn more →</button>
+            <button type="button" className="mave-address-link" style={{ whiteSpace: 'nowrap' }} onClick={() => { window.location.href = '/shipping'; }}>Learn more →</button>
           </div>
         </div>
       </section>
@@ -7812,9 +7921,9 @@ const WishlistPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPayment
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods', onPaymentMethods],
     ['heart', 'Wishlist'],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.7, color: 'rgba(26,20,16,0.68)' };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' };
@@ -7849,7 +7958,7 @@ const WishlistPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPayment
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7925,17 +8034,42 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
     ['pin', 'Addresses', onAddresses],
     ['lock', 'Payment methods'],
     ['heart', 'Wishlist', onWishlist],
-    ['sparkle', 'Bonus & rewards'],
-    ['envelope', 'Notifications'],
-    ['profile', 'Support'],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
   ];
   const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)' };
   const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' };
-  const methods = [
-    ['Visa', '4242', '05 / 28', 'Alessandra Rossi', 'Brivibas iela 52, Riga', true],
-    ['Mastercard', '1188', '11 / 27', 'Alessandra Rossi', 'Elizabetes iela 15, Riga', false],
-    ['Apple Pay', 'Connected', 'Wallet', 'Alessandra Rossi', 'Primary device', false],
+  const defaultMethods = [
+    { network: 'Visa', ending: '4242', expiry: '05 / 28', name: 'Alessandra Rossi', address: 'Brivibas iela 52, Riga', isDefault: true },
+    { network: 'Mastercard', ending: '1188', expiry: '11 / 27', name: 'Alessandra Rossi', address: 'Elizabetes iela 15, Riga', isDefault: false },
+    { network: 'Apple Pay', ending: 'Connected', expiry: 'Wallet', name: 'Alessandra Rossi', address: 'Primary device', isDefault: false },
   ];
+  const [methods, setMethods] = React.useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('mave-payment-methods') || 'null');
+      if (Array.isArray(saved) && saved.length) return saved;
+    } catch { /* corrupted storage falls back to defaults */ }
+    return defaultMethods;
+  });
+  const persistMethods = list => {
+    setMethods(list);
+    try { localStorage.setItem('mave-payment-methods', JSON.stringify(list)); } catch { /* ignore */ }
+  };
+  const removeMethod = index => {
+    const list = methods.filter((_, i) => i !== index);
+    if (list.length && !list.some(m => m.isDefault)) list[0] = { ...list[0], isDefault: true };
+    persistMethods(list);
+  };
+  const makeDefaultMethod = index => persistMethods(methods.map((item, i) => ({ ...item, isDefault: i === index })));
+  const addMethod = () => persistMethods([...methods, {
+    network: 'Visa',
+    ending: String(1000 + Math.floor(Math.random() * 9000)),
+    expiry: '09 / 29',
+    name: 'Alessandra Rossi',
+    address: 'Brivibas iela 52, Riga',
+    isDefault: methods.length === 0,
+  }]);
 
   return (
     <main className="mave-account-page">
@@ -7959,7 +8093,7 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
               </button>
             ))}
           </nav>
-          <button type="button" className="mave-account-logout">
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
             <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
             Log out
           </button>
@@ -7977,49 +8111,47 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
                 <span style={{ ...tiny, display: 'block', marginBottom: 15 }}>Secure by default</span>
                 <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 27, fontWeight: 300, fontStyle: 'italic', lineHeight: 1.18, color: C.black, marginBottom: 18 }}>Details ready only when needed.</h2>
                 <p style={{ ...body, fontSize: 12, marginBottom: 22 }}>Encrypted payment details help keep checkout quiet and simple.</p>
-                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Security details →</button>
+                <button type="button" style={{ background: 'none', border: 0, color: C.black, cursor: 'pointer', padding: 0, fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }} onClick={() => { window.location.href = '/privacy'; }}>Security details →</button>
               </div>
             </div>
           </div>
 
           <div className="mave-payment-toolbar">
-            <button type="button" className="mave-address-add-button">Add new card <span style={{ fontSize: 28, fontWeight: 200 }}>+</span></button>
+            <button type="button" className="mave-address-add-button" onClick={addMethod}>Add new card <span style={{ fontSize: 28, fontWeight: 200 }}>+</span></button>
           </div>
 
           <section className="mave-payment-grid" aria-label="Saved payment methods">
-            {methods.map(([network, ending, expiry, name, address, isDefault]) => (
-              <article className={`mave-payment-card ${isDefault ? 'is-default' : ''}`} key={`${network}-${ending}`}>
+            {methods.map((method, index) => (
+              <article className={`mave-payment-card ${method.isDefault ? 'is-default' : ''}`} key={`${method.network}-${method.ending}-${index}`}>
                 <div className="mave-payment-brand">
                   <div className="mave-payment-chip" />
-                  {isDefault ? <span className="mave-payment-badge">Default</span> : <span className="mave-payment-network">{network}</span>}
+                  {method.isDefault ? <span className="mave-payment-badge">Default</span> : <span className="mave-payment-network">{method.network}</span>}
                 </div>
-                <span className="mave-payment-network">{network}</span>
-                <h2 className="mave-payment-number">{ending === 'Connected' ? 'Apple Pay' : `**** **** ${ending}`}</h2>
+                <span className="mave-payment-network">{method.network}</span>
+                <h2 className="mave-payment-number">{method.ending === 'Connected' ? 'Apple Pay' : `**** **** ${method.ending}`}</h2>
                 <div className="mave-payment-meta">
                   <div>
                     <span style={{ ...tiny, display: 'block', fontSize: 9, marginBottom: 7 }}>Card holder</span>
-                    <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{name}</p>
+                    <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{method.name}</p>
                   </div>
                   <div>
                     <span style={{ ...tiny, display: 'block', fontSize: 9, marginBottom: 7 }}>Expires</span>
-                    <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{expiry}</p>
+                    <p style={{ ...body, fontSize: 12, lineHeight: 1.45 }}>{method.expiry}</p>
                   </div>
                 </div>
-                <p style={{ ...body, fontSize: 12 }}>{address}</p>
+                <p style={{ ...body, fontSize: 12 }}>{method.address}</p>
                 <div className="mave-payment-actions">
-                  <button type="button" className="mave-address-link">Edit</button>
-                  {!isDefault && (
+                  {!method.isDefault && (
                     <>
+                      <button type="button" className="mave-address-link" onClick={() => makeDefaultMethod(index)}>Set default</button>
                       <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
-                      <button type="button" className="mave-address-link">Set default</button>
                     </>
                   )}
-                  <span style={{ color: 'rgba(107,87,68,0.34)' }}>|</span>
-                  <button type="button" className="mave-address-link">Remove</button>
+                  <button type="button" className="mave-address-link" onClick={() => removeMethod(index)}>Remove</button>
                 </div>
               </article>
             ))}
-            <button type="button" className="mave-payment-card mave-payment-empty" aria-label="Add payment method">
+            <button type="button" className="mave-payment-card mave-payment-empty" aria-label="Add payment method" onClick={addMethod}>
               <span className="mave-payment-empty-plus">+</span>
               <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300 }}>Add payment method</span>
             </button>
@@ -8027,8 +8159,8 @@ const PaymentMethodsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onW
 
           <div className="mave-payment-info">
             <span className="mave-address-info-icon">i</span>
-            <span style={body}>Need to update billing? You can add, edit, remove, or choose a default payment method anytime.</span>
-            <button type="button" className="mave-address-link" style={{ whiteSpace: 'nowrap' }}>Learn more →</button>
+            <span style={body}>Need to update billing? You can add, remove, or choose a default payment method anytime.</span>
+            <button type="button" className="mave-address-link" style={{ whiteSpace: 'nowrap' }} onClick={() => { window.location.href = '/privacy'; }}>Learn more →</button>
           </div>
         </div>
       </section>
@@ -8097,6 +8229,183 @@ const CheckoutSummary = ({ items, cta = 'delivery', editStyle, deliveryFee = nul
   );
 };
 
+
+const RewardsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaymentMethods, onWishlist }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders', onOrders],
+    ['pin', 'Addresses', onAddresses],
+    ['lock', 'Payment methods', onPaymentMethods],
+    ['heart', 'Wishlist', onWishlist],
+    ['sparkle', 'Bonus & rewards'],
+    ['envelope', 'Notifications', () => { window.location.href = '/notifications'; }],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
+  ];
+  const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)' };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' };
+  const card = { border: '1px solid rgba(107,87,68,0.16)', background: 'rgba(245,240,232,0.66)', padding: 30 };
+  const points = 320;
+  const nextTier = 500;
+  const rules = [
+    'Every euro spent adds one point.',
+    'Points unlock member prices and early access.',
+    'Tiers are reviewed once every twelve months.',
+  ];
+  const perks = [
+    ['tag', 'Exclusive offers'],
+    ['sparkle', 'Early access to new products'],
+    ['box', 'Refill rewards'],
+    ['truck', 'Free shipping over €60'],
+  ];
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Bonus and rewards">
+        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.webp" alt="" /></div>
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 5 ? 'is-active' : ''}>
+                <span style={{ color: index === 5 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+        <div className="mave-account-main">
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(52px,4.6vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 24 }}>Rewards<span style={{ color: C.gold }}>.</span></h1>
+          <p style={{ ...body, fontSize: 15, maxWidth: 420, marginBottom: 40 }}>Your tier, points, and member benefits in one place.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22, marginBottom: 26 }}>
+            <div style={card}>
+              <span style={{ ...tiny, display: 'block', marginBottom: 16 }}>Your tier</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
+                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 40, fontWeight: 300, color: C.black }}>Gold</span>
+                <span style={{ ...body, fontSize: 12 }}>{points} points</span>
+              </div>
+              <div style={{ height: 3, background: 'rgba(200,169,110,0.22)', marginBottom: 12 }}>
+                <div style={{ height: 3, width: `${Math.min(100, Math.round(points / nextTier * 100))}%`, background: C.gold }} />
+              </div>
+              <p style={{ ...body, fontSize: 12 }}>{nextTier - points} points to Platinum.</p>
+            </div>
+            <div style={card}>
+              <span style={{ ...tiny, display: 'block', marginBottom: 16 }}>How points work</span>
+              {rules.map(rule => (
+                <p key={rule} style={{ ...body, fontSize: 13, borderTop: '1px solid rgba(107,87,68,0.12)', padding: '12px 0 0', marginBottom: 12 }}>{rule}</p>
+              ))}
+            </div>
+          </div>
+          <div style={{ ...card, marginBottom: 26 }}>
+            <span style={{ ...tiny, display: 'block', marginBottom: 20 }}>Gold benefits</span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 18 }}>
+              {perks.map(([icon, label]) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <span style={{ color: C.goldD }}><AccountLineIcon type={icon} size={22} /></span>
+                  <span style={{ ...body, fontSize: 12 }}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <button type="button" onClick={() => { window.location.href = '/collections'; }} style={{ padding: '15px 34px', background: C.black, color: C.gold, border: 0, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.28em', textTransform: 'uppercase' }}>Use your benefits →</button>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
+const NotificationsPage = ({ onDashboard, onOrders, onProfile, onAddresses, onPaymentMethods, onWishlist }) => {
+  const nav = [
+    ['home', 'Dashboard', onDashboard],
+    ['orders', 'Orders', onOrders],
+    ['pin', 'Addresses', onAddresses],
+    ['lock', 'Payment methods', onPaymentMethods],
+    ['heart', 'Wishlist', onWishlist],
+    ['sparkle', 'Bonus & rewards', () => { window.location.href = '/rewards'; }],
+    ['envelope', 'Notifications'],
+    ['profile', 'Support', () => { window.location.href = '/contact'; }],
+  ];
+  const body = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.72, color: 'rgba(26,20,16,0.68)' };
+  const tiny = { fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,20,16,0.62)' };
+  const defaults = { productNotes: true, replenishment: true, privateOffers: false };
+  const [prefs, setPrefs] = React.useState(() => {
+    try { return { ...defaults, ...(JSON.parse(localStorage.getItem('mave-notifications') || 'null') || {}) }; }
+    catch { return defaults; }
+  });
+  const toggle = key => {
+    const next = { ...prefs, [key]: !prefs[key] };
+    setPrefs(next);
+    try { localStorage.setItem('mave-notifications', JSON.stringify(next)); } catch { /* ignore */ }
+  };
+  const rows = [
+    ['orderUpdates', 'Order updates', 'Delivery and payment messages. Always on.', true],
+    ['productNotes', 'Product notes', 'Short notes when a formula is updated or restocked.', false],
+    ['replenishment', 'Replenishment reminders', 'A reminder when your product is likely running low.', false],
+    ['privateOffers', 'Private offers', 'Member prices and early access windows.', false],
+  ];
+  return (
+    <main className="mave-account-page">
+      <section className="mave-account-layout" aria-label="Notifications">
+        <div className="mave-account-bg-strip"><img src="/assets/addresses-bg.webp" alt="" /></div>
+        <aside className="mave-account-sidebar">
+          <div className="mave-account-profile">
+            <div className="mave-account-avatar"><img src="/assets/account-avatar.webp" alt="Alessandra" /></div>
+            <div>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 500, color: C.black, marginBottom: 5 }}>Alessandra</h2>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 300, color: 'rgba(26,20,16,0.58)', marginBottom: 7 }}>alessandra@mail.com</p>
+              <button type="button" onClick={onProfile} style={{ background: 'none', border: 0, borderBottom: '1px solid rgba(200,169,110,0.56)', color: C.goldD, cursor: 'pointer', padding: '0 0 4px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400 }}>Edit profile</button>
+            </div>
+          </div>
+          <nav className="mave-account-nav" aria-label="Account navigation">
+            {nav.map(([icon, label, action], index) => (
+              <button key={label} type="button" onClick={action} className={index === 6 ? 'is-active' : ''}>
+                <span style={{ color: index === 6 ? C.gold : 'rgba(26,20,16,0.52)' }}><AccountLineIcon type={icon} size={20} /></span>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <button type="button" className="mave-account-logout" onClick={() => { window.location.href = '/'; }}>
+            <span style={{ color: 'rgba(26,20,16,0.52)' }}><AccountLineIcon type="pin" size={20} /></span>
+            Log out
+          </button>
+        </aside>
+        <div className="mave-account-main">
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(52px,4.6vw,74px)', fontWeight: 300, fontStyle: 'italic', lineHeight: 1, color: C.black, marginBottom: 24 }}>Notifications<span style={{ color: C.gold }}>.</span></h1>
+          <p style={{ ...body, fontSize: 15, maxWidth: 420, marginBottom: 40 }}>Choose what reaches you. Changes apply immediately.</p>
+          <div style={{ border: '1px solid rgba(107,87,68,0.16)', background: 'rgba(245,240,232,0.66)', maxWidth: 640 }}>
+            {rows.map(([key, label, note, locked]) => (
+              <label key={key} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 20, alignItems: 'center', padding: '22px 28px', borderBottom: '1px solid rgba(107,87,68,0.12)', cursor: locked ? 'default' : 'pointer' }}>
+                <span>
+                  <span style={{ ...tiny, display: 'block', marginBottom: 7 }}>{label}</span>
+                  <span style={{ ...body, fontSize: 12 }}>{note}</span>
+                </span>
+                <input
+                  type="checkbox"
+                  checked={locked ? true : Boolean(prefs[key])}
+                  disabled={locked}
+                  onChange={() => !locked && toggle(key)}
+                  style={{ width: 17, height: 17, accentColor: C.gold, cursor: locked ? 'default' : 'pointer' }}
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
 const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
   const loggedIn = mode === 'loggedin';
   const muted = { fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, color: 'rgba(26,20,16,0.68)', lineHeight: 1.65 };
@@ -8122,7 +8431,7 @@ const CheckoutContactPage = ({ onLogin, mode = 'guest' }) => {
         <div className="mave-checkout-steps" aria-label="Checkout progress">
           {[
             ['1', 'Contact', true],
-            ['2', 'Shipping', false],
+            ['2', 'Delivery', false],
             ['3', 'Payment', false],
             ['4', 'Review', false],
           ].map(([num, label, active], index, arr) => (
@@ -8252,7 +8561,7 @@ const CheckoutDeliveryPage = ({ mode = 'guest' }) => {
         <div className="mave-checkout-steps" aria-label="Checkout progress">
           {[
             ['1', 'Contact', false],
-            ['2', 'Shipping', true],
+            ['2', 'Delivery', true],
             ['3', 'Payment', false],
             ['4', 'Review', false],
           ].map(([num, label, active], index, arr) => (
@@ -8389,7 +8698,7 @@ const CheckoutPaymentPage = ({ mode = 'guest' }) => {
         <div className="mave-checkout-steps" aria-label="Checkout progress">
           {[
             ['1', 'Contact', false],
-            ['2', 'Shipping', false],
+            ['2', 'Delivery', false],
             ['3', 'Payment', true],
             ['4', 'Review', false],
           ].map(([num, label, active], index, arr) => (
@@ -8512,7 +8821,7 @@ const CheckoutReviewPage = ({ mode = 'guest' }) => {
         <div className="mave-checkout-steps" aria-label="Checkout progress">
           {[
             ['1', 'Contact', false],
-            ['2', 'Shipping', false],
+            ['2', 'Delivery', false],
             ['3', 'Payment', false],
             ['4', 'Review', true],
           ].map(([num, label, active], index, arr) => (
@@ -9062,7 +9371,7 @@ const App = () => {
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
         onSearchOpen={openSearch}
-        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'terms' || view === 'login' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'rewards' || view === 'notifications' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'terms' || view === 'login' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
@@ -9081,6 +9390,10 @@ const App = () => {
         <PaymentMethodsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onWishlist={openWishlist} />
       ) : view === 'wishlist' ? (
         <WishlistPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onPaymentMethods={openPaymentMethods} onSelect={openProduct} />
+      ) : view === 'rewards' ? (
+        <RewardsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onPaymentMethods={openPaymentMethods} onWishlist={openWishlist} />
+      ) : view === 'notifications' ? (
+        <NotificationsPage onDashboard={openAccount} onOrders={openOrders} onProfile={openProfile} onAddresses={openAddresses} onPaymentMethods={openPaymentMethods} onWishlist={openWishlist} />
       ) : view === 'routineGuide' ? (
         <RoutineGuidePage onBack={openLanding} onSelect={openProduct} onAdd={addToCart} />
       ) : view === 'checkoutContact' ? (
