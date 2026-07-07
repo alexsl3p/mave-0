@@ -4764,23 +4764,23 @@ const FeaturedProducts = ({ onSelect }) => {
   const textY = useTransform(scrollY, [0, 1000], [0, -20]);
 
   return (
-  <section className="mave-section-dark" style={{ position: 'relative', overflow: 'hidden', padding: '96px 80px 88px', background: C.black }}>
-    <motion.div style={{ y: backgroundY, position: 'absolute', inset: '0 0 auto 0', height: 300, background: 'radial-gradient(circle at 18% 28%, rgba(200,169,110,0.1), transparent 60%)', pointerEvents: 'none' }} />
+  <section className="mave-section" style={{ position: 'relative', overflow: 'hidden', padding: '96px 80px 88px', background: C.cream }}>
+    <motion.div style={{ y: backgroundY, position: 'absolute', inset: '0 0 auto 0', height: 300, background: 'radial-gradient(circle at 18% 28%, rgba(200,169,110,0.14), transparent 60%)', pointerEvents: 'none' }} />
     <motion.div style={{ y: textY, position: 'relative', zIndex: 1 }}>
-    <Reveal style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 44 }}>
+    <Reveal style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 28, flexWrap: 'wrap', marginBottom: 52 }}>
       <div>
         <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.32em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 12 }}>Core formulations</span>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,52px)', fontWeight: 300, fontStyle: 'italic', color: C.cream }}>A focused selection.</h2>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.8, letterSpacing: '0.04em', color: 'rgba(245,240,232,0.56)', maxWidth: 520, marginTop: 16 }}>Clear roles. No excess.</p>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(32px,4vw,52px)', fontWeight: 300, fontStyle: 'italic', color: C.black }}>A focused selection.</h2>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, lineHeight: 1.8, letterSpacing: '0.04em', color: C.bark, maxWidth: 520, marginTop: 16 }}>Clear roles. No excess.</p>
       </div>
       <button type="button" onClick={() => { window.location.href = '/collections'; }}
-        style={{ background: 'none', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.6)', color: 'rgba(245,240,232,0.72)', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', padding: '0 0 7px', transition: 'color 200ms ease-out' }}
-        onMouseEnter={e => { e.target.style.color = C.gold; }}
-        onMouseLeave={e => { e.target.style.color = 'rgba(245,240,232,0.72)'; }}
+        style={{ background: 'none', border: 'none', borderBottom: '1px solid rgba(200,169,110,0.6)', color: C.bark, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase', padding: '0 0 7px', transition: 'color 200ms ease-out' }}
+        onMouseEnter={e => { e.target.style.color = C.goldD; }}
+        onMouseLeave={e => { e.target.style.color = C.bark; }}
       >View all formulas →</button>
     </Reveal>
     <div className="mave-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
-      {[PRODUCTS[6], PRODUCTS[8], PRODUCTS[2], PRODUCTS[3]].map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} tone="dark" />)}
+      {[PRODUCTS[6], PRODUCTS[8], PRODUCTS[2], PRODUCTS[3]].map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
     </div>
     </motion.div>
   </section>
