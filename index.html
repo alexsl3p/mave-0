@@ -58,23 +58,23 @@
   .mave-catalog-page::before {
     content: "";
     position: absolute;
-    top: 72px;
+    top: 0;
     left: 0;
     right: 0;
-    height: 840px;
+    height: 912px;
     background-image: url('/assets/collections-hero.webp');
     background-size: 100% auto;
-    background-position: center -225px;
+    background-position: center -153px;
     background-repeat: no-repeat;
     z-index: 0;
   }
   .mave-catalog-page::after {
     content: "";
     position: absolute;
-    top: 72px;
+    top: 0;
     left: 0;
     right: 0;
-    height: 840px;
+    height: 912px;
     background:
       linear-gradient(180deg, rgba(245,240,232,0) 0%, rgba(245,240,232,0) 58%, rgba(245,240,232,0.34) 78%, rgba(245,240,232,0.86) 94%, #F5F0E8 100%),
       linear-gradient(90deg, rgba(245,240,232,0.54) 0%, rgba(245,240,232,0.24) 42%, rgba(245,240,232,0.08) 68%, rgba(245,240,232,0) 100%);
@@ -4169,16 +4169,25 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   const earthHeaderBorder = '1px solid rgba(200,169,110,0.22)';
   const isEarthHeader = menuOpen || megaOpen || navHover || ((surface === 'transparent-light' || surface === 'transparent-dark') && scrolled);
   const onLightSurface = surface === 'light' && !menuOpen && !megaOpen && !navHover;
-  const navText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.82)' : onLightSurface ? 'rgba(26,20,16,0.66)' : 'rgba(245,240,232,0.74)';
-  const actionText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.74)' : onLightSurface ? 'rgba(26,20,16,0.58)' : 'rgba(245,240,232,0.62)';
+  // light-hero: transparent with dark text over a light hero image at top, cream once scrolled
+  const heroLight = surface === 'light-hero';
+  const heroLightTop = heroLight && !scrolled && !menuOpen && !megaOpen && !navHover;
+  const heroLightScrolled = heroLight && scrolled && !menuOpen && !megaOpen && !navHover;
+  const darkText = onLightSurface || (heroLight && !isEarthHeader);
+  const navText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.82)' : darkText ? 'rgba(26,20,16,0.66)' : 'rgba(245,240,232,0.74)';
+  const actionText = isEarthHeader || transparentSurface ? 'rgba(245,240,232,0.74)' : darkText ? 'rgba(26,20,16,0.58)' : 'rgba(245,240,232,0.62)';
   const navBgColor = isEarthHeader
     ? earthHeaderBg
     : onLightSurface
       ? 'rgba(245,240,232,0.94)'
-      : scrolled ? earthHeaderBg : 'transparent';
+      : heroLight
+        ? (scrolled ? 'rgba(245,240,232,0.94)' : 'transparent')
+        : scrolled ? earthHeaderBg : 'transparent';
   const navBgImage = !isEarthHeader && transparentSurface
     ? 'linear-gradient(180deg, rgba(36,23,15,0.26) 0%, rgba(36,23,15,0.08) 62%, rgba(36,23,15,0) 100%)'
-    : 'none';
+    : heroLightTop
+      ? 'linear-gradient(180deg, rgba(245,240,232,0.62) 0%, rgba(245,240,232,0.18) 60%, rgba(245,240,232,0) 100%)'
+      : 'none';
   const navBorder = '1px solid transparent';
 
   const linkSt = {
@@ -4232,7 +4241,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500, height: 72,
           backgroundColor: navBgColor,
           backgroundImage: navBgImage,
-          backdropFilter: isEarthHeader || onLightSurface ? 'blur(14px)' : 'none',
+          backdropFilter: isEarthHeader || onLightSurface || heroLightScrolled ? 'blur(14px)' : 'none',
           borderBottom: navBorder,
           transition: 'background-color 0.7s ease, background-image 0.7s ease, border-color 0.7s ease',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -9381,7 +9390,7 @@ const App = () => {
         onScienceOpen={openScience}
         onAccountOpen={openAccount}
         onSearchOpen={openSearch}
-        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' || view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'rewards' || view === 'notifications' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'terms' || view === 'login' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
+        surface={productPage ? (PDP_ATMOSPHERE_THEMES[productPage.slug]?.header || 'light') : view === 'catalog' || view === 'search' || view === 'searchNoResults' ? 'light-hero' : view === 'account' || view === 'profile' || view === 'orders' || view === 'orderDetail' || view === 'addresses' || view === 'paymentMethods' || view === 'wishlist' || view === 'rewards' || view === 'notifications' || view === 'routineGuide' || view === 'checkoutContact' || view === 'checkoutDelivery' || view === 'checkoutPayment' || view === 'checkoutReview' || view === 'checkoutSuccess' || view === 'checkoutFailed' || view === 'shipping' || view === 'returns' || view === 'contact' || view === 'privacy' || view === 'terms' || view === 'login' || view === 'register' || view === 'forgot' ? 'light' : 'dark'}
         activeView={productPage ? '' : view}
       />
       {productPage ? (
