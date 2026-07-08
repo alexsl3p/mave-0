@@ -1,5 +1,4 @@
-<div className="mave-orders-footer">
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.56)' }}>All orders are shown.</span>﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4180,9 +4179,7 @@ const Header = ({ cartCount, onCartOpen, onCatalogOpen, onHome, onSectionOpen, o
   const navBgImage = !isEarthHeader && transparentSurface
     ? 'linear-gradient(180deg, rgba(36,23,15,0.26) 0%, rgba(36,23,15,0.08) 62%, rgba(36,23,15,0) 100%)'
     : 'none';
-  const navBorder = isEarthHeader || onLightSurface
-    ? earthHeaderBorder
-    : '1px solid transparent';
+  const navBorder = '1px solid transparent';
 
   const linkSt = {
     fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 400,
@@ -4701,32 +4698,32 @@ const EditorialTrio = ({ onSelect }) => {
 };
 
 /* ── PRODUCT CARD ─────────────────────────────────── */
-const ProductCard = ({ product, onSelect, index, onQuickShop, tone = 'light' }) => {
+const ProductCard = ({ product, onSelect, index, onQuickShop }) => {
   const [hov, setHov] = React.useState(false);
-  const dark = tone === 'dark';
-  const nameColor = dark ? C.cream : C.black;
-  const chipBorder = dark ? 'rgba(245,240,232,0.26)' : 'rgba(107,87,68,0.3)';
-  const chipText = dark ? 'rgba(245,240,232,0.66)' : C.gray;
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.85, delay: index * 0.09, ease: [0.4, 0, 0.2, 1] }}
       onClick={() => onSelect(product)}
-      whileTap={{ scale: 0.99 }}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         cursor: 'pointer',
-        background: dark ? 'transparent' : 'rgba(245,240,232,0.86)',
+        background: 'rgba(245,240,232,0.86)',
         position: 'relative',
-        border: `1px solid ${hov ? 'rgba(200,169,110,0.5)' : dark ? 'rgba(245,240,232,0.1)' : 'rgba(107,87,68,0.14)'}`,
-        transition: 'border-color 220ms ease-out',
+        boxShadow: hov ? '0 24px 70px rgba(26,20,16,0.14)' : '0 4px 18px rgba(26,20,16,0.045)',
+        transition: 'box-shadow 700ms cubic-bezier(0.23, 1, 0.32, 1), opacity 700ms cubic-bezier(0.23, 1, 0.32, 1)',
       }}
     >
       <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3/4' }}>
         <motion.img src={product.image} alt={product.name}
-          animate={{ scale: hov ? 1.02 : 1 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          animate={{ scale: hov ? 1.035 : 1, opacity: hov ? 0.92 : 1 }} transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
+        <motion.div
+          animate={{ opacity: hov ? 1 : 0 }}
+          transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+          style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(200,169,110,0.08), rgba(26,20,16,0.08))', pointerEvents: 'none' }}
+        />
         {product.badge && (
           <span style={{ position: 'absolute', top: 18, left: 18, background: 'rgba(26,20,16,0.72)', color: C.gold, fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', padding: '8px 13px', backdropFilter: 'blur(5px)' }}>
             {product.badge}
@@ -4740,15 +4737,15 @@ const ProductCard = ({ product, onSelect, index, onQuickShop, tone = 'light' }) 
           Explore →
         </motion.span>
       </div>
-      <div style={{ padding: '20px 16px 26px' }}>
-        <span style={{ display: 'inline-block', border: `1px solid ${chipBorder}`, padding: '5px 9px', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: chipText, marginBottom: 12 }}>{product.collection}</span>
-        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: nameColor, display: 'block', marginBottom: 10 }}>{product.name}</span>
+      <div style={{ padding: '22px 8px 30px' }}>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 300, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 10 }}>{product.collection}</span>
+        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 10 }}>{product.name}</span>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, letterSpacing: '0.1em', color: nameColor }}>{product.price}</span>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 300, letterSpacing: '0.1em', color: C.black }}>{product.price}</span>
         </div>
         {onQuickShop && (
           <button type="button" onClick={event => { event.stopPropagation(); onQuickShop(product); }}
-            style={{ marginTop: 16, width: '100%', height: 38, border: `1px solid rgba(200,169,110,0.44)`, background: dark ? 'transparent' : 'rgba(245,240,232,0.46)', color: dark ? C.gold : C.goldD, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            style={{ marginTop: 16, width: '100%', height: 38, border: `1px solid rgba(200,169,110,0.44)`, background: 'rgba(245,240,232,0.46)', color: C.goldD, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
             Quick shop
           </button>
         )}
@@ -4779,7 +4776,7 @@ const FeaturedProducts = ({ onSelect }) => {
         onMouseLeave={e => { e.target.style.color = C.bark; }}
       >View all formulas →</button>
     </Reveal>
-    <div className="mave-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+    <div className="mave-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 2 }}>
       {[PRODUCTS[6], PRODUCTS[8], PRODUCTS[2], PRODUCTS[3]].map((p, i) => <ProductCard key={p.id} product={p} onSelect={onSelect} index={i} />)}
     </div>
     </motion.div>
@@ -5560,7 +5557,7 @@ const CatalogPage = ({ onBack, onSelect, onQuickShop }) => {
               <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(46px,5.35vw,76px)', fontWeight: 300, fontStyle: 'italic', color: C.black, lineHeight: 1.02, marginBottom: 20 }}>A focused collection.</h1>
               <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 300, lineHeight: 1.75, letterSpacing: '0.03em', color: C.bark, maxWidth: 500 }}>Clear roles.<br />No excess.</p>
             </div>
-            <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'stretch', paddingBottom: 6 }}>
+            <div className="mave-catalog-controls" style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'stretch', padding: 24, background: 'rgba(245,240,232,0.86)', backdropFilter: 'blur(6px)', border: '1px solid rgba(107,87,68,0.16)' }}>
               <label htmlFor="catalog-search" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.black }}>Search by role</label>
               <input
                 id="catalog-search"
@@ -6042,15 +6039,8 @@ const ProductPage = ({ product, onBack, onAdd, onSelect }) => {
   const pdpAtmosphereTheme = PDP_ATMOSPHERE_THEMES[product.slug] || null;
   const heroOverlayPdp = Boolean(pdpAtmosphereTheme?.heroOverlay);
   const heroOverlayLight = heroOverlayPdp && pdpAtmosphereTheme?.heroOverlayTone === 'light';
-  const treatmentScrollFrames = React.useMemo(() => product.slug === 'molecular-oil-treatment'
-    ? [
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-main.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-01.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-02.webp',
-      '/assets/generated/molecular-oil-treatment-pdp-hero-scene-03.webp',
-    ]
-    : [], [product.slug]);
-  const treatmentScrollSequence = treatmentScrollFrames.length > 1;
+  const treatmentScrollFrames = React.useMemo(() => [], [product.slug]);
+  const treatmentScrollSequence = false;
   const [qty, setQty] = React.useState(1);
   const [tab, setTab] = React.useState('daily');
   const [open, setOpen] = React.useState('ingredients');
@@ -6477,7 +6467,7 @@ const ProductDrawer = ({ product, onClose, onAdd }) => {
             onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(26,20,16,0.55)', zIndex: 600, backdropFilter: 'blur(6px)' }} />
           <motion.div key="dw" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ duration: 0.52, ease: [0.4, 0, 0.2, 1] }}
-            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 601, maxHeight: '86vh', background: C.cream, display: 'grid', gridTemplateColumns: '1fr 1.3fr', borderTop: '1px solid rgba(200,169,110,0.28)' }}>
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 601, maxHeight: '86vh', background: C.cream, display: 'grid', gridTemplateColumns: '1fr 1.3fr', boxShadow: '0 -24px 80px rgba(26,20,16,0.28)' }}>
             <div style={{ overflow: 'hidden', maxHeight: '86vh' }}>
               <motion.img src={product.image} alt={product.name} initial={{ scale: 1.08 }} animate={{ scale: 1 }}
                 transition={{ duration: 0.7 }} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.88)' }} />
@@ -6543,22 +6533,24 @@ const CartSidebar = ({ cart, isOpen, onClose, onRemove, onQtyChange }) => (
               : (
                 <>
                   {cart.map((item, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}
-                    style={{ display: 'flex', gap: 18, marginBottom: 26, paddingBottom: 26, borderBottom: `1px solid rgba(107,87,68,0.14)` }}>
-                    <img src={item.image} alt={item.name} style={{ width: 84, height: 104, objectFit: 'cover', filter: 'saturate(0.88)' }} />
-                    <div style={{ flex: 1, paddingTop: 2 }}>
-                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.gray, display: 'block', marginBottom: 7 }}>{item.collection}</span>
-                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.black, display: 'block', marginBottom: 9 }}>{item.name}</span>
-                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.bark, display: 'block', marginBottom: 14 }}>{item.price}</span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', border: `1px solid rgba(107,87,68,0.28)`, height: 34 }}>
-                          <button onClick={() => onQtyChange(item.id, -1)} aria-label={`Decrease ${item.name} quantity`} style={{ width: 34, height: 32, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 16, lineHeight: 1 }}>−</button>
-                          <span style={{ minWidth: 24, textAlign: 'center', fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 300, color: C.black }}>{item.qty}</span>
-                          <button onClick={() => onQtyChange(item.id, 1)} aria-label={`Increase ${item.name} quantity`} style={{ width: 34, height: 32, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 16, lineHeight: 1 }}>+</button>
+                  <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                    style={{ display: 'flex', gap: 14, marginBottom: 14, paddingBottom: 14, borderBottom: `1px solid rgba(107,87,68,0.12)` }}>
+                    <img src={item.image} alt={item.name} style={{ width: 54, height: 68, objectFit: 'cover', filter: 'saturate(0.88)', flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
+                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.black, lineHeight: 1.3 }}>{item.name}</span>
+                        <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 400, color: C.black, whiteSpace: 'nowrap' }}>{item.price}</span>
+                      </div>
+                      <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.gray, display: 'block', marginTop: 4, marginBottom: 10 }}>{item.collection}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', border: `1px solid rgba(107,87,68,0.24)`, height: 26 }}>
+                          <button onClick={() => onQtyChange(item.id, -1)} aria-label={`Decrease ${item.name} quantity`} style={{ width: 26, height: 24, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 14, lineHeight: 1 }}>−</button>
+                          <span style={{ minWidth: 20, textAlign: 'center', fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: C.black }}>{item.qty}</span>
+                          <button onClick={() => onQtyChange(item.id, 1)} aria-label={`Increase ${item.name} quantity`} style={{ width: 26, height: 24, background: 'none', border: 'none', cursor: 'pointer', color: C.black, fontSize: 14, lineHeight: 1 }}>+</button>
                         </div>
                         <button onClick={() => onRemove(item.id)}
                           aria-label={`Remove ${item.name} from cart`}
-                          style={{ background: 'none', border: 'none', borderBottom: `1px solid rgba(200,169,110,0.58)`, color: C.gray, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '0 0 5px' }}>
+                          style={{ background: 'none', border: 'none', color: C.gray, cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontSize: 9, fontWeight: 400, letterSpacing: '0.16em', textTransform: 'uppercase', padding: 0 }}>
                           Remove
                         </button>
                       </div>
@@ -7436,14 +7428,7 @@ const OrdersPage = ({ onDashboard, onOrderDetail, onProfile, onAddresses, onPaym
           </section>
 
           <div className="mave-orders-footer">
-            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.56)' }}>Showing 1 to 5 of 12 orders</span>
-            <div className="mave-orders-pagination">
-              <button type="button" className="mave-orders-page-btn">‹</button>
-              <button type="button" className="mave-orders-page-btn is-active">1</button>
-              <button type="button" className="mave-orders-page-btn">2</button>
-              <button type="button" className="mave-orders-page-btn">3</button>
-              <button type="button" className="mave-orders-page-btn">›</button>
-            </div>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 300, color: 'rgba(26,20,16,0.56)' }}>All orders are shown.</span>
           </div>
         </div>
       </section>
