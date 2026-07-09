@@ -8,3 +8,7 @@ Thumbs.db
 # local environment overrides
 .env
 .env.*
+
+# graphify (machine-specific interpreter path + regenerable cache)
+graphify-out/.graphify_python
+graphify-out/cache/

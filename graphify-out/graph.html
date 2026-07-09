@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>graphify - graphify-out/graph.html</title>
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"
+        integrity="sha384-Ux6phic9PEHJ38YtrijhkzyJ8yQlH8i/+buBR8s3mAZOJrP1gwyvAcIYl3GWtpX1"
+        crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f1a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; height: 100vh; overflow: hidden; }
+  #graph { flex: 1; }
+  #sidebar { width: 280px; background: #1a1a2e; border-left: 1px solid #2a2a4e; display: flex; flex-direction: column; overflow: hidden; }
+  #search-wrap { padding: 12px; border-bottom: 1px solid #2a2a4e; }
+  #search { width: 100%; background: #0f0f1a; border: 1px solid #3a3a5e; color: #e0e0e0; padding: 7px 10px; border-radius: 6px; font-size: 13px; outline: none; }
+  #search:focus { border-color: #4E79A7; }
+  #search-results { max-height: 140px; overflow-y: auto; padding: 4px 12px; border-bottom: 1px solid #2a2a4e; display: none; }
+  .search-item { padding: 4px 6px; cursor: pointer; border-radius: 4px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search-item:hover { background: #2a2a4e; }
+  #info-panel { padding: 14px; border-bottom: 1px solid #2a2a4e; min-height: 140px; }
+  #info-panel h3 { font-size: 13px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  #info-content { font-size: 13px; color: #ccc; line-height: 1.6; }
+  #info-content .field { margin-bottom: 5px; }
+  #info-content .field b { color: #e0e0e0; }
+  #info-content .empty { color: #555; font-style: italic; }
+  .neighbor-link { display: block; padding: 2px 6px; margin: 2px 0; border-radius: 3px; cursor: pointer; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 3px solid #333; }
+  .neighbor-link:hover { background: #2a2a4e; }
+  #neighbors-list { max-height: 160px; overflow-y: auto; margin-top: 4px; }
+  #legend-wrap { flex: 1; overflow-y: auto; padding: 12px; }
+  #legend-wrap h3 { font-size: 13px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .legend-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; border-radius: 4px; font-size: 12px; }
+  .legend-item:hover { background: #2a2a4e; padding-left: 4px; }
+  .legend-item.dimmed { opacity: 0.35; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend-count { color: #666; font-size: 11px; }
+  #stats { padding: 10px 14px; border-top: 1px solid #2a2a4e; font-size: 11px; color: #555; }
+  #legend-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px 0; }
+  #legend-controls label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: #aaa; user-select: none; }
+  #legend-controls label:hover { color: #e0e0e0; }
+  .legend-cb, #select-all-cb { appearance: none; -webkit-appearance: none; width: 14px; height: 14px; border: 1.5px solid #3a3a5e; border-radius: 3px; background: #0f0f1a; cursor: pointer; position: relative; flex-shrink: 0; }
+  .legend-cb:checked, #select-all-cb:checked { background: #4E79A7; border-color: #4E79A7; }
+  .legend-cb:checked::after, #select-all-cb:checked::after { content: ''; position: absolute; left: 3.5px; top: 1px; width: 4px; height: 7px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  #select-all-cb:indeterminate { background: #4E79A7; border-color: #4E79A7; }
+  #select-all-cb:indeterminate::after { content: ''; position: absolute; left: 2px; top: 5px; width: 8px; height: 2px; background: #fff; border: none; transform: none; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="sidebar">
+  <div id="search-wrap">
+    <input id="search" type="text" placeholder="Search nodes..." autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+  <div id="info-panel">
+    <h3>Node Info</h3>
+    <div id="info-content"><span class="empty">Click a node to inspect it</span></div>
+  </div>
+  <div id="legend-wrap">
+    <h3>Communities</h3>
+    <div id="legend-controls">
+      <label><input type="checkbox" id="select-all-cb" checked onchange="toggleAllCommunities(!this.checked)">Select All</label>
+    </div>
+    <div id="legend"></div>
+  </div>
+  <div id="stats">54 nodes &middot; 66 edges &middot; 16 communities</div>
+</div>
+<script>
+const RAW_NODES = [{"id": "vercel", "label": "vercel.json", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "vercel.json", "community": 7, "community_name": "Vercel Deployment", "source_file": "vercel.json", "file_type": "code", "degree": 2}, {"id": "vercel_cleanurls", "label": "cleanUrls", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "cleanUrls", "community": 7, "community_name": "Vercel Deployment", "source_file": "vercel.json", "file_type": "code", "degree": 1}, {"id": "vercel_rewrites", "label": "rewrites", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "rewrites", "community": 7, "community_name": "Vercel Deployment", "source_file": "vercel.json", "file_type": "code", "degree": 1}, {"id": "index_mave", "label": "MAVE Molecular Cosmetics", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.3, "font": {"size": 0, "color": "#ffffff"}, "title": "MAVE Molecular Cosmetics", "community": 4, "community_name": "Brand Philosophy", "source_file": "index.html", "file_type": "document", "degree": 4}, {"id": "index_philosophy", "label": "Skin is a system, not surface care", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Skin is a system, not surface care", "community": 4, "community_name": "Brand Philosophy", "source_file": "index.html", "file_type": "rationale", "degree": 2}, {"id": "index_molecular_approach", "label": "Molecular / functional formulation", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Molecular / functional formulation", "community": 4, "community_name": "Brand Philosophy", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_react_spa", "label": "React 18 single-page app", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 16.4, "font": {"size": 12, "color": "#ffffff"}, "title": "React 18 single-page app", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 6}, {"id": "index_babel_standalone", "label": "In-browser Babel JSX (type=text/babel)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "In-browser Babel JSX (type=text/babel)", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_framer_motion", "label": "Framer Motion animations", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Framer Motion animations", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_store", "label": "Store / product catalog", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 40.0, "font": {"size": 12, "color": "#ffffff"}, "title": "Store / product catalog", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "concept", "degree": 28}, {"id": "index_member_area", "label": "Member account area", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 17.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Member account area", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 7}, {"id": "index_auth", "label": "Authentication (login / register / reset)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 14.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Authentication (login / register / reset)", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 4}, {"id": "index_checkout", "label": "Checkout flow", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 15.4, "font": {"size": 12, "color": "#ffffff"}, "title": "Checkout flow", "community": 3, "community_name": "Checkout Flow", "source_file": "index.html", "file_type": "concept", "degree": 5}, {"id": "index_reviews", "label": "Customer reviews / verified notes", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Customer reviews / verified notes", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_member_benefits", "label": "MAVE Member Benefits", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "MAVE Member Benefits", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_orders", "label": "Orders", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Orders", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_addresses", "label": "Addresses", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Addresses", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_profile_settings", "label": "Profile settings", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Profile settings", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_saved_products", "label": "Saved products", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Saved products", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_payment_methods", "label": "Payment methods", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Payment methods", "community": 0, "community_name": "Member Account", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_login", "label": "Login (Welcome back)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Login (Welcome back)", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_create_account", "label": "Create account", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Create account", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_reset_password", "label": "Reset password", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Reset password", "community": 1, "community_name": "App Framework & Auth", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_checkout_contact", "label": "Contact", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Contact", "community": 3, "community_name": "Checkout Flow", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_checkout_delivery", "label": "Delivery", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Delivery", "community": 3, "community_name": "Checkout Flow", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_checkout_payment", "label": "Payment", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Payment", "community": 3, "community_name": "Checkout Flow", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_checkout_review", "label": "Review", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Review", "community": 3, "community_name": "Checkout Flow", "source_file": "index.html", "file_type": "concept", "degree": 1}, {"id": "index_col_base_care", "label": "Base Care (collection)", "color": {"background": "#9C755F", "border": "#9C755F", "highlight": {"background": "#ffffff", "border": "#9C755F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Base Care (collection)", "community": 8, "community_name": "Base Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_body_care", "label": "Body Care (collection)", "color": {"background": "#BAB0AC", "border": "#BAB0AC", "highlight": {"background": "#ffffff", "border": "#BAB0AC"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Body Care (collection)", "community": 9, "community_name": "Body Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_cleanse", "label": "Cleanse (collection)", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Cleanse (collection)", "community": 5, "community_name": "Cleanse Collection", "source_file": "index.html", "file_type": "concept", "degree": 3}, {"id": "index_col_hair_care", "label": "Hair Care (collection)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Hair Care (collection)", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "concept", "degree": 3}, {"id": "index_col_lash_and_brow_care", "label": "Lash & Brow Care (collection)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Lash &amp; Brow Care (collection)", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_limited_edition", "label": "Limited Edition (collection)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Limited Edition (collection)", "community": 10, "community_name": "Limited Edition", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_mask_care", "label": "Mask Care (collection)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Mask Care (collection)", "community": 11, "community_name": "Mask Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_oral_care", "label": "Oral Care (collection)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Oral Care (collection)", "community": 12, "community_name": "Oral Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_organic_care", "label": "Organic Care (collection)", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Organic Care (collection)", "community": 13, "community_name": "Organic Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_targeted_care", "label": "Targeted Care (collection)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Targeted Care (collection)", "community": 14, "community_name": "Targeted Care", "source_file": "index.html", "file_type": "concept", "degree": 2}, {"id": "index_col_wow_skin", "label": "WOW Skin (collection)", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "WOW Skin (collection)", "community": 6, "community_name": "WOW Skin Serums", "source_file": "index.html", "file_type": "concept", "degree": 3}, {"id": "index_prod_molecular_oil_treatment", "label": "Molecular Oil Treatment (\u20ac28.95)", "color": {"background": "#9C755F", "border": "#9C755F", "highlight": {"background": "#ffffff", "border": "#9C755F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Molecular Oil Treatment (\u20ac28.95)", "community": 8, "community_name": "Base Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_organic_oil", "label": "Organic Oil (\u20ac24.95)", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Organic Oil (\u20ac24.95)", "community": 13, "community_name": "Organic Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_wow_skin_serum_2_in_1", "label": "WOW Skin Serum 2 in 1 (\u20ac34.95)", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "WOW Skin Serum 2 in 1 (\u20ac34.95)", "community": 6, "community_name": "WOW Skin Serums", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_wow_pdrn_serum_2_in_1", "label": "WOW PDRN Serum 2 in 1 (\u20ac39.95)", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "WOW PDRN Serum 2 in 1 (\u20ac39.95)", "community": 6, "community_name": "WOW Skin Serums", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_mave_28_cream", "label": "MAVE 28 Cream (\u20ac46.95)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "MAVE 28 Cream (\u20ac46.95)", "community": 10, "community_name": "Limited Edition", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_royal_elixir", "label": "Royal Elixir (\u20ac29.95)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Royal Elixir (\u20ac29.95)", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_black_nanopowder", "label": "Black Nanopowder (\u20ac19.50)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Black Nanopowder (\u20ac19.50)", "community": 12, "community_name": "Oral Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_micellar_cleansing_foam", "label": "Micellar Cleansing Foam (\u20ac21.95)", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Micellar Cleansing Foam (\u20ac21.95)", "community": 5, "community_name": "Cleanse Collection", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_molecular_shampoo_conditioner_set", "label": "Molecular Shampoo & Conditioner Set (\u20ac30.95)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Molecular Shampoo &amp; Conditioner Set (\u20ac30.95)", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_taliora_shower_serum", "label": "Taliora Shower Serum (\u20ac20.96)", "color": {"background": "#BAB0AC", "border": "#BAB0AC", "highlight": {"background": "#ffffff", "border": "#BAB0AC"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Taliora Shower Serum (\u20ac20.96)", "community": 9, "community_name": "Body Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_organic_paste_skin_repair", "label": "Organic Paste Skin Repair (\u20ac24.95)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Organic Paste Skin Repair (\u20ac24.95)", "community": 14, "community_name": "Targeted Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_micellar_wipes", "label": "Micellar Wipes (\u20ac9.95)", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Micellar Wipes (\u20ac9.95)", "community": 5, "community_name": "Cleanse Collection", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_s_l_i_m_e_intense_moisture_elixir", "label": "S.L.I.M.E. Intense Moisture Elixir (\u20ac34.95)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "S.L.I.M.E. Intense Moisture Elixir (\u20ac34.95)", "community": 2, "community_name": "Hair & Lash Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "index_prod_invisible_mask", "label": "Invisible Mask (\u20ac21.95)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 12.1, "font": {"size": 0, "color": "#ffffff"}, "title": "Invisible Mask (\u20ac21.95)", "community": 11, "community_name": "Mask Care", "source_file": "index.html", "file_type": "document", "degree": 2}, {"id": "mave_store_page", "label": "mave-store.html (identical copy of index.html)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 11.1, "font": {"size": 0, "color": "#ffffff"}, "title": "mave-store.html (identical copy of index.html)", "community": 4, "community_name": "Brand Philosophy", "source_file": "mave-store.html", "file_type": "document", "degree": 1}, {"id": "claude_graphify_kg", "label": "Graphify knowledge-graph tooling", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 10.0, "font": {"size": 0, "color": "#ffffff"}, "title": "Graphify knowledge-graph tooling", "community": 15, "community_name": "Graphify Tooling", "source_file": "CLAUDE.md", "file_type": "document", "degree": 0}];
+const RAW_EDGES = [{"from": "vercel", "to": "vercel_cleanurls", "label": "contains", "title": "contains [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "vercel", "to": "vercel_rewrites", "label": "contains", "title": "contains [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_mave", "to": "index_molecular_approach", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_mave", "to": "index_philosophy", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_mave", "to": "index_store", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_mave", "to": "mave_store_page", "label": "semantically_similar_to", "title": "semantically_similar_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_philosophy", "to": "index_molecular_approach", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_react_spa", "to": "index_auth", "label": "implements", "title": "implements [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_react_spa", "to": "index_checkout", "label": "implements", "title": "implements [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_react_spa", "to": "index_member_area", "label": "implements", "title": "implements [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_react_spa", "to": "index_babel_standalone", "label": "shares_data_with", "title": "shares_data_with [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_react_spa", "to": "index_framer_motion", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_react_spa", "to": "index_store", "label": "implements", "title": "implements [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_col_base_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_body_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_cleanse", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_hair_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_lash_and_brow_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_limited_edition", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_mask_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_oral_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_organic_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_targeted_care", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_col_wow_skin", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_store", "to": "index_prod_black_nanopowder", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_invisible_mask", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_mave_28_cream", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_micellar_cleansing_foam", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_micellar_wipes", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_molecular_oil_treatment", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_molecular_shampoo_conditioner_set", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_organic_oil", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_organic_paste_skin_repair", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_royal_elixir", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_s_l_i_m_e_intense_moisture_elixir", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_taliora_shower_serum", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_wow_pdrn_serum_2_in_1", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_prod_wow_skin_serum_2_in_1", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_store", "to": "index_reviews", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "index_member_area", "to": "index_addresses", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_member_area", "to": "index_member_benefits", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_member_area", "to": "index_orders", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_member_area", "to": "index_payment_methods", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_member_area", "to": "index_profile_settings", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_member_area", "to": "index_saved_products", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_auth", "to": "index_create_account", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_auth", "to": "index_login", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_auth", "to": "index_reset_password", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_checkout", "to": "index_checkout_contact", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_checkout", "to": "index_checkout_delivery", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_checkout", "to": "index_checkout_payment", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_checkout", "to": "index_checkout_review", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_base_care", "to": "index_prod_molecular_oil_treatment", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_body_care", "to": "index_prod_taliora_shower_serum", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_cleanse", "to": "index_prod_micellar_cleansing_foam", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_cleanse", "to": "index_prod_micellar_wipes", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_hair_care", "to": "index_prod_molecular_shampoo_conditioner_set", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_hair_care", "to": "index_prod_s_l_i_m_e_intense_moisture_elixir", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_lash_and_brow_care", "to": "index_prod_royal_elixir", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_limited_edition", "to": "index_prod_mave_28_cream", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_mask_care", "to": "index_prod_invisible_mask", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_oral_care", "to": "index_prod_black_nanopowder", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_organic_care", "to": "index_prod_organic_oil", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_targeted_care", "to": "index_prod_organic_paste_skin_repair", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_wow_skin", "to": "index_prod_wow_pdrn_serum_2_in_1", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "index_col_wow_skin", "to": "index_prod_wow_skin_serum_2_in_1", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}];
+const LEGEND = [{"cid": 0, "color": "#4E79A7", "label": "Member Account", "count": 7}, {"cid": 1, "color": "#F28E2B", "label": "App Framework &amp; Auth", "count": 7}, {"cid": 2, "color": "#E15759", "label": "Hair &amp; Lash Care", "count": 7}, {"cid": 3, "color": "#76B7B2", "label": "Checkout Flow", "count": 5}, {"cid": 4, "color": "#59A14F", "label": "Brand Philosophy", "count": 4}, {"cid": 5, "color": "#EDC948", "label": "Cleanse Collection", "count": 3}, {"cid": 6, "color": "#B07AA1", "label": "WOW Skin Serums", "count": 3}, {"cid": 7, "color": "#FF9DA7", "label": "Vercel Deployment", "count": 3}, {"cid": 8, "color": "#9C755F", "label": "Base Care", "count": 2}, {"cid": 9, "color": "#BAB0AC", "label": "Body Care", "count": 2}, {"cid": 10, "color": "#4E79A7", "label": "Limited Edition", "count": 2}, {"cid": 11, "color": "#F28E2B", "label": "Mask Care", "count": 2}, {"cid": 12, "color": "#E15759", "label": "Oral Care", "count": 2}, {"cid": 13, "color": "#76B7B2", "label": "Organic Care", "count": 2}, {"cid": 14, "color": "#59A14F", "label": "Targeted Care", "count": 2}, {"cid": 15, "color": "#EDC948", "label": "Graphify Tooling", "count": 1}];
+
+// HTML-escape helper — prevents XSS when injecting graph data into innerHTML
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Build vis datasets
+const nodesDS = new vis.DataSet(RAW_NODES.map(n => ({
+  id: n.id, label: n.label, color: n.color, size: n.size,
+  font: n.font, title: n.title,
+  _community: n.community, _community_name: n.community_name,
+  _source_file: n.source_file, _file_type: n.file_type, _degree: n.degree,
+})));
+
+const edgesDS = new vis.DataSet(RAW_EDGES.map((e, i) => ({
+  id: i, from: e.from, to: e.to,
+  label: '',
+  title: e.title,
+  dashes: e.dashes,
+  width: e.width,
+  color: e.color,
+  arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+})));
+
+const container = document.getElementById('graph');
+const network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, {
+  physics: {
+    enabled: true,
+    solver: 'forceAtlas2Based',
+    forceAtlas2Based: {
+      gravitationalConstant: -60,
+      centralGravity: 0.005,
+      springLength: 120,
+      springConstant: 0.08,
+      damping: 0.4,
+      avoidOverlap: 0.8,
+    },
+    stabilization: { iterations: 200, fit: true },
+  },
+  interaction: {
+    hover: true,
+    tooltipDelay: 100,
+    hideEdgesOnDrag: true,
+    navigationButtons: false,
+    keyboard: false,
+  },
+  nodes: { shape: 'dot', borderWidth: 1.5 },
+  edges: { smooth: { type: 'continuous', roundness: 0.2 }, selectionWidth: 3 },
+});
+
+network.once('stabilizationIterationsDone', () => {
+  network.setOptions({ physics: { enabled: false } });
+});
+
+function showInfo(nodeId) {
+  const n = nodesDS.get(nodeId);
+  if (!n) return;
+  const neighborIds = network.getConnectedNodes(nodeId);
+  const neighborItems = neighborIds.map(nid => {
+    const nb = nodesDS.get(nid);
+    const color = nb ? nb.color.background : '#555';
+    return `<span class="neighbor-link" style="border-left-color:${esc(color)}" onclick="focusNode(${JSON.stringify(nid)})">${esc(nb ? nb.label : nid)}</span>`;
+  }).join('');
+  document.getElementById('info-content').innerHTML = `
+    <div class="field"><b>${esc(n.label)}</b></div>
+    <div class="field">Type: ${esc(n._file_type || 'unknown')}</div>
+    <div class="field">Community: ${esc(n._community_name)}</div>
+    <div class="field">Source: ${esc(n._source_file || '-')}</div>
+    <div class="field">Degree: ${n._degree}</div>
+    ${neighborIds.length ? `<div class="field" style="margin-top:8px;color:#aaa;font-size:11px">Neighbors (${neighborIds.length})</div><div id="neighbors-list">${neighborItems}</div>` : ''}
+  `;
+}
+
+function focusNode(nodeId) {
+  network.focus(nodeId, { scale: 1.4, animation: true });
+  network.selectNodes([nodeId]);
+  showInfo(nodeId);
+}
+
+// Track hovered node — hover detection is more reliable than click params
+let hoveredNodeId = null;
+network.on('hoverNode', params => {
+  hoveredNodeId = params.node;
+  container.style.cursor = 'pointer';
+});
+network.on('blurNode', () => {
+  hoveredNodeId = null;
+  container.style.cursor = 'default';
+});
+container.addEventListener('click', () => {
+  if (hoveredNodeId !== null) {
+    showInfo(hoveredNodeId);
+    network.selectNodes([hoveredNodeId]);
+  }
+});
+network.on('click', params => {
+  if (params.nodes.length > 0) {
+    showInfo(params.nodes[0]);
+  } else if (hoveredNodeId === null) {
+    document.getElementById('info-content').innerHTML = '<span class="empty">Click a node to inspect it</span>';
+  }
+});
+
+const searchInput = document.getElementById('search');
+const searchResults = document.getElementById('search-results');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  searchResults.innerHTML = '';
+  if (!q) { searchResults.style.display = 'none'; return; }
+  const matches = RAW_NODES.filter(n => n.label.toLowerCase().includes(q)).slice(0, 20);
+  if (!matches.length) { searchResults.style.display = 'none'; return; }
+  searchResults.style.display = 'block';
+  matches.forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'search-item';
+    el.textContent = n.label;
+    el.style.borderLeft = `3px solid ${n.color.background}`;
+    el.style.paddingLeft = '8px';
+    el.onclick = () => {
+      network.focus(n.id, { scale: 1.5, animation: true });
+      network.selectNodes([n.id]);
+      showInfo(n.id);
+      searchResults.style.display = 'none';
+      searchInput.value = '';
+    };
+    searchResults.appendChild(el);
+  });
+});
+document.addEventListener('click', e => {
+  if (!searchResults.contains(e.target) && e.target !== searchInput)
+    searchResults.style.display = 'none';
+});
+
+const hiddenCommunities = new Set();
+
+const selectAllCb = document.getElementById('select-all-cb');
+
+function updateSelectAllState() {
+  const total = LEGEND.length;
+  const hidden = hiddenCommunities.size;
+  selectAllCb.checked = hidden === 0;
+  selectAllCb.indeterminate = hidden > 0 && hidden < total;
+}
+
+function toggleAllCommunities(hide) {
+  document.querySelectorAll('.legend-item').forEach(item => {
+    hide ? item.classList.add('dimmed') : item.classList.remove('dimmed');
+  });
+  document.querySelectorAll('.legend-cb').forEach(cb => {
+    cb.checked = !hide;
+  });
+  LEGEND.forEach(c => {
+    if (hide) hiddenCommunities.add(c.cid); else hiddenCommunities.delete(c.cid);
+  });
+  const updates = RAW_NODES.map(n => ({ id: n.id, hidden: hide }));
+  nodesDS.update(updates);
+  updateSelectAllState();
+}
+
+const legendEl = document.getElementById('legend');
+LEGEND.forEach(c => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.className = 'legend-cb';
+  cb.checked = true;
+  cb.addEventListener('change', (e) => {
+    e.stopPropagation();
+    if (cb.checked) {
+      hiddenCommunities.delete(c.cid);
+      item.classList.remove('dimmed');
+    } else {
+      hiddenCommunities.add(c.cid);
+      item.classList.add('dimmed');
+    }
+    const updates = RAW_NODES
+      .filter(n => n.community === c.cid)
+      .map(n => ({ id: n.id, hidden: !cb.checked }));
+    nodesDS.update(updates);
+    updateSelectAllState();
+  });
+  item.innerHTML = `<div class="legend-dot" style="background:${c.color}"></div>
+    <span class="legend-label">${c.label}</span>
+    <span class="legend-count">${c.count}</span>`;
+  item.prepend(cb);
+  item.onclick = (e) => {
+    if (e.target === cb) return;
+    cb.checked = !cb.checked;
+    cb.dispatchEvent(new Event('change'));
+  };
+  legendEl.appendChild(item);
+});
+</script>
+<script>
+// Render hyperedges as shaded regions
+const hyperedges = [{"id": "member_account_hub", "label": "Member Account", "nodes": ["index_orders", "index_addresses", "index_profile_settings", "index_saved_products", "index_payment_methods", "index_member_area", "index_member_benefits"], "relation": "participate_in", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "index.html"}, {"id": "checkout_flow", "label": "Checkout Flow", "nodes": ["index_checkout_contact", "index_checkout_delivery", "index_checkout_payment", "index_checkout_review", "index_checkout"], "relation": "form", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "index.html"}, {"id": "product_collections", "label": "Product Collections", "nodes": ["index_col_base_care", "index_col_body_care", "index_col_cleanse", "index_col_hair_care", "index_col_lash_and_brow_care", "index_col_limited_edition", "index_col_mask_care", "index_col_oral_care", "index_col_organic_care", "index_col_targeted_care", "index_col_wow_skin", "index_store"], "relation": "participate_in", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "index.html"}];
+// afterDrawing passes ctx already transformed to network coordinate space.
+// Draw node positions raw — no manual pan/zoom/DPR math needed.
+network.on('afterDrawing', function(ctx) {
+    hyperedges.forEach(h => {
+        const positions = h.nodes
+            .map(nid => network.getPositions([nid])[nid])
+            .filter(p => p !== undefined);
+        if (positions.length < 2) return;
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = '#6366f1';
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        // Centroid and expanded hull in network coordinates
+        const cx = positions.reduce((s, p) => s + p.x, 0) / positions.length;
+        const cy = positions.reduce((s, p) => s + p.y, 0) / positions.length;
+        const expanded = positions.map(p => ({
+            x: cx + (p.x - cx) * 1.15,
+            y: cy + (p.y - cy) * 1.15
+        }));
+        ctx.moveTo(expanded[0].x, expanded[0].y);
+        expanded.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 0.4;
+        ctx.stroke();
+        // Label
+        ctx.globalAlpha = 0.8;
+        ctx.fillStyle = '#4f46e5';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(h.label, cx, cy - 5);
+        ctx.restore();
+    });
+});
+</script>
+</body>
+</html>

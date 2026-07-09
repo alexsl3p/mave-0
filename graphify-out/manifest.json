@@ -1,0 +1,352 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1783547571.0773437,
+    "ast_hash": "007dd1a228f68611327c81b2fffe3678",
+    "semantic_hash": "007dd1a228f68611327c81b2fffe3678"
+  },
+  "vercel.json": {
+    "mtime": 1783207105.058371,
+    "ast_hash": "70b1595e81ec0a34b1e26948a7351d72",
+    "semantic_hash": "70b1595e81ec0a34b1e26948a7351d72"
+  },
+  "CLAUDE.md": {
+    "mtime": 1783547571.0770605,
+    "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
+  },
+  "index.html": {
+    "mtime": 1783207105.058371,
+    "ast_hash": "9dfc3e02cbcc0b7dab5a76525fbee72c",
+    "semantic_hash": "9dfc3e02cbcc0b7dab5a76525fbee72c"
+  },
+  "mave-store.html": {
+    "mtime": 1783207105.058371,
+    "ast_hash": "9dfc3e02cbcc0b7dab5a76525fbee72c",
+    "semantic_hash": "9dfc3e02cbcc0b7dab5a76525fbee72c"
+  },
+  "assets/MAVE-LOGO.svg": {
+    "mtime": 1783207104.0634162,
+    "ast_hash": "befb6d02a2a4469b69952789164409ac",
+    "semantic_hash": ""
+  },
+  "assets/account-avatar.png": {
+    "mtime": 1783207104.066371,
+    "ast_hash": "f2b814f4cbef5756ebb57d9a38956b9a",
+    "semantic_hash": ""
+  },
+  "assets/addresses-bg.png": {
+    "mtime": 1783207104.070371,
+    "ast_hash": "56aa1df329a2063d0aa83f7f4eeeece4",
+    "semantic_hash": ""
+  },
+  "assets/addresses-help.png": {
+    "mtime": 1783207104.082371,
+    "ast_hash": "e6b2cd6e8a1701ca5fd5d71cb7fab664",
+    "semantic_hash": ""
+  },
+  "assets/category-daily-care.jpg": {
+    "mtime": 1783207104.086371,
+    "ast_hash": "b3bca27412a1bad571842e9454cb23d9",
+    "semantic_hash": ""
+  },
+  "assets/category-hair-integrity.jpeg": {
+    "mtime": 1783207104.102371,
+    "ast_hash": "4ccad8b35d5783bd90b93ef3708f9d18",
+    "semantic_hash": ""
+  },
+  "assets/category-targeted-use.jpg": {
+    "mtime": 1783207104.114371,
+    "ast_hash": "726e09524fa68520190da25305d64def",
+    "semantic_hash": ""
+  },
+  "assets/collections-hero.png": {
+    "mtime": 1783207104.130371,
+    "ast_hash": "0ead0d3f381ca32f6560ceac0c251900",
+    "semantic_hash": ""
+  },
+  "assets/header.jpg": {
+    "mtime": 1783207104.146371,
+    "ast_hash": "c25f369d272fb5a4a2d9b67cee203791",
+    "semantic_hash": ""
+  },
+  "assets/header.webp": {
+    "mtime": 1783207104.146371,
+    "ast_hash": "6a11c3b3a9850822999fde306e9fe58f",
+    "semantic_hash": ""
+  },
+  "assets/hero-mave-cream-jar.png": {
+    "mtime": 1783207104.1663709,
+    "ast_hash": "962b6a6dfaf9a54bac64917659085299",
+    "semantic_hash": ""
+  },
+  "assets/invisible-mask-premium.png": {
+    "mtime": 1783207104.178371,
+    "ast_hash": "d911087607ca7d98e75db089244a41ec",
+    "semantic_hash": ""
+  },
+  "assets/invisible-mask.png": {
+    "mtime": 1783207104.194371,
+    "ast_hash": "d811e57acbe621b17942dcfbff1fa27c",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal-4k.png": {
+    "mtime": 1783207104.202371,
+    "ast_hash": "4014f68d833d6e674a93157ae51f5861",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal-corrected.png": {
+    "mtime": 1783207104.210371,
+    "ast_hash": "e81992f332e4d705d0ed5695199095f6",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal-corrected.webp": {
+    "mtime": 1783207104.214371,
+    "ast_hash": "8235679e9d400f28fb1c578a2d773d42",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal-wide.jpeg": {
+    "mtime": 1783207104.214371,
+    "ast_hash": "c82f1619ebf48b09ab41390a2168bac8",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal.jpg": {
+    "mtime": 1783207104.226371,
+    "ast_hash": "fdfb85fdbe45eaff836c6242ad1774cb",
+    "semantic_hash": ""
+  },
+  "assets/login-hero.png": {
+    "mtime": 1783207104.386371,
+    "ast_hash": "f362fffd31ec4102900c822d4095c55f",
+    "semantic_hash": ""
+  },
+  "assets/login-shampoo.png": {
+    "mtime": 1783207104.410371,
+    "ast_hash": "f362fffd31ec4102900c822d4095c55f",
+    "semantic_hash": ""
+  },
+  "assets/mave-shampoo-conditioner-set.jpeg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "01a38e6333e0b8d37810c8b53665ac8b",
+    "semantic_hash": ""
+  },
+  "assets/member-box.svg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "aef0a57282b0a37c4ebc400b6a8ed677",
+    "semantic_hash": ""
+  },
+  "assets/member-envelope.svg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "2a749b44db58470c0fe9eb87d92e0b06",
+    "semantic_hash": ""
+  },
+  "assets/member-heart.svg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "b406398bad31670cc5423d3418159f11",
+    "semantic_hash": ""
+  },
+  "assets/member-lock.svg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "399fa02e287f56bd3546c35108184909",
+    "semantic_hash": ""
+  },
+  "assets/member-price.svg": {
+    "mtime": 1783207104.550371,
+    "ast_hash": "ba2a2bb60414fa053c7d66d853409409",
+    "semantic_hash": ""
+  },
+  "assets/micellar-foam.jpg": {
+    "mtime": 1783207104.566371,
+    "ast_hash": "4b3527fac5f338632d73e6bc5bd199c3",
+    "semantic_hash": ""
+  },
+  "assets/micellar-foam.webp": {
+    "mtime": 1783207104.566371,
+    "ast_hash": "e7ba6071b151a2368c0685baee4a82aa",
+    "semantic_hash": ""
+  },
+  "assets/micellar-wipes-new.png": {
+    "mtime": 1783207104.582371,
+    "ast_hash": "2a394989212eeb13785e85b6a381827c",
+    "semantic_hash": ""
+  },
+  "assets/micellar-wipes.jpg": {
+    "mtime": 1783207104.598371,
+    "ast_hash": "565798ccfb8fc541be24d2ab21715817",
+    "semantic_hash": ""
+  },
+  "assets/micellar-wipes.webp": {
+    "mtime": 1783207104.598371,
+    "ast_hash": "ca3efabe347c9b79a74704b30f343a20",
+    "semantic_hash": ""
+  },
+  "assets/nanopowder-light.jpg": {
+    "mtime": 1783207104.618371,
+    "ast_hash": "d90452f400fb1cb73bfa6bd4a2f77189",
+    "semantic_hash": ""
+  },
+  "assets/nanopowder.jpg": {
+    "mtime": 1783207104.630371,
+    "ast_hash": "d31846c10c42b1c1179c13e8b75196a1",
+    "semantic_hash": ""
+  },
+  "assets/nanopowder.webp": {
+    "mtime": 1783207104.630371,
+    "ast_hash": "b22906cc57b855ae1d64314c622bcc4e",
+    "semantic_hash": ""
+  },
+  "assets/orders-help-still-life.png": {
+    "mtime": 1783207104.642371,
+    "ast_hash": "1693887dcf3bc295dd821f5843c54736",
+    "semantic_hash": ""
+  },
+  "assets/orders-package-box.png": {
+    "mtime": 1783207104.662371,
+    "ast_hash": "67e53a635f242a4f7966b47dfb992880",
+    "semantic_hash": ""
+  },
+  "assets/orders-package-wide.png": {
+    "mtime": 1783207104.674371,
+    "ast_hash": "480328bc279f96562dddba9aa26eb624",
+    "semantic_hash": ""
+  },
+  "assets/orders-product-set.png": {
+    "mtime": 1783207104.686371,
+    "ast_hash": "5eda0565ab0329e0ac2f042321d9e57e",
+    "semantic_hash": ""
+  },
+  "assets/orders-vase-still-life.png": {
+    "mtime": 1783207104.706371,
+    "ast_hash": "a0402944ae12f24153348be594816499",
+    "semantic_hash": ""
+  },
+  "assets/organic-oil-sunset.jpg": {
+    "mtime": 1783207104.718371,
+    "ast_hash": "86aa67e6f22254364501b03e74d4fe95",
+    "semantic_hash": ""
+  },
+  "assets/organic-oil.jpg": {
+    "mtime": 1783207104.730371,
+    "ast_hash": "52d874b291571593aaa12b43564116d3",
+    "semantic_hash": ""
+  },
+  "assets/organic-paste-skin-repair.png": {
+    "mtime": 1783207104.746371,
+    "ast_hash": "fb12b71cb610bfb2ff87475d1cb8d0ed",
+    "semantic_hash": ""
+  },
+  "assets/primary.jpg": {
+    "mtime": 1783207104.754371,
+    "ast_hash": "b2dfd3efbe144c82863601d83c9897c6",
+    "semantic_hash": ""
+  },
+  "assets/primary.webp": {
+    "mtime": 1783207104.758371,
+    "ast_hash": "26385081abdc68e10a5435b80e9f5f3b",
+    "semantic_hash": ""
+  },
+  "assets/primary4.jpg": {
+    "mtime": 1783207104.770371,
+    "ast_hash": "726e09524fa68520190da25305d64def",
+    "semantic_hash": ""
+  },
+  "assets/primary4.webp": {
+    "mtime": 1783207104.770371,
+    "ast_hash": "d3392ed6a3c1656d9f4b7250fed82fd6",
+    "semantic_hash": ""
+  },
+  "assets/primary5.jpg": {
+    "mtime": 1783207104.786371,
+    "ast_hash": "d90452f400fb1cb73bfa6bd4a2f77189",
+    "semantic_hash": ""
+  },
+  "assets/primary5.webp": {
+    "mtime": 1783207104.786371,
+    "ast_hash": "176c5126847d98f685cf84847476c823",
+    "semantic_hash": ""
+  },
+  "assets/primary6.jpg": {
+    "mtime": 1783207104.842371,
+    "ast_hash": "ef463b3e9d1e56044608443bf9f80bcc",
+    "semantic_hash": ""
+  },
+  "assets/primary6.webp": {
+    "mtime": 1783207104.842371,
+    "ast_hash": "a1ae16ab783debeb79e3862fdb355a69",
+    "semantic_hash": ""
+  },
+  "assets/royal-elixir.jpg": {
+    "mtime": 1783207104.866371,
+    "ast_hash": "11aaf7d825c7a5c831b69b95bbda1b9d",
+    "semantic_hash": ""
+  },
+  "assets/royal-elixir.webp": {
+    "mtime": 1783207104.870371,
+    "ast_hash": "2d8854da192153b4af33b0000db6071d",
+    "semantic_hash": ""
+  },
+  "assets/slime-hair-mask.png": {
+    "mtime": 1783207104.882371,
+    "ast_hash": "29909baddcfd6c576eba558c6be5b2e7",
+    "semantic_hash": ""
+  },
+  "assets/taliora-shower-serum.jpg": {
+    "mtime": 1783207104.8863711,
+    "ast_hash": "66ab3d5f458aa68a74ce299582acb431",
+    "semantic_hash": ""
+  },
+  "assets/treatment-oil-amber.jpg": {
+    "mtime": 1783207104.966371,
+    "ast_hash": "9889e3906fa192b2f69179d7174a3001",
+    "semantic_hash": ""
+  },
+  "assets/treatment-oil-amber.webp": {
+    "mtime": 1783207104.970371,
+    "ast_hash": "3d6853c72dba7db2a89949a108149183",
+    "semantic_hash": ""
+  },
+  "assets/treatment-oil-clean.jpg": {
+    "mtime": 1783207104.9783711,
+    "ast_hash": "806d627fbd4e33d41f5b1fd57451f2e0",
+    "semantic_hash": ""
+  },
+  "assets/wow-pdrn.jpg": {
+    "mtime": 1783207104.990371,
+    "ast_hash": "fd448b8972807512ec1a15792b8df1b2",
+    "semantic_hash": ""
+  },
+  "assets/wow-serum.jpg": {
+    "mtime": 1783207105.002371,
+    "ast_hash": "5f64fb9b49f3879ad141a8e57bf01dd2",
+    "semantic_hash": ""
+  },
+  "mave-logo.svg": {
+    "mtime": 1783207105.058371,
+    "ast_hash": "5e96f8df1d6c02fde062ef2ec507d61a",
+    "semantic_hash": ""
+  },
+  "assets/liquid-reveal.mp4": {
+    "mtime": 1783207104.358371,
+    "ast_hash": "c472086a31a4a320d2687cf2acc8fb2a",
+    "semantic_hash": ""
+  },
+  "assets/mave-approach-hand.mp4": {
+    "mtime": 1783207104.438371,
+    "ast_hash": "1c20f40570ee5280a29e38e09a10471d",
+    "semantic_hash": ""
+  },
+  "assets/mave-hero-wind.mp4": {
+    "mtime": 1783207104.490371,
+    "ast_hash": "c7dc4d5a2e687c589334e6791cd35f23",
+    "semantic_hash": ""
+  },
+  "assets/mave-oil-drop.mp4": {
+    "mtime": 1783207104.530371,
+    "ast_hash": "6cdee4bb316f053e1f2fac48708aece1",
+    "semantic_hash": ""
+  },
+  "hero.mp4": {
+    "mtime": 1783207105.054371,
+    "ast_hash": "b6d7c6c825e2dcde62da5b42bc4ac3be",
+    "semantic_hash": ""
+  }
+}
