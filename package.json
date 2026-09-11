@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "playwright": "^1.60.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/qa.cjs",
+    "preview": "node scripts/serve.mjs"
   }
 }

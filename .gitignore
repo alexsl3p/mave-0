@@ -10,3 +10,9 @@ Thumbs.db
 .env.*
 
 .vercel
+
+# Dependencies, production output and local verification
+node_modules/
+dist/
+work/
+.playwright-cli/
